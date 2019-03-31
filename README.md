@@ -108,9 +108,10 @@ This repository for noting some resources that may help me in studying ML/DL and
 [1] https://github.com/dattv/awesome-semantic-segmentation
 
 ## Applications
-### Selft-Driving Vehicle
+### Self-Driving Vehicle
 [1] MIT 6.S094: Deep Learning for Self-Driving Cars (instructor Lex Fridman) 
   https://deeplearning.mit.edu/
+  https://github.com/dattv/mit-deep-learning
 
 ### Medical Imaging
 [1] Machine Learning for medical imaging (Video)
