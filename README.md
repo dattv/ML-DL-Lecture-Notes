@@ -108,6 +108,18 @@ This repository for noting some resources that may help me in studying ML/DL and
 [6] Overview of deep learning in medical imaging
   https://link.springer.com/article/10.1007%2Fs12194-017-0406-5
   
+[7] NiftyNet: a deep-learning platform for medical imaging
+  https://www.sciencedirect.com/science/article/pii/S0169260717311823
+  
+[8] Efficient multi-scale 3D CNN with fully connected CRF for accurate brain lesion segmentation
+  https://www.sciencedirect.com/science/article/pii/S1361841516301839
+  
+[9] Review of MRI-based Brain Tumor Image Segmentation Using Deep Learning Methods
+  https://www.sciencedirect.com/science/article/pii/S187705091632587X
+  
+[10] An overview of deep learning in medical imaging focusing on MRI
+  https://www.sciencedirect.com/science/article/pii/S0939388918301181
+  
 ### Smart Farm
 [1] Deep Learning in Agriculture
   https://www.avoinsatakunta.fi/wp-content/uploads/2018/11/Narra-presentation-01Nov18.pdf
