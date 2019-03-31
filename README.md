@@ -93,6 +93,21 @@ This repository for noting some resources that may help me in studying ML/DL and
 [1] Machine Learning for medical imaging (Video)
   http://www.ipam.ucla.edu/abstract/?tid=14549&pcode=DLT2018
   
+[2] An overview of deep learning in medical imaging focusing on MRI  
+  https://arxiv.org/pdf/1811.10052.pdf
+  
+[3] Deep Learning for Medical Image Processing: Overview, Challenges and Future  
+  https://arxiv.org/pdf/1704.06825.pdf
+  
+[4] Medical Imaging with Deep Learning (MIDL 2018) Conference: Exploring Rejected Extended Abstracts
+  https://medium.com/@IckeIlknur/medical-imaging-with-deep-learning-midl-2018-conference-exploring-rejected-papers-fee6b3f2a3bd
+  
+[5] Deep Learning in Medical Image Analysis
+  https://www.annualreviews.org/doi/full/10.1146/annurev-bioeng-071516-044442
+  
+[6] Overview of deep learning in medical imaging
+  https://link.springer.com/article/10.1007%2Fs12194-017-0406-5
+  
 ### Smart Farm
 [1] Deep Learning in Agriculture
   https://www.avoinsatakunta.fi/wp-content/uploads/2018/11/Narra-presentation-01Nov18.pdf
