@@ -80,6 +80,10 @@
   http://slazebni.cs.illinois.edu/spring17/
   
 ## Specific topics  
+### Image Super-Resolution
+### Object Detection
+### Image Semantic Segmentation
+
   
 # ML/DL-for- Code References
 [1] Browse state-of-the-art
