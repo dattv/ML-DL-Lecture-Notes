@@ -86,12 +86,12 @@ This repository for noting some resources that may help me in studying ML/DL
 ### Image Semantic Segmentation
 
   
-# ML/DL-for- Code References
+# ML/DL- Code References
 [1] Browse state-of-the-art
   https://paperswithcode.com/state-of-the-art?fbclid=IwAR2nV-pskhOH5WCY2ldvAWQwvUQ3Tt-OSd3bUS9jMYGY4xcC5_pZY94aNio
   
 
-# ML/DL-for- Book References
+# ML/DL- Book References
 [1] Dive into Deep Learning
   http://d2l.ai/?fbclid=IwAR0xGy2BvXnmcqHU22nPBYVm-5ken6eBTrgWvtPvB4A_4W9loO_BhboIWQ8
   
