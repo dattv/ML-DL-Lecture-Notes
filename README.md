@@ -45,7 +45,15 @@
 [15] CS 598/ IE 534, Fall 2018 (instructor Justin Sirignano) - (Univ os illinois)
   https://courses.engr.illinois.edu/ie534/fa2018/
   
+[16] Machine Learning (instructor Bastian Leibe) - (RWTH AACHEN)
+  https://www.vision.rwth-aachen.de/course/19/
   
   
-# Deep-learning-for-Image-Processing - Code Reference
-[1] 
+# Deep-learning-for-Image-Processing - Code References
+[1] Browse state-of-the-art
+  https://paperswithcode.com/state-of-the-art?fbclid=IwAR2nV-pskhOH5WCY2ldvAWQwvUQ3Tt-OSd3bUS9jMYGY4xcC5_pZY94aNio
+  
+
+# Deep-learning-for-Image-Processing - Book References
+[1] Dive into Deep Learning
+  http://d2l.ai/?fbclid=IwAR0xGy2BvXnmcqHU22nPBYVm-5ken6eBTrgWvtPvB4A_4W9loO_BhboIWQ8
