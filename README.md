@@ -87,7 +87,8 @@ This repository for noting some resources that may help me in studying ML/DL and
 ### Image Super-Resolution
 ### Object Detection
 ### Image Semantic Segmentation
-  
+[1] https://github.com/dattv/awesome-semantic-segmentation
+
 ## Applications
 ### Selft-Driving Vehicle
 
