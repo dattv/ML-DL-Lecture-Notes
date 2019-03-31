@@ -48,6 +48,36 @@
 [16] Machine Learning (instructor Bastian Leibe) - (RWTH AACHEN)
   https://www.vision.rwth-aachen.de/course/19/
   
+[17]  CP8309/CP8315: Deep Learning in Computer Vision (instructor Kosta Derpanis) - (Univ Ryerson)
+  http://www.scs.ryerson.ca/~kosta/CP8309-F2018/index.html
+  
+[18] MIT 6.S094: Deep Learning for Self-Driving Cars (instructor Lex Fridman) 
+  https://deeplearning.mit.edu/
+  
+[19] Deep Learning for Visual Computing (TU WIEN)
+  https://cvl.tuwien.ac.at/course/dlvc/
+  https://github.com/cpra/dlvc2018
+  
+[20]  6.S191: Introduction to Deep Learning (part 1(2, 3, 4), part 2(2), part 3(2, 3) (MIT)
+  http://introtodeeplearning.com/
+  
+[21] CS 9840 FALL 2015 Machine Learning and Computer Vision (Univ Western Ontario)
+  http://www.csd.uwo.ca/~olga/Courses//Fall2015//CS9840/index.html
+  
+[22] Introduction to Computer Vision (UDACITY)
+  https://eu.udacity.com/course/introduction-to-computer-vision--ud810
+  
+[23] Advanced Topics in Machine Learning MSc - Spring Semester 422828, Lectures and exercises, 5.0 ECTS (instructor (Paolo Favaro) - (Univ of Ben)
+  http://www.cvg.unibe.ch/teaching/course/ATML
+  
+[24] (Univ Freiburg)
+  http://ais.informatik.uni-freiburg.de/teaching/ws18/deep_learning_lab/
+  
+[25] (Univ of Cambridge)
+  http://cbl.eng.cam.ac.uk/Public/Turner/Teaching
+  
+  
+  
   
 # ML/DL-for-Image-Processing - Code References
 [1] Browse state-of-the-art
