@@ -94,25 +94,28 @@ This repository for noting some resources that may help me in studying ML/DL
   http://www.ipam.ucla.edu/abstract/?tid=14549&pcode=DLT2018
   
 ### Smart Farm
-[1] The Future of Farming with AI: Truly Organic at Scale (Video) - (AI with Quantum Computing, DWAVE)
+[1] Deep Learning in Agriculture
+  https://www.avoinsatakunta.fi/wp-content/uploads/2018/11/Narra-presentation-01Nov18.pdf
+
+[2] The Future of Farming with AI: Truly Organic at Scale (Video) - (AI with Quantum Computing, DWAVE)
   https://www.youtube.com/watch?v=qgooafo3mD8
 
-[2] Deep Learning for Smart Argriculture 
+[3] Deep Learning for Smart Argriculture 
   https://www.ijabe.org/index.php/ijabe/article/view/4475/pdf
   
-[3] Deep Learning in Agriculture: A Survey 
+[4] Deep Learning in Agriculture: A Survey 
   https://arxiv.org/pdf/1807.11809.pdf
   
-[4] Machine Learning in Agriculture: A Review 
+[5] Machine Learning in Agriculture: A Review 
   https://www.mdpi.com/1424-8220/18/8/2674/pdf
   
-[5] Big Data in Smart Farming - A review
+[6] Big Data in Smart Farming - A review
   https://www.sciencedirect.com/science/article/pii/S0308521X16303754
   
-[6] Smart drones and deep learning deliver low-cost precision agriculture for Aussie farmers
+[7] Smart drones and deep learning deliver low-cost precision agriculture for Aussie farmers
   https://phys.org/news/2018-05-smart-drones-deep-low-cost-precision.html
 
-[7] Smart Farm 2.0 System Architecture
+[8] Smart Farm 2.0 System Architecture
   https://medium.com/@atfslab/smart-farm-2-0-system-architecture-1aa4af9384c6
   
   
