@@ -85,6 +85,9 @@ This repository for noting some resources that may help me in studying ML/DL and
   
 ## Specific topics  
 ### Image Super-Resolution
+[1] Single Image Super-Resolution A collection of high-impact and state-of-the-art SR methods 
+  http://yapengtian.org/Single-Image-Super-Resolution/
+  
 ### Object Detection
 ### Image Semantic Segmentation
 [1] https://github.com/dattv/awesome-semantic-segmentation
