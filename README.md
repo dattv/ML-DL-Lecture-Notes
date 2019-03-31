@@ -164,6 +164,7 @@ This repository for noting some resources that may help me in studying ML/DL and
 [12] Smart farming: How IoT, robotics, and AI are tackling one of the biggest problems of the century
   https://www.techrepublic.com/article/smart-farming-how-iot-robotics-and-ai-are-tackling-one-of-the-biggest-problems-of-the-century/
   
+### Smart Aquaculture
 [13] DeepFish: Accurate underwater live fish recognition with a deep architecture (98,64% of accuracy)
   https://www.sciencedirect.com/science/article/pii/S0925231215017312
   
