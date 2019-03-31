@@ -52,8 +52,7 @@ This repository for noting some resources that may help me in studying ML/DL and
 [17]  CP8309/CP8315: Deep Learning in Computer Vision (instructor Kosta Derpanis) - (Univ Ryerson)
   http://www.scs.ryerson.ca/~kosta/CP8309-F2018/index.html
   
-[18] MIT 6.S094: Deep Learning for Self-Driving Cars (instructor Lex Fridman) 
-  https://deeplearning.mit.edu/
+[18] 
   
 [19] Deep Learning for Visual Computing (TU WIEN)
   https://cvl.tuwien.ac.at/course/dlvc/
@@ -94,6 +93,8 @@ This repository for noting some resources that may help me in studying ML/DL and
 
 ## Applications
 ### Selft-Driving Vehicle
+[1] MIT 6.S094: Deep Learning for Self-Driving Cars (instructor Lex Fridman) 
+  https://deeplearning.mit.edu/
 
 ### Medical Imaging
 [1] Machine Learning for medical imaging (Video)
