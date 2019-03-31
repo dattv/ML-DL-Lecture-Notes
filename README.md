@@ -76,8 +76,10 @@
 [25] (Univ of Cambridge)
   http://cbl.eng.cam.ac.uk/Public/Turner/Teaching
   
+[26]  CS 598 LAZ: Cutting-Edge Trends in Deep Learning and Recognition (instructor Svetlana Lazebnik) - (Univ of illinois)
+  http://slazebni.cs.illinois.edu/spring17/
   
-  
+## Specific topics  
   
 # ML/DL-for- Code References
 [1] Browse state-of-the-art
