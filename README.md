@@ -80,6 +80,9 @@ This repository for noting some resources that may help me in studying ML/DL
 [26]  CS 598 LAZ: Cutting-Edge Trends in Deep Learning and Recognition (instructor Svetlana Lazebnik) - (Univ of illinois)
   http://slazebni.cs.illinois.edu/spring17/
   
+[27]  Convolutional Neural Networks on Graphs (Video) 
+  http://www.ipam.ucla.edu/abstract/?tid=14506&pcode=DLT2018
+  
 ## Specific topics  
 ### Image Super-Resolution
 ### Object Detection
