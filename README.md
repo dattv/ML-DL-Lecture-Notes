@@ -84,7 +84,11 @@ This repository for noting some resources that may help me in studying ML/DL
 ### Image Super-Resolution
 ### Object Detection
 ### Image Semantic Segmentation
-
+  
+## Applications
+[1] Machine Learning for medical imaging 
+  http://www.ipam.ucla.edu/abstract/?tid=14549&pcode=DLT2018
+  
   
 # ML/DL- Code References
 [1] Browse state-of-the-art
