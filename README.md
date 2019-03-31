@@ -104,6 +104,9 @@ This repository for noting some resources that may help me in studying ML/DL and
 [2] Deep Learning for Moving Object Detection and Tracking from a Single Camera in Unmanned Aerial Vehicles (UAVs)  
   https://engineering.purdue.edu/~bouman/publications/orig-pdf/eia-2018.pdf
   
+[3] Optical Flow Based Real-time Moving Object Detection in Unconstrained Scenes  
+  https://arxiv.org/pdf/1807.04890.pdf
+  
 ### Image Semantic Segmentation
 [1] https://github.com/dattv/awesome-semantic-segmentation
 
