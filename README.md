@@ -89,6 +89,8 @@ This repository for noting some resources that may help me in studying ML/DL and
 ### Image Semantic Segmentation
   
 ## Applications
+### Selft-Driving Vehicle
+
 ### Medical Imaging
 [1] Machine Learning for medical imaging (Video)
   http://www.ipam.ucla.edu/abstract/?tid=14549&pcode=DLT2018
