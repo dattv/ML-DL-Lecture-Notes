@@ -118,6 +118,17 @@ This repository for noting some resources that may help me in studying ML/DL and
 [8] Smart Farm 2.0 System Architecture
   https://medium.com/@atfslab/smart-farm-2-0-system-architecture-1aa4af9384c6
   
+[9] How machine learning is gradually changing modern agricultural practices
+  https://precisionagricultu.re/how-machine-learning-is-gradually-changing-modern-agricultural-practices/
+  
+[10] A hybrid machine learning approach to automatic plant phenotyping for smart agriculture
+  https://ieeexplore.ieee.org/document/7966067
+  
+[11] DETECTION & PREDICTION OF PESTS/DISEASES USING DEEP LEARNING  
+  https://innovate.mygov.in/wp-content/uploads/2018/09/mygov1536109003113172.pdf
+  
+[12] Smart farming: How IoT, robotics, and AI are tackling one of the biggest problems of the century
+  https://www.techrepublic.com/article/smart-farming-how-iot-robotics-and-ai-are-tackling-one-of-the-biggest-problems-of-the-century/
   
 # ML/DL- Code References
 [1] Browse state-of-the-art
