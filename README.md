@@ -90,7 +90,9 @@ This repository for noting some resources that may help me in studying ML/DL
 [1] Machine Learning for medical imaging (Video)
   http://www.ipam.ucla.edu/abstract/?tid=14549&pcode=DLT2018
   
-  
+### Smart Farm
+[1] Deep Learning for Smart Argriculture 
+  https://www.ijabe.org/index.php/ijabe/article/view/4475/pdf
 # ML/DL- Code References
 [1] Browse state-of-the-art
   https://paperswithcode.com/state-of-the-art?fbclid=IwAR2nV-pskhOH5WCY2ldvAWQwvUQ3Tt-OSd3bUS9jMYGY4xcC5_pZY94aNio
