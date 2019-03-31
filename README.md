@@ -94,7 +94,7 @@ This repository for noting some resources that may help me in studying ML/DL
   http://www.ipam.ucla.edu/abstract/?tid=14549&pcode=DLT2018
   
 ### Smart Farm
-[1] The Future of Farming with AI: Truly Organic at Scale (Video)
+[1] The Future of Farming with AI: Truly Organic at Scale (Video) - (AI with Quantum Computing, DWAVE)
   https://www.youtube.com/watch?v=qgooafo3mD8
 
 [2] Deep Learning for Smart Argriculture 
