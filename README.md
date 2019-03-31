@@ -96,6 +96,20 @@ This repository for noting some resources that may help me in studying ML/DL
 ### Smart Farm
 [1] Deep Learning for Smart Argriculture 
   https://www.ijabe.org/index.php/ijabe/article/view/4475/pdf
+  
+[2] Deep Learning in Agriculture: A Survey 
+  https://arxiv.org/pdf/1807.11809.pdf
+  
+[3] Machine Learning in Agriculture: A Review 
+  https://www.mdpi.com/1424-8220/18/8/2674/pdf
+  
+[4] Big Data in Smart Farming - A review
+  https://www.sciencedirect.com/science/article/pii/S0308521X16303754
+  
+[5] Smart drones and deep learning deliver low-cost precision agriculture for Aussie farmers
+  https://phys.org/news/2018-05-smart-drones-deep-low-cost-precision.html
+
+  
 # ML/DL- Code References
 [1] Browse state-of-the-art
   https://paperswithcode.com/state-of-the-art?fbclid=IwAR2nV-pskhOH5WCY2ldvAWQwvUQ3Tt-OSd3bUS9jMYGY4xcC5_pZY94aNio
