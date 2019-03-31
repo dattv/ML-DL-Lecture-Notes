@@ -93,3 +93,29 @@
 # ML/DL-for- Book References
 [1] Dive into Deep Learning
   http://d2l.ai/?fbclid=IwAR0xGy2BvXnmcqHU22nPBYVm-5ken6eBTrgWvtPvB4A_4W9loO_BhboIWQ8
+  
+[2] Learning Python
+  https://www.packtpub.com/packt/free-ebook/learning-python?utm_source=dzone&utm_medium=referral&utm_campaign=outreach
+  
+[3] Python Machine Learning (Sebastian RAschka)
+  https://www.packtpub.com/free-ebook/python-machine-learning?utm_source=dzone&utm_medium=referral&utm_campaign=outreach
+  
+[4] Advanced Machine Learning with Python (john Hearty)
+  https://www.packtpub.com/packt/free-ebook/advanced-python-machine-learning?utm_source=dzone&utm_medium=referral&utm_campaign=outreach
+  
+[5] Think Stats – Probability and Statistics for Programmers ( Allan B. Downey)
+  http://www.greenteapress.com/thinkstats/
+  
+[6] Understanding Machine Learning: From Theory to Algorithms (Shai Shalev - Shwartz)
+  http://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/copy.html
+  
+[7] Deep Learning
+  http://www.deeplearningbook.org/
+  
+[8] MIT Deep Learning Book (beautiful and flawless PDF version)
+  https://github.com/janishar/mit-deep-learning-book-pdf
+  
+  
+  
+  
+  
