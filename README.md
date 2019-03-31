@@ -1,3 +1,4 @@
+This repository for noting some resource that may help myselft in studying ML/DL
 # ML/DL - Lecture notes
 
 [1]  Deep learning for Vision (instructor Yannis Avrithis) - (Univ of Rennes1)
