@@ -88,6 +88,22 @@ This repository for noting some resources that may help me in studying ML/DL and
   http://yapengtian.org/Single-Image-Super-Resolution/
   
 ### Object Detection
+[1] Object Detection with Deep Learning: A Review
+  https://arxiv.org/pdf/1807.05511.pdf
+  
+[2] A Review: Object Detection using Deep Learning
+  https://www.ijcaonline.org/archives/volume180/number29/naik-2018-ijca-916708.pdf
+  
+[3] Deep Learning for Generic Object Detection: A Survey
+  http://www.ee.oulu.fi/~lili/LiLiuHomepage_files/DetectionSurveySubmitted.pdf
+  
+### Moving Object Tracking and/or Detecting  
+[1] New Trends on Moving Object Detection in Video Images Captured by a moving Camera: A Survey
+  https://hal.archives-ouvertes.fr/hal-01724322/document
+  
+[2] Deep Learning for Moving Object Detection and Tracking from a Single Camera in Unmanned Aerial Vehicles (UAVs)  
+  https://engineering.purdue.edu/~bouman/publications/orig-pdf/eia-2018.pdf
+  
 ### Image Semantic Segmentation
 [1] https://github.com/dattv/awesome-semantic-segmentation
 
