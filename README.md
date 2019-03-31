@@ -189,6 +189,20 @@ This repository for noting some resources that may help me in studying ML/DL and
   https://www.sciencedirect.com/science/article/pii/S0925231215017312
   
 ### Game  
+[1] Playing Atari with Deep Reinforcement Learning
+  https://arxiv.org/pdf/1312.5602v1.pdf
+
+[2] Atari - Solving Games with AI 🤖 (Part 1: Reinforcement Learning)
+  https://towardsdatascience.com/atari-reinforcement-learning-in-depth-part-1-ddqn-ceaa762a546f
+  
+[3] Atari - Solving Games with AI🤖 (Part 2: Neuroevolution)
+  https://towardsdatascience.com/atari-solving-games-with-ai-part-2-neuroevolution-aac2ebb6c72b
+  
+[4] Atari Project
+  https://github.com/gsurma/atari
+  
+[5] AlphaGo
+  https://deepmind.com/research/alphago/
   
 # ML/DL- Code References
 [1] Browse state-of-the-art
