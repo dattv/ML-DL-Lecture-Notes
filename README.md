@@ -52,7 +52,8 @@ This repository for noting some resources that may help me in studying ML/DL and
 [17]  CP8309/CP8315: Deep Learning in Computer Vision (instructor Kosta Derpanis) - (Univ Ryerson)
   http://www.scs.ryerson.ca/~kosta/CP8309-F2018/index.html
   
-[18] 
+[18] Machine Learning in Three month (Video) 
+  https://www.youtube.com/watch?v=Cr6VqTRO1v0
   
 [19] Deep Learning for Visual Computing (TU WIEN)
   https://cvl.tuwien.ac.at/course/dlvc/
