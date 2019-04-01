@@ -83,7 +83,7 @@ This repository for noting some resources that may help me in studying ML/DL and
 [27]  Convolutional Neural Networks on Graphs (Video) 
   http://www.ipam.ucla.edu/abstract/?tid=14506&pcode=DLT2018
   
-[28] GAME THEORY AND APPLICATIONS (GTA)
+[28] GAME THEORY AND APPLICATIONS (M2 Course GTA) - (Lecture slides and exercises) - (Patrick maille)
   https://www.dropbox.com/s/v6zwt9gv4uiib04/support_2018.pdf?dl=0
   
 ## Specific topics  
