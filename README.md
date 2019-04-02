@@ -94,6 +94,9 @@ This repository for noting some resources that may help me in studying ML/DL and
 [2] A collection of Single Image Super-Resolution Methods 
   https://github.com/YapengTian/Single-Image-Super-Resolution  
   
+[3] Super-Resolution via Deep Learning
+  https://arxiv.org/pdf/1706.09077.pdf
+  
 ### Face Detection
 
 [1] MTCNN
