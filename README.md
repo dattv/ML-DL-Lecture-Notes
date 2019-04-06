@@ -100,6 +100,8 @@ This repository for noting some resources that may help me in studying ML/DL and
 ### Face Detection
 
 [1] MTCNN
+[2] SSD
+[3] single short learning
 
 ### Object Detection
 [1] Object Detection with Deep Learning: A Review
