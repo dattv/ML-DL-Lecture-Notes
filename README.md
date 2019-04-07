@@ -223,6 +223,10 @@ This repository for noting some resources that may help me in studying ML/DL and
 ### ML/DL Detect Cracks on Surfaces 
 [1] Automated Vision-Based Detection of Cracks on Concrete Surfaces Using a Deep Learning Technique 
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6210028/
+
+
+### How can AI help speed up airport security?
+https://www.airport-technology.com/features/ai-at-airports-security/
   
 ### Financial services
 
