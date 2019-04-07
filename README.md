@@ -220,7 +220,7 @@ This repository for noting some resources that may help me in studying ML/DL and
 [5] AlphaGo
   https://deepmind.com/research/alphago/
   
-### ML/DL Detect Cracks on Concrete Surfaces 
+### ML/DL Detect Cracks on Surfaces 
 [1] Automated Vision-Based Detection of Cracks on Concrete Surfaces Using a Deep Learning Technique 
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6210028/
   
