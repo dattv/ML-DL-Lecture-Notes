@@ -163,6 +163,9 @@ This repository for noting some resources that may help me in studying ML/DL and
 [10] An overview of deep learning in medical imaging focusing on MRI
   https://www.sciencedirect.com/science/article/pii/S0939388918301181
   
+[11] Clara AI Platform (NVIDIA)
+https://www.nvidia.com/en-us/healthcare/
+  
 ### Smart Farm
 [1] Deep Learning in Agriculture
   https://www.avoinsatakunta.fi/wp-content/uploads/2018/11/Narra-presentation-01Nov18.pdf
