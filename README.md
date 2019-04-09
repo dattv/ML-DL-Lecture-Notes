@@ -87,10 +87,13 @@ This repository for noting some resources that may help me in studying ML/DL and
   https://www.dropbox.com/s/v6zwt9gv4uiib04/support_2018.pdf?dl=0
   
 [29] Speed up TensorFlow Inference on GPUs with TensorRT 
-https://medium.com/tensorflow/speed-up-tensorflow-inference-on-gpus-with-tensorrt-13b49f3db3fa
+  https://medium.com/tensorflow/speed-up-tensorflow-inference-on-gpus-with-tensorrt-13b49f3db3fa
 
 [30] Optimizing TensorFlow Serving performance with NVIDIA TensorRT 
-https://medium.com/tensorflow/optimizing-tensorflow-serving-performance-with-nvidia-tensorrt-6d8a2347869a
+  https://medium.com/tensorflow/optimizing-tensorflow-serving-performance-with-nvidia-tensorrt-6d8a2347869a
+
+[31] TensorRT for TensorFlow (video) 
+  https://www.youtube.com/playlist?list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f
   
 ## Specific topics  
 ### Image Super-Resolution
