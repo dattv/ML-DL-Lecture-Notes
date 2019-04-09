@@ -86,6 +86,12 @@ This repository for noting some resources that may help me in studying ML/DL and
 [28] GAME THEORY AND APPLICATIONS (M2 Course GTA) - (Lecture slides and exercises) - (Patrick maille)
   https://www.dropbox.com/s/v6zwt9gv4uiib04/support_2018.pdf?dl=0
   
+[29] Speed up TensorFlow Inference on GPUs with TensorRT 
+https://medium.com/tensorflow/speed-up-tensorflow-inference-on-gpus-with-tensorrt-13b49f3db3fa
+
+[30] Optimizing TensorFlow Serving performance with NVIDIA TensorRT 
+https://medium.com/tensorflow/optimizing-tensorflow-serving-performance-with-nvidia-tensorrt-6d8a2347869a
+  
 ## Specific topics  
 ### Image Super-Resolution
 [1] Single Image Super-Resolution A collection of high-impact and state-of-the-art SR methods 
