@@ -173,7 +173,10 @@ This repository for noting some resources that may help me in studying ML/DL and
   https://www.sciencedirect.com/science/article/pii/S0939388918301181
   
 [11] Clara AI Platform (NVIDIA)
-https://www.nvidia.com/en-us/healthcare/
+  https://www.nvidia.com/en-us/healthcare/
+
+[12] CAP5516-Medical Image Computing (SPRING 2019) 
+  http://www.cs.ucf.edu/~bagci/teaching/mic19.html
   
 ### Smart Farm
 [1] Deep Learning in Agriculture
