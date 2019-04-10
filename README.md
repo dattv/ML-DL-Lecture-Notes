@@ -112,102 +112,71 @@ This repository for noting some resources that may help me in studying ML/DL and
   https://github.com/dattv/mit-deep-learning
 
 ### Medical Imaging
-[1] Machine Learning for medical imaging (Video)
-  http://www.ipam.ucla.edu/abstract/?tid=14549&pcode=DLT2018
+[1] [achine Learning for medical imaging (Video)](ttp://www.ipam.ucla.edu/abstract/?tid=14549&pcode=DLT2018)
   
-[2] An overview of deep learning in medical imaging focusing on MRI  
-  https://arxiv.org/pdf/1811.10052.pdf
+[2] [An overview of deep learning in medical imaging focusing on MRI](ttps://arxiv.org/pdf/1811.10052.pdf)
   
-[3] Deep Learning for Medical Image Processing: Overview, Challenges and Future  
-  https://arxiv.org/pdf/1704.06825.pdf
+[3] [Deep Learning for Medical Image Processing: Overview, Challenges and Future](https://arxiv.org/pdf/1704.06825.pdf)
   
-[4] Medical Imaging with Deep Learning (MIDL 2018) Conference: Exploring Rejected Extended Abstracts
-  https://medium.com/@IckeIlknur/medical-imaging-with-deep-learning-midl-2018-conference-exploring-rejected-papers-fee6b3f2a3bd
+[4] [Medical Imaging with Deep Learning (MIDL 2018) Conference: Exploring Rejected Extended Abstracts](https://medium.com/@IckeIlknur/medical-imaging-with-deep-learning-midl-2018-conference-exploring-rejected-papers-fee6b3f2a3bd)
   
-[5] Deep Learning in Medical Image Analysis
-  https://www.annualreviews.org/doi/full/10.1146/annurev-bioeng-071516-044442
+[5] [Deep Learning in Medical Image Analysis](https://www.annualreviews.org/doi/full/10.1146/annurev-bioeng-071516-044442)
   
-[6] Overview of deep learning in medical imaging
-  https://link.springer.com/article/10.1007%2Fs12194-017-0406-5
+[6] [Overview of deep learning in medical imaging](https://link.springer.com/article/10.1007%2Fs12194-017-0406-5)
   
-[7] NiftyNet: a deep-learning platform for medical imaging
-  https://www.sciencedirect.com/science/article/pii/S0169260717311823
+[7] [NiftyNet: a deep-learning platform for medical imaging](https://www.sciencedirect.com/science/article/pii/S0169260717311823)
   
-[8] Efficient multi-scale 3D CNN with fully connected CRF for accurate brain lesion segmentation
-  https://www.sciencedirect.com/science/article/pii/S1361841516301839
+[8] [Efficient multi-scale 3D CNN with fully connected CRF for accurate brain lesion segmentation](https://www.sciencedirect.com/science/article/pii/S1361841516301839)
   
-[9] Review of MRI-based Brain Tumor Image Segmentation Using Deep Learning Methods
-  https://www.sciencedirect.com/science/article/pii/S187705091632587X
+[9] [Review of MRI-based Brain Tumor Image Segmentation Using Deep Learning Methods](https://www.sciencedirect.com/science/article/pii/S187705091632587X)
   
-[10] An overview of deep learning in medical imaging focusing on MRI
-  https://www.sciencedirect.com/science/article/pii/S0939388918301181
+[10] [An overview of deep learning in medical imaging focusing on MRI](https://www.sciencedirect.com/science/article/pii/S0939388918301181)
   
-[11] Clara AI Platform (NVIDIA)
-  https://www.nvidia.com/en-us/healthcare/
+[11] [Clara AI Platform (NVIDIA)](https://www.nvidia.com/en-us/healthcare/)
 
-[12] CAP5516-Medical Image Computing (SPRING 2019) 
-  http://www.cs.ucf.edu/~bagci/teaching/mic19.html
+[12] [CAP5516-Medical Image Computing (SPRING 2019)](http://www.cs.ucf.edu/~bagci/teaching/mic19.html)
   
 ### Smart Farm
-[1] Deep Learning in Agriculture
-  https://www.avoinsatakunta.fi/wp-content/uploads/2018/11/Narra-presentation-01Nov18.pdf
+[1] [Deep Learning in Agriculture](https://www.avoinsatakunta.fi/wp-content/uploads/2018/11/Narra-presentation-01Nov18.pdf)
 
-[2] The Future of Farming with AI: Truly Organic at Scale (Video) - (AI with Quantum Computing, DWAVE)
-  https://www.youtube.com/watch?v=qgooafo3mD8
+[2] [The Future of Farming with AI: Truly Organic at Scale (Video) - (AI with Quantum Computing, DWAVE)](https://www.youtube.com/watch?v=qgooafo3mD8)
 
-[3] Deep Learning for Smart Argriculture 
-  https://www.ijabe.org/index.php/ijabe/article/view/4475/pdf
+[3] [Deep Learning for Smart Argriculture](https://www.ijabe.org/index.php/ijabe/article/view/4475/pdf)
   
-[4] Deep Learning in Agriculture: A Survey 
-  https://arxiv.org/pdf/1807.11809.pdf
+[4] [Deep Learning in Agriculture: A Survey](https://arxiv.org/pdf/1807.11809.pdf)
   
-[5] Machine Learning in Agriculture: A Review 
-  https://www.mdpi.com/1424-8220/18/8/2674/pdf
+[5] [Machine Learning in Agriculture: A Review](https://www.mdpi.com/1424-8220/18/8/2674/pdf)
   
-[6] Big Data in Smart Farming - A review
-  https://www.sciencedirect.com/science/article/pii/S0308521X16303754
+[6] [Big Data in Smart Farming - A review](https://www.sciencedirect.com/science/article/pii/S0308521X16303754)
   
-[7] Smart drones and deep learning deliver low-cost precision agriculture for Aussie farmers
-  https://phys.org/news/2018-05-smart-drones-deep-low-cost-precision.html
+[7] [Smart drones and deep learning deliver low-cost precision agriculture for Aussie farmers](https://phys.org/news/2018-05-smart-drones-deep-low-cost-precision.html)
 
-[8] Smart Farm 2.0 System Architecture
-  https://medium.com/@atfslab/smart-farm-2-0-system-architecture-1aa4af9384c6
+[8] [Smart Farm 2.0 System Architecture](https://medium.com/@atfslab/smart-farm-2-0-system-architecture-1aa4af9384c6)
   
-[9] How machine learning is gradually changing modern agricultural practices
-  https://precisionagricultu.re/how-machine-learning-is-gradually-changing-modern-agricultural-practices/
+[9] [How machine learning is gradually changing modern agricultural practices](https://precisionagricultu.re/how-machine-learning-is-gradually-changing-modern-agricultural-practices/)
   
-[10] A hybrid machine learning approach to automatic plant phenotyping for smart agriculture
-  https://ieeexplore.ieee.org/document/7966067
+[10] [A hybrid machine learning approach to automatic plant phenotyping for smart agriculture](https://ieeexplore.ieee.org/document/7966067)
   
-[11] DETECTION & PREDICTION OF PESTS/DISEASES USING DEEP LEARNING  
-  https://innovate.mygov.in/wp-content/uploads/2018/09/mygov1536109003113172.pdf
+[11] [DETECTION & PREDICTION OF PESTS/DISEASES USING DEEP LEARNING](https://innovate.mygov.in/wp-content/uploads/2018/09/mygov1536109003113172.pdf)
   
-[12] Smart farming: How IoT, robotics, and AI are tackling one of the biggest problems of the century
-  https://www.techrepublic.com/article/smart-farming-how-iot-robotics-and-ai-are-tackling-one-of-the-biggest-problems-of-the-century/
+[12] [Smart farming: How IoT, robotics, and AI are tackling one of the biggest problems of the century](https://www.techrepublic.com/article/smart-farming-how-iot-robotics-and-ai-are-tackling-one-of-the-biggest-problems-of-the-century/)
   
 ### Smart Aquaculture
-[1] DeepFish: Accurate underwater live fish recognition with a deep architecture (98,64% of accuracy)
-  https://www.sciencedirect.com/science/article/pii/S0925231215017312
+[1] [DeepFish: Accurate underwater live fish recognition with a deep architecture (98,64% of accuracy)](https://www.sciencedirect.com/science/article/pii/S0925231215017312)
   
 ### Game  
-[1] Playing Atari with Deep Reinforcement Learning
-  https://arxiv.org/pdf/1312.5602v1.pdf
+[1] [Playing Atari with Deep Reinforcement Learning](https://arxiv.org/pdf/1312.5602v1.pdf)
 
-[2] Atari - Solving Games with AI 🤖 (Part 1: Reinforcement Learning)
-  https://towardsdatascience.com/atari-reinforcement-learning-in-depth-part-1-ddqn-ceaa762a546f
+[2] [Atari - Solving Games with AI 🤖 (Part 1: Reinforcement Learning)](https://towardsdatascience.com/atari-reinforcement-learning-in-depth-part-1-ddqn-ceaa762a546f)
   
-[3] Atari - Solving Games with AI🤖 (Part 2: Neuroevolution)
-  https://towardsdatascience.com/atari-solving-games-with-ai-part-2-neuroevolution-aac2ebb6c72b
+[3] [Atari - Solving Games with AI🤖 (Part 2: Neuroevolution)](https://towardsdatascience.com/atari-solving-games-with-ai-part-2-neuroevolution-aac2ebb6c72b)
   
-[4] Atari Project
-  https://github.com/gsurma/atari
+[4] [Atari Project](https://github.com/gsurma/atari)
   
-[5] AlphaGo
-  https://deepmind.com/research/alphago/
+[5] [AlphaGo](https://deepmind.com/research/alphago/)
   
 ### ML/DL Detect Cracks on Surfaces 
-[1] Automated Vision-Based Detection of Cracks on Concrete Surfaces Using a Deep Learning Technique 
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6210028/
+[1] [Automated Vision-Based Detection of Cracks on Concrete Surfaces Using a Deep Learning Technique](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6210028/)
 
 
 ### [How can AI help speed up airport security?](https://www.airport-technology.com/features/ai-at-airports-security/)
