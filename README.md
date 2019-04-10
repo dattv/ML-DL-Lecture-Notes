@@ -240,37 +240,28 @@ This repository for noting some resources that may help me in studying ML/DL and
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6210028/
 
 
-### How can AI help speed up airport security?
-https://www.airport-technology.com/features/ai-at-airports-security/
+### [How can AI help speed up airport security?](https://www.airport-technology.com/features/ai-at-airports-security/)
   
 ### Financial services
 
 # ML/DL- Code References
-[1] Browse state-of-the-art
-  https://paperswithcode.com/state-of-the-art?fbclid=IwAR2nV-pskhOH5WCY2ldvAWQwvUQ3Tt-OSd3bUS9jMYGY4xcC5_pZY94aNio
+[1] [Browse state-of-the-art](https://paperswithcode.com/state-of-the-art?fbclid=IwAR2nV-pskhOH5WCY2ldvAWQwvUQ3Tt-OSd3bUS9jMYGY4xcC5_pZY94aNio)
   
 
 # ML/DL- Book References
-[1] Dive into Deep Learning
-  http://d2l.ai/?fbclid=IwAR0xGy2BvXnmcqHU22nPBYVm-5ken6eBTrgWvtPvB4A_4W9loO_BhboIWQ8
+[1] [Dive into Deep Learning](http://d2l.ai/?fbclid=IwAR0xGy2BvXnmcqHU22nPBYVm-5ken6eBTrgWvtPvB4A_4W9loO_BhboIWQ8)
   
-[2] Learning Python
-  https://www.packtpub.com/packt/free-ebook/learning-python?utm_source=dzone&utm_medium=referral&utm_campaign=outreach
+[2] [Learning Python](https://www.packtpub.com/packt/free-ebook/learning-python?utm_source=dzone&utm_medium=referral&utm_campaign=outreach)
   
-[3] Python Machine Learning (Sebastian RAschka)
-  https://www.packtpub.com/free-ebook/python-machine-learning?utm_source=dzone&utm_medium=referral&utm_campaign=outreach
+[3] [Python Machine Learning (Sebastian RAschka)](https://www.packtpub.com/free-ebook/python-machine-learning?)utm_source=dzone&utm_medium=referral&utm_campaign=outreach
   
-[4] Advanced Machine Learning with Python (john Hearty)
-  https://www.packtpub.com/packt/free-ebook/advanced-python-machine-learning?utm_source=dzone&utm_medium=referral&utm_campaign=outreach
+[4] [Advanced Machine Learning with Python (john Hearty)](https://www.packtpub.com/packt/free-ebook/advanced-python-machine-learning?utm_source=dzone&utm_medium=referral&utm_campaign=outreach)
   
-[5] Think Stats – Probability and Statistics for Programmers ( Allan B. Downey)
-  http://www.greenteapress.com/thinkstats/
+[5] [Think Stats – Probability and Statistics for Programmers ( Allan B. Downey)](http://www.greenteapress.com/thinkstats/)
   
-[6] Understanding Machine Learning: From Theory to Algorithms (Shai Shalev - Shwartz)
-  http://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/copy.html
+[6] [Understanding Machine Learning: From Theory to Algorithms (Shai Shalev - Shwartz](http://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/copy.html)
   
-[7] Deep Learning
-  http://www.deeplearningbook.org/
+[7] [Deep Learning](http://www.deeplearningbook.org/)
   
 [8] [MIT Deep Learning Book (beautiful and flawless PDF version)](https://github.com/janishar/mit-deep-learning-book-pdf)
   
