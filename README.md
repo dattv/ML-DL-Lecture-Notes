@@ -272,8 +272,7 @@ https://www.airport-technology.com/features/ai-at-airports-security/
 [7] Deep Learning
   http://www.deeplearningbook.org/
   
-[8] MIT Deep Learning Book (beautiful and flawless PDF version)
-  https://github.com/janishar/mit-deep-learning-book-pdf
+[8] [MIT Deep Learning Book (beautiful and flawless PDF version)](https://github.com/janishar/mit-deep-learning-book-pdf)
   
   
   
