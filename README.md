@@ -82,27 +82,21 @@ This repository for noting some resources that may help me in studying ML/DL and
 <b>[3]</b> single short learning
 
 ### Object Detection
-<b>[1]</b> Object Detection with Deep Learning: A Review
-  https://arxiv.org/pdf/1807.05511.pdf
+<b>[1]</b> [Object Detection with Deep Learning: A Review](https://arxiv.org/pdf/1807.05511.pdf)
   
-<b>[2]</b> A Review: Object Detection using Deep Learning
-  https://www.ijcaonline.org/archives/volume180/number29/naik-2018-ijca-916708.pdf
+<b>[2]</b> [A Review: Object Detection using Deep Learning](https://www.ijcaonline.org/archives/volume180/number29/naik-2018-ijca-916708.pdf)
   
-<b>[3]</b> Deep Learning for Generic Object Detection: A Survey
-  http://www.ee.oulu.fi/~lili/LiLiuHomepage_files/DetectionSurveySubmitted.pdf
+<b>[3]</b> [Deep Learning for Generic Object Detection: A Survey](http://www.ee.oulu.fi/~lili/LiLiuHomepage_files/DetectionSurveySubmitted.pdf)
   
 ### Moving Object Tracking and/or Detecting  
-<b>[1]</b> New Trends on Moving Object Detection in Video Images Captured by a moving Camera: A Survey
-  https://hal.archives-ouvertes.fr/hal-01724322/document
+<b>[1]</b> [New Trends on Moving Object Detection in Video Images Captured by a moving Camera: A Survey](https://hal.archives-ouvertes.fr/hal-01724322/document)
   
-<b>[2] Deep Learning for Moving Object Detection and Tracking from a Single Camera in Unmanned Aerial Vehicles (UAVs)  
-  https://engineering.purdue.edu/~bouman/publications/orig-pdf/eia-2018.pdf
+<b>[2] [Deep Learning for Moving Object Detection and Tracking from a Single Camera in Unmanned Aerial Vehicles (UAVs)](https://engineering.purdue.edu/~bouman/publications/orig-pdf/eia-2018.pdf)
   
-<b>[3]</b> Optical Flow Based Real-time Moving Object Detection in Unconstrained Scenes  
-  https://arxiv.org/pdf/1807.04890.pdf
+<b>[3]</b> [Optical Flow Based Real-time Moving Object Detection in Unconstrained Scenes](https://arxiv.org/pdf/1807.04890.pdf)
   
 ### Image Semantic Segmentation
-<b>[1]</b> https://github.com/dattv/awesome-semantic-segmentation
+<b>[1]</b> [awesome semantic segmentatation](https://github.com/dattv/awesome-semantic-segmentation)
 
 ## Applications
 ### Self-Driving Vehicle
