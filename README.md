@@ -91,7 +91,7 @@ This repository for noting some resources that may help me in studying ML/DL and
 ### Moving Object Tracking and/or Detecting  
 <b>[1]</b> [New Trends on Moving Object Detection in Video Images Captured by a moving Camera: A Survey](https://hal.archives-ouvertes.fr/hal-01724322/document)
   
-<b>[2] [Deep Learning for Moving Object Detection and Tracking from a Single Camera in Unmanned Aerial Vehicles (UAVs)](https://engineering.purdue.edu/~bouman/publications/orig-pdf/eia-2018.pdf)
+<b>[2]</b> [Deep Learning for Moving Object Detection and Tracking from a Single Camera in Unmanned Aerial Vehicles (UAVs)](https://engineering.purdue.edu/~bouman/publications/orig-pdf/eia-2018.pdf)
   
 <b>[3]</b> [Optical Flow Based Real-time Moving Object Detection in Unconstrained Scenes](https://arxiv.org/pdf/1807.04890.pdf)
   
