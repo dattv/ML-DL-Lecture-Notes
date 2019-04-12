@@ -105,9 +105,9 @@ This repository for noting some resources that may help me in studying ML/DL and
   https://github.com/dattv/mit-deep-learning
 
 ### Medical Imaging
-<b>[1]</b> [achine Learning for medical imaging (Video)](ttp://www.ipam.ucla.edu/abstract/?tid=14549&pcode=DLT2018)
+<b>[1]</b> [achine Learning for medical imaging (Video)](http://www.ipam.ucla.edu/abstract/?tid=14549&pcode=DLT2018)
   
-<b>[2]</b> [An overview of deep learning in medical imaging focusing on MRI](ttps://arxiv.org/pdf/1811.10052.pdf)
+<b>[2]</b> [An overview of deep learning in medical imaging focusing on MRI](https://arxiv.org/pdf/1811.10052.pdf)
   
 <b>[3]</b> [Deep Learning for Medical Image Processing: Overview, Challenges and Future](https://arxiv.org/pdf/1704.06825.pdf)
   
