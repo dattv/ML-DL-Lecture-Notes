@@ -28,9 +28,14 @@ A TFRecord file store your data as a sequence of binary strings. This mean that 
 *If you have dataset consist of feature, where each feature is a list of value of the same type, `tf.train.Example` is a right way to use*
 <br /> the movie recomendation  application:
 
-       |-----|-----|-------------|-----------|---------------------|--------------|
-       |Age  |Movie|Movie Ratings|Surggestion|Surggestion Purchased|Purchase Price|
-       |-----|-----|-------------|-----------|---------------------|--------------|
+
+/***
+| __Animals__ | __Sports__ | __Fruits__ |
+|-------------|------------|------------|
+| Cat         | Soccer     | Apple      |
+| Dog         | Basketball | Orange     |
+***/       
+
 
 # Reference
 [1] [Tensorflow Records? What they are and how to use them](https://medium.com/mostly-ai/tensorflow-records-what-they-are-and-how-to-use-them-c46bc4bbb564)
