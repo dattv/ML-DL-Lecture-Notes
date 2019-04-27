@@ -49,6 +49,10 @@ We need to create the list that consitute the features by using:
 - ![tf.train.Example](https://placehold.it/15/f03c15/000000?text=+)`tf.train.FloatList`
 - ![tf.train.Example](https://placehold.it/15/f03c15/000000?text=+)`tf.train.Int64List`     
 
+`movie_name_list = tf.train.BytesList(value=[b'The Shawshank Redemption', b'Fight Club'])`
+
+`movie_rating_list = tf.train.FloatList(value=[9.0, 9.7])`
+
 
 
 # Reference
