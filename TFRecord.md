@@ -1,7 +1,7 @@
 The TFRecord.md is for learning Tensorflow Records. What they are? and how they can be used?
 
 # Overview
-Tensorflow is a second machine learning framwork that Google created for researching and developing AI/ML or DNN application, it is widely used in both academic and engineering society.
+Tensorflow is a second machine learning framwork that Google created for researching and developing AI/ML or DNN application, it is widely used in both academic and engineering society. <b>TFRecord</b> is a kind of Tensorflow's own binary format.
 <br />
 <br /> <b> Advantages:</b>
 <br /> If you are working with large datasets, using a binary format for storaging and reading of your data can hav significan impact on the performance of your import and consequence on the training time of your model.
