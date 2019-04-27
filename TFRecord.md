@@ -61,7 +61,7 @@ python string need to be converted to bytes before they are stored in
 `movie_ratings = tf.train.Feature(float_list=movie_rating_list)`
 
 collect all named features by using 
-- ![](https://placehold.it/15/f03c15/000000?text=+)`tf.train.Features
+- ![](https://placehold.it/15/f03c15/000000?text=+)`tf.train.Features`
 
 `movie_dict = {'Movie Names: movie_names, Movie Ratings: movie_ratings}`
 
