@@ -37,8 +37,12 @@ A TFRecord file store your data as a sequence of binary strings. This mean that 
 
 
 It's clearly seen that we now have list of features, each of them have same type, like for example:
+- feature <b> Age </b> is integer
 - feature <b> Movie </b> is string.
 - feature <b> Movie Ratings </b> is real number
+- feature <b> Surggestion </b> is string
+- feature <b> Surggestion Purchased </b> is real number
+- feature <b> Purchase Price </b> is real number
 
 We need to create the list that consitute the features
 
