@@ -16,7 +16,13 @@ Tensorflow is a second machine learning framwork that Google created for researc
 
 ## How to used TFRecord
 A TFRecord file store your data as a sequence of binary strings. This mean that you need to desclare theis format before you can write it in to files.
-<br /> Tensorflow give us two APIs to do this purpose: ![tf.train.Example ](https://placehold.it/15/f03c15/000000?text=+) 
+<br /> Tensorflow give us two APIs to do this purpose: 
+- ![tf.train.Example](https://placehold.it/15/f03c15/000000?text=+)`tf.train.Example`
+- ![tf.train.Example](https://placehold.it/15/f03c15/000000?text=+)`tf.train.SequenceExample`
+<br /> And then you can use:
+- ![tf.train.Example](https://placehold.it/15/f03c15/000000?text=+)`tf.python_io.TFRecordWriter`
+<br /> to write them to your disk.
+
 
 # Reference
 [1] [Tensorflow Records? What they are and how to use them](https://medium.com/mostly-ai/tensorflow-records-what-they-are-and-how-to-use-them-c46bc4bbb564)
