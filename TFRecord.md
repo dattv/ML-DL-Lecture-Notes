@@ -44,9 +44,11 @@ It's clearly seen that we now have list of features, each of them have same type
 - feature <b> Surggestion Purchased </b> is real number
 - feature <b> Purchase Price </b> is real number
 
-We need to create the list that consitute the features
+We need to create the list that consitute the features by using:
+- ![tf.train.Example](https://placehold.it/15/f03c15/000000?text=+)`tf.train.BytesList`  
+- ![tf.train.Example](https://placehold.it/15/f03c15/000000?text=+)`tf.train.FloatList`
+- ![tf.train.Example](https://placehold.it/15/f03c15/000000?text=+)`tf.train.Int64List`     
 
-     
 
 
 # Reference
