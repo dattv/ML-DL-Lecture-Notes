@@ -53,6 +53,19 @@ We need to create the list that consitute the features by using:
 
 `movie_rating_list = tf.train.FloatList(value=[9.0, 9.7])`
 
+python string need to be converted to bytes before they are stored in 
+- ![](https://placehold.it/15/f03c15/000000?text=+)`tf.train.BytesList`
+
+`movie_names = tf.train.Feature(bytes_list=movie_name_list)`
+
+`movie_ratings = tf.train.Feature(float_list=movie_rating_list)`
+
+collect all named features by using 
+- ![](https://placehold.it/15/f03c15/000000?text=+)`tf.train.Features
+
+`movie_dict = {'Movie Names: movie_names, Movie Ratings: movie_ratings}`
+
+`movies = tf.train.Features(feature=movie_dict)`
 
 
 # Reference
