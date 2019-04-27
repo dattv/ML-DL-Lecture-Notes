@@ -2,10 +2,16 @@ The TFRecord.md is for learning Tensorflow Records. What they are? and how they 
 
 # Overview
 Tensorflow is a second machine learning framwork that Google created for researching and developing AI/ML or DNN application, it is widely used in both academic and engineering society.
+<br />
 <br /> If you are working with large datasets, using a binary format for storaging and reading of your data can hav significan impact on the performance of your import and consequence on the training time of your model.
 <br /> :+1: Binary format take up less space on your disk.
 <br /> :+1: Binary format take less time to copy and can be read much more efficiently from disk.
-<br /> :+1: However, pur performance isn't the only advantages of TFRecord file format. 
+<br /> :+1: It easy to combine multiple datasets and intergrates seamlessly with the data import and preprocessing functionality provided by library.
+<br /> :+1: For dataset that are too large to be stored fully in memory this is an advantage as only the data that is require at the time (eg. batch) is loaded form disk and then processed.
+<br /> :+1: It's possible to store sequence data []()
+
+<br /> <b> Disadvantages:
+<br /> :-1:
 
 
 
