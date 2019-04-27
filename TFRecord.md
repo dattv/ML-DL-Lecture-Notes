@@ -82,19 +82,26 @@ Write to disk by using
 |-------------------|---------------|-------------------|
 |                   |<b>Movie 1</b> |<b>Movie 2</b>     |
 |<b> Movie name </b>|The shawshank Redemption|Fight Club|
-|<b> Movie Rating   |4.5            |5                  |
-|<b> Actor          |Tim Robins     |Brad Pitt          |
+|<b> Movie Rating</b>|4.5            |5                  |
+|<b> Actor</b>      |Tim Robins     |Brad Pitt          |
 |                   |Morgan Freeman |Edward Norton      |
 |                   |               |Helena Bonham Carter|
 
 
 |               |_Context_  |               | 
 |---------------|-----------|---------------|
-|<b> Locale </b>|Age        |Favorites      |
+|<b> Locale </b>|<b>Age</b> |<b>Favorites</b>|
 |"pt_BR"        |19.0       |Majesty Rose   |
 |               |           |Savannah Outen |
 |               |           |One Direction  |  
 
+
+In this example we have a number of context features such as <b> Locale, Age, Favorites</b> and a list of movies recomendation which consist of <b> Movie name, Movie Rating, Actor </b>.
+
+The data look very similar to the previous example, where each feature consisted of a single list. Each entry in the list represented the same information in different movie, for example:
+- <b> Movie Raing</b>
+
+But now we also have <b> Actor</b>, this type cannot be stored in a `tf.train.Example`
 
 
 
