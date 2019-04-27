@@ -1,4 +1,5 @@
 The TFRecord.md is for learning Tensorflow Records. What they are? and how they can be used?
+<br /> This document highly the most important information which is descripting in the references, so I strongly recomment reader to get more details, please read the references. 
 
 # Overview
 Tensorflow is a second machine learning framwork that Google created for researching and developing AI/ML or DNN application, it is widely used in both academic and engineering society. <b>TFRecord</b> is a kind of Tensorflow's own binary format.
@@ -36,8 +37,10 @@ A TFRecord file store your data as a sequence of binary strings. This mean that 
 
 
 It's clearly seen that we now have list of features, each of them have same type, like for example:
-<br /> feature <b> Movie </b> is string.
-<br /> feature <b> Movie Ratings </b> is real number
+- feature <b> Movie </b> is string.
+- feature <b> Movie Ratings </b> is real number
+
+We need to create the list that consitute the features
 
      
 
