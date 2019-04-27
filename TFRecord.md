@@ -5,7 +5,7 @@ Tensorflow is a second machine learning framwork that Google created for researc
 <br /> If you are working with large datasets, using a binary format for storaging and reading of your data can hav significan impact on the performance of your import and consequence on the training time of your model.
 <br /> <b>Binary format take up less space on your disk.</b>
 <br /> <b>Binary format take less time to copy and can be read much more efficiently from disk.</b>
-<br /> @octocat :+1: 
+<br /> :+1: However, pur performance isn't the only advantages of TFRecord file format. 
 
 
 
