@@ -101,7 +101,13 @@ In this example we have a number of context features such as <b> Locale, Age, Fa
 The data look very similar to the previous example, where each feature consisted of a single list. Each entry in the list represented the same information in different movie, for example:
 - <b> Movie Raing</b>
 
-But now we also have <b> Actor</b>, this type cannot be stored in a `tf.train.Example`
+But now we also have <b> Actor</b>, this type cannot be stored in a `tf.train.Example`. We need different type of structure for this kind of data, that is `tf.train.SequenceExample`
+it have two attributes:
+- ![](https://placehold.it/15/f03c15/000000?text=+) context of type `tf.train.Features`
+- ![](https://placehold.it/15/f03c15/000000?text=+) features_list of type `tf.train.FeatureLists`
+
+Data from <b> Context </b> table we stores in `tf.train.Features`, data from <b> Movie name, Movie Rating, Actor</b> we stores in `tf.train.FeatureLists`
+
 
 
 ## Practicles
