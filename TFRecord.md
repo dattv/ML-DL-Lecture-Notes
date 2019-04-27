@@ -75,7 +75,28 @@ Write to disk by using
   
 ### `tf.train.SequenceExample`
 
-  
+*If you have features that consist of list of identically typed data and maybe some contextual data*
+
+
+|                   |_Data_         |                   |
+|-------------------|---------------|-------------------|
+|                   |<b>Movie 1</b> |<b>Movie 2</b>     |
+|<b> Movie name </b>|The shawshank Redemption|Fight Club|
+|<b> Movie Rating   |4.5            |5                  |
+|<b> Actor          |Tim Robins     |Brad Pitt          |
+|                   |Morgan Freeman |Edward Norton      |
+|                   |               |Helena Bonham Carter|
+
+
+|               |_Context_  |               | 
+|---------------|-----------|---------------|
+|<b> Locale </b>|Age        |Favorites      |
+|"pt_BR"        |19.0       |Majesty Rose   |
+|               |           |Savannah Outen |
+|               |           |One Direction  |  
+
+
+
 
 
 # Reference
