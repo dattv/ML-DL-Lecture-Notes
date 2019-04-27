@@ -109,7 +109,6 @@ it have two attributes:
 Data from <b> Context </b> table we stores in `tf.train.Features`, data from <b> Movie name, Movie Rating, Actor</b> we stores in `tf.train.FeatureLists`
 
 
-
 ## Practicles
 
 # Reference
