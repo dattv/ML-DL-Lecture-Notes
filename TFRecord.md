@@ -14,7 +14,7 @@ Tensorflow is a second machine learning framwork that Google created for researc
 <br /> <b> Disadvantages:</b>
 <br /> :-1: You have to convert your data to this format and there are quite little documents for descripting fully how to do that task.
 
-## How to used TFRecord
+## Methodology
 A TFRecord file store your data as a sequence of binary strings. This mean that you need to desclare theis format before you can write it in to files.
 <br /> Tensorflow give us two APIs to do this purpose: 
 - ![tf.train.Example](https://placehold.it/15/f03c15/000000?text=+)`tf.train.Example`
@@ -23,6 +23,9 @@ A TFRecord file store your data as a sequence of binary strings. This mean that 
 - ![tf.train.Example](https://placehold.it/15/f03c15/000000?text=+)`tf.python_io.TFRecordWriter`
 <br /> to write them to your disk.
 
+## How to use
+### `tf.train.Example`
+*If you have dataset consist of feature, where each feature is a list of value of the same type, `tf.train.Example` is a right way to use*
 
 # Reference
 [1] [Tensorflow Records? What they are and how to use them](https://medium.com/mostly-ai/tensorflow-records-what-they-are-and-how-to-use-them-c46bc4bbb564)
