@@ -67,6 +67,16 @@ collect all named features by using
 
 `movies = tf.train.Features(feature=movie_dict)`
 
+Write to disk by using 
+- ![](https://placehold.it/15/f03c15/000000?text=+)`tf.python_io.TFRecordWrite`
+
+`with tf.python_io.TFRecordWriter('movie_ratings.tfrecord) as writer:
+  writer.write(example.SerializeToString())`
+  
+### `tf.train.SequenceExample`
+
+  
+
 
 # Reference
 [1] [Tensorflow Records? What they are and how to use them](https://medium.com/mostly-ai/tensorflow-records-what-they-are-and-how-to-use-them-c46bc4bbb564)
