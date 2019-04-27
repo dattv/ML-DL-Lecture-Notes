@@ -28,13 +28,15 @@ A TFRecord file store your data as a sequence of binary strings. This mean that 
 *If you have dataset consist of feature, where each feature is a list of value of the same type, `tf.train.Example` is a right way to use*
 <br /> the movie recomendation  application:
 
+|_Age_|_Movie_|_Movie Ratings_|_Surggestion_|_Surggestion Purchased_|_Purchase Price_|
+|-----|-----|-------------|-----------|---------------------|--------------|
+|29  |The Shawshank Redemption|9.0|inception|1.0 |9.99|
+|    |Fight Club              |9.7|         |    |    |
 
-/***
-| __Animals__ | __Sports__ | __Fruits__ |
-|-------------|------------|------------|
-| Cat         | Soccer     | Apple      |
-| Dog         | Basketball | Orange     |
-***/       
+
+
+
+     
 
 
 # Reference
