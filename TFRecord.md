@@ -24,8 +24,8 @@ A TFRecord file store your data as a sequence of binary strings. This mean that 
 - ![tf.train.Example](https://placehold.it/15/f03c15/000000?text=+)`tf.python_io.TFRecordWriter`
 <br /> to write them to your disk.
 
-## How to use
-### `tf.train.Example`
+### How to use
+#### `tf.train.Example`
 *If you have dataset consist of feature, where each feature is a list of value of the same type, `tf.train.Example` is a right way to use*
 <br /> the movie recomendation  application:
 
@@ -73,7 +73,7 @@ Write to disk by using
 `with tf.python_io.TFRecordWriter('movie_ratings.tfrecord) as writer:
   writer.write(example.SerializeToString())`
   
-### `tf.train.SequenceExample`
+#### `tf.train.SequenceExample`
 
 *If you have features that consist of list of identically typed data and maybe some contextual data*
 
