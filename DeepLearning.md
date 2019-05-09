@@ -140,7 +140,7 @@ Modified National Institute of Standards and Technology (MNIST) database data
 
 <b> MNIST </b> dataset: data has handwritten digits from 0–9 with 60,000 images for training and 10,000 images for testing. This database is widely used to try algorithms with minimum preprocessing. It's a good and compact database to learn machine learning algorithms. This is the most famous database for image classification problems. there are 10 labels for these handwritten characters. The images are normalized to the size of 28 image pixels by 28 image pixels, converted to grey size, and centered to a fixed size. This is a small dataset on which an algorithm can be quickly tested.
 
-* [example03]() 
+* [example03](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example03.py) fully connected layers for classification MNIST dataset  
 
     
 
