@@ -75,9 +75,37 @@ Pooling layers are placed between convolution layers. Pooling layers reduce the 
 [CNN](https://www.youtube.com/watch?v=jajksuQW4mc) is the single most important component of any deep learning model for computer vision. It won't be an exaggeration to state that it will be impossible for any computer to have vision without a CNN.
 
 ## Recurrent neural networks (RNN)
-Recurrent neural networks (RNN) can model sequential information. They do not assume that the data points are intensive. They perform the same task from the output of the previous data of a series of sequence data. This can also be thought of as memory. RNN cannot remember from longer sequences or time. It is unfolded during the training process.
+Recurrent neural networks (RNN) can model sequential information. They do not assume that the data points are intensive. They perform the same task from the output of the previous data of a series of sequence data. This can also be thought of as memory. RNN cannot remember from longer sequences or time. It is unfolded during the training process, the step is unfolded and trained each time. During backpropagation, the gradients can vanish over time. To overcome this problem, Long short-term memory can be used to remember over a longer time period.
+
+## Long short-term memory (LSTM)
+Long short-term memory (LSTM) can store information for longer periods of time, and hence, it is efficient in capturing long-term efficiencies. The following figure illustrates how an LSTM cell is designed:
+
+LSTM has several gates: forget, input, and output. Forget gate maintains the information previous state. The input gate updates the current state using the input. The output gate decides the information be passed to the next state. The ability to forget and retain only the important things enables LSTM to remember over a longer time period.
+
+# Deep learning for computer vision
+Computer vision enables the properties of human vision on a computer. A computer could be in the form of a smartphone, drones, CCTV, MRI scanner, and so on, with various sensors for perception. The sensor produces images in a digital form that has to be interpreted by the computer.
 
 
+## Classification
+Image classification is the task of labelling the whole image with an object or concept with confidence. The applications include gender classification given an image of a person's face, identifying the type of pet, tagging photos, and so on.
+
+## Detection or localization and segmentation
+Detection or localization is a task that finds an object in an image and localizes the object with a bounding box. This task has many applications, such as finding pedestrians and signboards for self-driving vehicles. Segmentation is the task of doing pixel-wise classification. This gives a fine separation of objects. It is useful for processing medical images and satellite imagery.
+ 
+## Similarity learning
+ Similarity learning is the process of learning how two images are similar. A score can be computed between two images based on the semantic meaning. There are several applications of this, from finding similar products to performing the facial identification.
+ 
+## Image captioning
+Image captioning is the task of describing the image with text. This is a unique case where techniques of natural language processing (NLP) and computer vision have to be combined.
+
+## Generative models
+Generative models are very interesting as they generate images. Images can be generated for other purposes such as new training examples, super-resolution images, and so on.
+
+## Video analysis
+Video analysis processes a video as a whole, as opposed to images as in previous cases. It has several applications, such as sports tracking, intrusion detection, and surveillance cameras.
+
+
+# Installing software packages
 
 
 
