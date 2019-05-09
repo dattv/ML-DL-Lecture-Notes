@@ -117,7 +117,19 @@ Video analysis processes a video as a whole, as opposed to images as in previous
     * ``sudo pip3 install tensorflow-gpu``
     
 # Example
-* [example01](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example01.py)
+* [example01](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example01.py) simple example of how TensorFlow is used to add two numbers.
+* [example02]() How to use TensorBoard to visualized
+    * Graphs:  Computation graphs, device placements, and tensor details
+    * Scalars: Metrics such as loss, accuracy over iterations
+    * Images: Used to see the images with corresponding labels
+    * Audio: Used to listen to audio from training or a generated one
+    * Distribution: Used to see the distribution of some scalar
+    * Histograms: Includes histogram of weights and biases
+    * Projector: Helps visualize the data in 3-dimensional space
+    * Text: Prints the training text data
+    * Profile: Sees the hardware resources utilized for training
+    
+    
     
 
 
