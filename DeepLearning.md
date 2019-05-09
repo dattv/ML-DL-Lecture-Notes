@@ -1,4 +1,6 @@
 # Understanding Deep Learning for Computer Vision
+<b>This file covers some terminology of DL for CV which is declare in [1].</b>
+
 
 Computer vision as a field has a long history. With the emergence of deep learning, computer vision has proven to be useful for various applications. Deep learning is a collection of techniques from <b>artificial neural network (ANN)</b>, which is a branch of machine learning. ANNs are modelled on the human brain; there are nodes linked to each other that pass information to each other.
 
