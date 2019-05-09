@@ -115,10 +115,12 @@ Video analysis processes a video as a whole, as opposed to images as in previous
     * ``sudo apt-get install python-opencv``
 * [TensorFlow]()
     * ``sudo pip3 install tensorflow-gpu``
+* [TEnsorflow Serving tool]()
+    * ``sudo apt-get install tensorflow-model-server``    
     
 # Example
 * [example01](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example01.py) simple example of how TensorFlow is used to add two numbers.
-* [example02]() How to use TensorBoard to visualized
+* [example02](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example02.py) How to use TensorBoard to visualized
     * Graphs:  Computation graphs, device placements, and tensor details
     * Scalars: Metrics such as loss, accuracy over iterations
     * Images: Used to see the images with corresponding labels
