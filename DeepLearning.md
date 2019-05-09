@@ -46,6 +46,9 @@ Note how the neurons are randomly trained. Dropout is also an efficient way of c
 Batch normalization, or batch-norm, increase the stability and performance of neural network training. It normalizes the output from a layer with zero mean and a standard deviation of 1. This reduces overfitting and makes the network train faster. It is very useful in training complex neural networks.
 
 ### L1 and L2 regularization
+L1 penalizes the absolute value of the weight and tends to make the weights zero. L2 penalizes the squared value of the weight and tends to make the weight smaller during the training. Both the regularizes assume that models with smaller weights are better.
+
+## Training neural networks
 
 
 
