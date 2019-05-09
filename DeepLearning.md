@@ -115,10 +115,12 @@ Video analysis processes a video as a whole, as opposed to images as in previous
     * ``sudo apt-get install python-opencv``
 * [TensorFlow]()
     * ``sudo pip3 install tensorflow-gpu``
-* [TEnsorflow Serving tool]()
+* [Tensorflow Serving tool]()
     * ``sudo apt-get install tensorflow-model-server``    
     
 # Example
+
+## Tensorflow Introduction
 * [example01](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example01.py) simple example of how TensorFlow is used to add two numbers.
 * [example02](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example02.py) How to use TensorBoard to visualized
     * Graphs:  Computation graphs, device placements, and tensor details
@@ -131,7 +133,15 @@ Video analysis processes a video as a whole, as opposed to images as in previous
     * Text: Prints the training text data
     * Profile: Sees the hardware resources utilized for training
     
+## Image Classification
+Image classification is the task of classifying a whole image as a single label. For example, an image classification task could label an image as a dog or a cat, given an image is either a dog or a cat. In this chapter.
     
+Modified National Institute of Standards and Technology (MNIST) database data and build a simple classification model. The objective of this section is to learn the general framework for deep learning and use TensorFlow for the same. First, we will build a perceptron or logistic regression model. Then, we will train a CNN to achieve better accuracy.
+
+<b> MNIST </b> dataset: data has handwritten digits from 0–9 with 60,000 images for training and 10,000 images for testing. This database is widely used to try algorithms with minimum preprocessing. It's a good and compact database to learn machine learning algorithms. This is the most famous database for image classification problems. there are 10 labels for these handwritten characters. The images are normalized to the size of 28 image pixels by 28 image pixels, converted to grey size, and centered to a fixed size. This is a small dataset on which an algorithm can be quickly tested.
+
+* [example03]() 
+
     
 
 
