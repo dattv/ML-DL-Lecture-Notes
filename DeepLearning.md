@@ -74,6 +74,8 @@ Pooling layers are placed between convolution layers. Pooling layers reduce the 
 
 [CNN](https://www.youtube.com/watch?v=jajksuQW4mc) is the single most important component of any deep learning model for computer vision. It won't be an exaggeration to state that it will be impossible for any computer to have vision without a CNN.
 
+## Recurrent neural networks (RNN)
+Recurrent neural networks (RNN) can model sequential information. They do not assume that the data points are intensive. They perform the same task from the output of the previous data of a series of sequence data. This can also be thought of as memory. RNN cannot remember from longer sequences or time. It is unfolded during the training process.
 
 
 
