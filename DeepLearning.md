@@ -108,6 +108,7 @@ Video analysis processes a video as a whole, as opposed to images as in previous
 # Installing software packages
 * [Cuda driver]()
 * [Cudnn]()
+* [Anaconda]()
 * [Python]()
     * ``sudo pip3 install numpy scipy scikit-learn pillow h5py``
 * [OpenCV]()
