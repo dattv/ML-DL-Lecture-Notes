@@ -11,6 +11,8 @@ In order to train a neural network, the function has to be differentiable. Follo
 
 * [Sigmoid](https://en.wikipedia.org/wiki/Sigmoid_function) can be considered a smoothened step function and hence differentiable. Sigmoid is useful for converting any value to probabilities and can be used for binary classification. The sigmoid maps input to a value in the range of 0 to 1
 
+![picture alt](https://en.wikipedia.org/wiki/Sigmoid_function#/media/File:Logistic-curve.svg "sigmoid: wikipedia")
+
 
 
 
