@@ -15,7 +15,7 @@ In order to train a neural network, the function has to be differentiable. Follo
 
 * [ReLu]() ReLu can let big numbers pass through. This makes a few neurons stale and they don't fire. This increases the sparsity, and hence, it is good. The ReLU maps input x to max (0, x), that is, they map negative inputs to 0, and positive inputs are output without any change. Because ReLU doesn't fire all the time, it can be trained faster. Since the function is simple, it is computationally the least expensive. Choosing the activation function is very dependent on the application. Nevertheless, ReLU works well for a large range of problems.
 
-# Artificial nerual network (ANN)
+## Artificial nerual network (ANN)
 
 
 # Reference 
