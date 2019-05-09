@@ -27,3 +27,20 @@ def add_variables_summary(tf_variable, summary_name):
     tf.summary.scalar("Minimum", tf.reduce_min(tf_variable))
     tf.summary.histogram("Histogram", tf_variable)
 
+height = 28
+width = 28
+input_size = height * width
+no_classes = train_mnist_data.labels.shape[1]
+
+x_input = tf.placeholder(tf.float32, shape=[None, input_size], name='x_input')
+y_input = tf.placeholder(tf.float32, shape=[None, no_classes], name='y_input')
+
+x_input_reshape = tf.reshape(x_input, shape=[-1, height, width, 1], name='x_input_reshape')
+
+convolution_layer_1 = tf.layers.conv2d(inputs=x_input_reshape,
+                                       filters=64,
+                                       kernel_size=[3, 3],
+                                       activation=tf.nn.relu, name='convolution_layer_1')
+add_variables_summary(convolution_layer_1, 'convolution')
+
+pooling_layer_1 = tf.layers.max_pooling2d()
