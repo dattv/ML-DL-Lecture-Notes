@@ -19,8 +19,8 @@ def add_variable_summary(tf_variable, summary_name):
     mean = tf.reduce_mean(tf_variable)
     tf.summary.scalar('Mean', mean)
     with tf.name_scope('standard_deviation'):
-        standard_deviation = tf.sqrt(tf.reduce_mean(
-            tf.square(tf_variable - mean)))
+        standard_deviation = tf.sqrt(tf.reduce_mean(tf.square(tf_variable - mean)))
+
     tf.summary.scalar('StandardDeviation', standard_deviation)
     tf.summary.scalar('Maximum', tf.reduce_max(tf_variable))
     tf.summary.scalar('Minimum', tf.reduce_min(tf_variable))
@@ -69,9 +69,13 @@ y_input = tf.placeholder(tf.float32, shape=[None, no_classes], name='y_input')
 
 x_input_reshape = tf.reshape(x_input, [-1, 28, 28, 1], name='input_reshape')
 convolution_layer_1 = convolution_layer(x_input_reshape, 64)
+
 pooling_layer_1 = pooling_layer(convolution_layer_1)
+
 convolution_layer_2 = convolution_layer(pooling_layer_1, 128)
+
 pooling_layer_2 = pooling_layer(convolution_layer_2)
+
 flattened_pool = tf.reshape(pooling_layer_2, [-1, 5 * 5 * 128],
                             name='flattened_pool')
 dense_layer_bottleneck = dense_layer(flattened_pool, 1024)
