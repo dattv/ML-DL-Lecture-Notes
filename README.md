@@ -178,6 +178,8 @@ This repository for noting some resources that may help me in studying ML/DL and
 
 # ML/DL- Code References
 <b>[1]</b> [Browse state-of-the-art](https://paperswithcode.com/state-of-the-art?fbclid=IwAR2nV-pskhOH5WCY2ldvAWQwvUQ3Tt-OSd3bUS9jMYGY4xcC5_pZY94aNio)
+
+<b> [2] </b> [semantic-Segmentation](https://zhangbin0917.github.io/2018/09/18/Semantic-Segmentation/)
   
 
 # ML/DL- Book References
