@@ -12,5 +12,6 @@ if os.path.isdir(CIFAR_DIR):
 cifar_usr = "https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz"
 name = cifar_usr.split("/")
 name = name[len(name)-1]
-
-urllib.request.urlretrieve(cifar_usr, name)
+print("downloading from: {}".format(cifar_usr))
+urllib.request.urlretrieve(cifar_usr, "."+CIFAR_DIR+"/"+name)
+print("finish download")
