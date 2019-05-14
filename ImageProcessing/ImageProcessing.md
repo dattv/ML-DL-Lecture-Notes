@@ -15,3 +15,11 @@ Some authors claim that simple cells in the visual cortex of mammalian brains ca
 
 ## Gradient 
 ```$\nabla_{\mathbf{v}}f\left(x\right) = \mathbf{x}\cdot\nabla f\left(\mathbf{x}\right) = v_x\frac{\partial f}{\partial x}\left(\mathbf{x}\right) + v_y\frac{\partial f}{\partial y}\left(\mathbf{x}\right)$```
+
+``$f_x = h_x*f$``
+``$f_y = h_y*f$``
+
+``$h_x = \frac{1}{2}[1 0 -1]$``
+``$h_y = \frac{1}{2}[1 0 -1]^T$``
+
+
