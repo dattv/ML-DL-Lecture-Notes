@@ -22,4 +22,8 @@ Some authors claim that simple cells in the visual cortex of mammalian brains ca
 ``$h_x = \frac{1}{2}[1 0 -1]$``
 ``$h_y = \frac{1}{2}[1 0 -1]^T$``
 
+## point set registration
+
+
+
 
