@@ -23,6 +23,11 @@ Some authors claim that simple cells in the visual cortex of mammalian brains ca
 ``$h_y = \frac{1}{2}[1 0 -1]^T$``
 
 ## point set registration
+[point set registration](https://en.wikipedia.org/wiki/Point_set_registration) In computer vision, point set registration also known as point matching, is the process of finding a spatial transformation that aligns two point set. The purpose of finding such a transformation includes mergin multiple datasets into a globally consistent model. and mapping a new measurement to a known dataset to idientify features or to estimate tis pose. A oint set may be raw data from 3D scanning or an array of rangefinders. For use in image processing an feature-based image resgistration, a point set may be a set of features obtained by feature extraction from an image, for eample corner detection. Point set registration is used in optical character recognition. augmented reality and aligning data from magnetic resonance imagegin with computer aided tomography scans.
+
+1. Rigid Registration
+
+2. Non-Rigid Registration
 
 
 
