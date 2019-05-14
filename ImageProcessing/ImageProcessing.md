@@ -13,3 +13,5 @@ Some authors claim that simple cells in the visual cortex of mammalian brains ca
 
 4. Gabor filters have also been widely used in pattern analysis application. For example, it has bene used to sutdy the directionslity distribution inside the posous spongy trabecular bon in the spine.
 
+## Gradient 
+```$\nabla_{\mathbf{v}}f\left(x\right) = \mathbf{x}\cdot\nabla f\left(\mathbf{}\right) = v_x\frac{\partial f}{\partial x}\left(\mathbf{x}\right) + v_y\frac{\partial f}{\partial y}\left(\mathbf{x}\right)$```
