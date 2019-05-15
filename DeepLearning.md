@@ -148,8 +148,6 @@ Modified National Institute of Standards and Technology (MNIST) database data
 
 <b> MNIST </b> dataset: data has handwritten digits from 0–9 with 60,000 images for training and 10,000 images for testing. This database is widely used to try algorithms with minimum preprocessing. It's a good and compact database to learn machine learning algorithms. This is the most famous database for image classification problems. there are 10 labels for these handwritten characters. The images are normalized to the size of 28 image pixels by 28 image pixels, converted to grey size, and centered to a fixed size. This is a small dataset on which an algorithm can be quickly tested.
 
-![cifar-10-50000](https://user-images.githubusercontent.com/29138292/57755778-eb7a6480-771b-11e9-8f27-0a9a8463a97c.png)
-
 * [example03](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example03.py) fully connected layers for classification MNIST dataset  
 
 * [example04](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example04.py) Building a multilayer convolutional network for clasification MNIST datset (using `tensorflow.layers`)
@@ -159,6 +157,7 @@ Modified National Institute of Standards and Technology (MNIST) database data
 <b>CIFAR-10</b> dataset: he CIFAR-10 dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images.
 The dataset is divided into five training batches and one test batch, each with 10000 images. The test batch contains exactly 1000 randomly-selected images from each class. The training batches contain the remaining images in random order, but some training batches may contain more images from one class than another. Between them, the training batches contain exactly 5000 images from each class.
  
+  ![cifar-10-50000](https://user-images.githubusercontent.com/29138292/57755778-eb7a6480-771b-11e9-8f27-0a9a8463a97c.png) 
 
 * [example06](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example06.py) Building a multilayer convolution network for classification Cifar10 dataset (using ``tensorflow.nn``)
 
