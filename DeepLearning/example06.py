@@ -135,7 +135,7 @@ test_labels = d.test.labels
 WIDTH, HEIGHT, CHANEL = train_images[0].shape
 NUM_CLASSES = train_labels.shape[1]
 
-BATCH_SIZE = 100
+BATCH_SIZE = 500
 TOTAL_BATCH = train_labels.shape[0] // BATCH_SIZE
 
 STDDEV_ = 0.1
@@ -143,13 +143,13 @@ STDDEV_ = 0.1
 x_input = tf.placeholder(tf.float32, shape=[None, WIDTH, HEIGHT, CHANEL], name='x_input')
 y_input = tf.placeholder(tf.float32, shape=[None, NUM_CLASSES], name='y_input')
 
-w1 = tf.Variable(tf.truncated_normal([3, 3, CHANEL, 64], stddev=STDDEV_), name='w1')
-b1 = tf.Variable(tf.constant(0., shape=[64]), name='b1')
+w1 = tf.Variable(tf.truncated_normal([5, 5, CHANEL, 32], stddev=STDDEV_), name='w1')
+b1 = tf.Variable(tf.constant(0., shape=[32]), name='b1')
 
 conv1 = tf.nn.conv2d(input=x_input,
                      filter=w1,
                      strides=[1, 1, 1, 1],
-                     padding='VALID',
+                     padding='SAME',
                      name='conv_1')
 
 conv1 = conv1 + b1
@@ -161,13 +161,13 @@ pooling_layer_1 = tf.nn.max_pool(convolution_layer_1,
                                  padding='VALID',
                                  name='pooling_layer_1')
 
-w2 = tf.Variable(tf.truncated_normal([3, 3, 64, 128], stddev=STDDEV_), name='w2')
-b2 = tf.Variable(tf.constant(0., shape=[128]), name='b3')
+w2 = tf.Variable(tf.truncated_normal([5, 5, 32, 64], stddev=STDDEV_), name='w2')
+b2 = tf.Variable(tf.constant(0., shape=[64]), name='b3')
 
 conv2 = tf.nn.conv2d(input=pooling_layer_1,
                      filter=w2,
                      strides=[1, 1, 1, 1],
-                     padding='VALID',
+                     padding='SAME',
                      name='conv_2')
 
 conv2 = conv2 + b2
@@ -178,6 +178,7 @@ pooling_layer_2 = tf.nn.max_pool(convolution_layer_2,
                                  strides=[1, 2, 2, 1],
                                  padding='VALID',
                                  name='pooling_layer_2')
+
 new_shape = pooling_layer_2.shape[1] * pooling_layer_2.shape[2] * pooling_layer_2.shape[3]
 flatten = tf.reshape(pooling_layer_2, shape=[-1, int(new_shape)], name='flatten')
 
@@ -208,7 +209,7 @@ with tf.name_scope("loss") as scope:
     tf.summary.scalar("loss", loss_operation)
 
 with tf.name_scope("optimization") as scope:
-    optimiser = tf.train.AdamOptimizer().minimize(loss_operation)
+    optimiser = tf.train.AdamOptimizer(1.e-3).minimize(loss_operation)
 
 with tf.name_scope("accuracy") as scope:
     with tf.name_scope("correct_preduction") as scope:
@@ -233,26 +234,28 @@ with tf.Session() as session:
     train_summary_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, name) + "/train", session.graph)
     test_summary_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, name) + "/test")
 
-    for epoch in range(100):
+    test_images = d.test.images
+    test_labels = d.test.labels
+
+    for epoch in range(1000):
         id = np.random.randint(1, TOTAL_BATCH)
         train_img = d.train.nex_batch(BATCH_SIZE)[0]
         # train_img = train_images[(id - 1)*BATCH_SIZE: id*BATCH_SIZE]
         # train_lab = train_labels[(id - 1)*BATCH_SIZE: id*BATCH_SIZE]
         train_lab = d.train.nex_batch(BATCH_SIZE)[1]
-        print(train_img.shape)
-        print(train_lab.shape)
 
-        _, merged_sum = session.run([optimiser, merged_summary_operation], feed_dict={x_input: train_images,
-                                                                                      y_input: train_lab,
-                                                                                      dropout_bool: True})
+        _, merged_sum = session.run([optimiser, merged_summary_operation],
+                                    feed_dict={x_input: train_images[0:BATCH_SIZE],
+                                               y_input: train_lab[0:BATCH_SIZE],
+                                               dropout_bool: True})
         train_summary_writer.add_summary(merged_sum, epoch)
 
-        # if epoch % 10 == 0:
-        #     acc, loss, merged_sum = session.run([accuracy_operation, loss_operation, merged_summary_operation],
-        #                                         feed_dict={x_input: test_images,
-        #                                                    y_input: test_labels,
-        #                                                    dropout_bool: False})
-        #
-        #     test_summary_writer.add_summary(merged_sum, epoch)
-        #
-        #     print("EPOCH: {}, ACC: {}, LOSS: {}". format(epoch, acc, loss))
+        if epoch % 100 == 0:
+            acc, loss, merged_sum = session.run([accuracy_operation, loss_operation, merged_summary_operation],
+                                                feed_dict={x_input: test_images,
+                                                           y_input: test_labels,
+                                                           dropout_bool: False})
+
+            test_summary_writer.add_summary(merged_sum, epoch)
+
+            print("EPOCH: {}, ACC: {}, LOSS: {}".format(epoch, acc, loss))
