@@ -145,3 +145,36 @@ y_input = tf.placeholder(tf.float32, shape=[None, NUM_CLASSES], name='y_input')
 
 w1 = tf.Variable(tf.truncated_normal([3, 3, CHANEL, 64], stddev=STDDEV_), name='w1')
 b1 = tf.Variable(tf.constant(0., shape=[64]), name='b1')
+
+conv1 = tf.nn.conv2d(input=x_input,
+                     filter=w1,
+                     strides=[1, 1, 1, 1],
+                     padding='VALID',
+                     name='conv_1')
+
+conv1 = conv1 + b1
+convolution_layer_1 = tf.nn.relu(conv1)
+
+pooling_layer_1 = tf.nn.max_pool(convolution_layer_1,
+                                 ksize=[1, 2, 2, 1],
+                                 strides=[1, 2, 2, 1],
+                                 padding='VALID',
+                                 name='pooling_layer_1')
+
+w2 = tf.Variable(tf.truncated_normal([3, 3, 64, 128], stddev=STDDEV_), name='w1')
+b2 = tf.Variable(tf.constant(0., shape=[128]), name='b1')
+
+conv2 = tf.nn.conv2d(input=pooling_layer_1,
+                     filter=w2,
+                     strides=[1, 1, 1, 1],
+                     padding='VALID',
+                     name='conv_2')
+
+conv2 = conv2 + b2
+convolution_layer_2 = tf.nn.relu(conv2)
+
+pooling_layer_2 = tf.nn.max_pool(convolution_layer_2,
+                                 ksize=[1, 2, 2, 1],
+                                 strides=[1, 2, 2, 1],
+                                 padding='VALID',
+                                 name='pooling_layer_2')
