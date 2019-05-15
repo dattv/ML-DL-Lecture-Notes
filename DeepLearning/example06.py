@@ -135,7 +135,7 @@ test_labels = d.test.labels
 WIDTH, HEIGHT, CHANEL = train_images[0].shape
 NUM_CLASSES = train_labels.shape[1]
 
-BATCH_SIZE = 200
+BATCH_SIZE = 100
 TOTAL_BATCH = train_labels.shape[0] // BATCH_SIZE
 
 STDDEV_ = 0.1
@@ -199,4 +199,60 @@ b4 = tf.Variable(tf.constant(0.1, shape=[NUM_CLASSES]), name='b4')
 logits = tf.add(tf.matmul(dropout_layer, w4), b4)
 logits = tf.nn.relu(logits, name='logits')
 
-print(logits)
+with tf.name_scope("loss") as scope:
+    softmax_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits,
+                                                                    labels=y_input)
+
+    loss_operation = tf.reduce_mean(softmax_cross_entropy, name="loss")
+
+    tf.summary.scalar("loss", loss_operation)
+
+with tf.name_scope("optimization") as scope:
+    optimiser = tf.train.AdamOptimizer().minimize(loss_operation)
+
+with tf.name_scope("accuracy") as scope:
+    with tf.name_scope("correct_preduction") as scope:
+        predictions = tf.argmax(logits, 1)
+        correct_prediction = tf.equal(predictions, tf.argmax(y_input, 1))
+
+    with tf.name_scope("acc") as scope:
+        accuracy_operation = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+tf.summary.scalar("accuracy", accuracy_operation)
+
+file_name = os.path.basename(__file__)
+file_name = file_name.split(".")
+name = file_name[0]
+
+LOG_DIR = "./tmp"
+
+merged_summary_operation = tf.summary.merge_all()
+
+with tf.Session() as session:
+    session.run(tf.global_variables_initializer())
+
+    train_summary_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, name) + "/train", session.graph)
+    test_summary_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, name) + "/test")
+
+    for epoch in range(100):
+        id = np.random.randint(1, TOTAL_BATCH)
+        train_img = d.train.nex_batch(BATCH_SIZE)[0]
+        # train_img = train_images[(id - 1)*BATCH_SIZE: id*BATCH_SIZE]
+        # train_lab = train_labels[(id - 1)*BATCH_SIZE: id*BATCH_SIZE]
+        train_lab = d.train.nex_batch(BATCH_SIZE)[1]
+        print(train_img.shape)
+        print(train_lab.shape)
+
+        _, merged_sum = session.run([optimiser, merged_summary_operation], feed_dict={x_input: train_images,
+                                                                                      y_input: train_lab,
+                                                                                      dropout_bool: True})
+        train_summary_writer.add_summary(merged_sum, epoch)
+
+        # if epoch % 10 == 0:
+        #     acc, loss, merged_sum = session.run([accuracy_operation, loss_operation, merged_summary_operation],
+        #                                         feed_dict={x_input: test_images,
+        #                                                    y_input: test_labels,
+        #                                                    dropout_bool: False})
+        #
+        #     test_summary_writer.add_summary(merged_sum, epoch)
+        #
+        #     print("EPOCH: {}, ACC: {}, LOSS: {}". format(epoch, acc, loss))
