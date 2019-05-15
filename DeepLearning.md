@@ -158,6 +158,8 @@ Modified National Institute of Standards and Technology (MNIST) database data
 The dataset is divided into five training batches and one test batch, each with 10000 images. The test batch contains exactly 1000 randomly-selected images from each class. The training batches contain the remaining images in random order, but some training batches may contain more images from one class than another. Between them, the training batches contain exactly 5000 images from each class.
  
 
-* [example06]() Building a multilayer convolution network for classification Cifar10 dataset
+* [example06](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example06.py) Building a multilayer convolution network for classification Cifar10 dataset
+
+* [example07]() VGG16 transfer learning for CIFA-10 dataset
 
 ... Continue.
