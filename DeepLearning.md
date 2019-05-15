@@ -160,6 +160,6 @@ The dataset is divided into five training batches and one test batch, each with 
 
 * [example06](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example06.py) Building a multilayer convolution network for classification Cifar10 dataset
 
-* [example07]() VGG16 transfer learning for CIFA-10 dataset
+* [example07]() VGG16 [transfer learning]() for CIFA-10 dataset
 
 ... Continue.
