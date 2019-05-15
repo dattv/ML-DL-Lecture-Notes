@@ -124,5 +124,24 @@ def display_cifar(images, size):
 
 
 d = CifarDataManager()
-images = d.train.images
-display_cifar(images, 10)
+train_images = d.train.images
+train_labels = d.train.labels
+
+test_images = d.test.images
+test_labels = d.test.labels
+
+# display_cifar(images, 10)
+
+WIDTH, HEIGHT, CHANEL = train_images[0].shape
+NUM_CLASSES = train_labels.shape[1]
+
+BATCH_SIZE = 200
+TOTAL_BATCH = train_labels.shape[0] // BATCH_SIZE
+
+STDDEV_ = 0.1
+
+x_input = tf.placeholder(tf.float32, shape=[None, WIDTH, HEIGHT, CHANEL], name='x_input')
+y_input = tf.placeholder(tf.float32, shape=[None, NUM_CLASSES], name='y_input')
+
+w1 = tf.Variable(tf.truncated_normal([3, 3, CHANEL, 64], stddev=STDDEV_), name='w1')
+b1 = tf.Variable(tf.constant(0., shape=[64]), name='b1')
