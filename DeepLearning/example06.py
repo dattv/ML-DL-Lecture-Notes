@@ -161,8 +161,8 @@ pooling_layer_1 = tf.nn.max_pool(convolution_layer_1,
                                  padding='VALID',
                                  name='pooling_layer_1')
 
-w2 = tf.Variable(tf.truncated_normal([3, 3, 64, 128], stddev=STDDEV_), name='w1')
-b2 = tf.Variable(tf.constant(0., shape=[128]), name='b1')
+w2 = tf.Variable(tf.truncated_normal([3, 3, 64, 128], stddev=STDDEV_), name='w2')
+b2 = tf.Variable(tf.constant(0., shape=[128]), name='b3')
 
 conv2 = tf.nn.conv2d(input=pooling_layer_1,
                      filter=w2,
@@ -178,3 +178,21 @@ pooling_layer_2 = tf.nn.max_pool(convolution_layer_2,
                                  strides=[1, 2, 2, 1],
                                  padding='VALID',
                                  name='pooling_layer_2')
+new_shape = pooling_layer_2.shape[1] * pooling_layer_2.shape[2] * pooling_layer_2.shape[3]
+w3 = tf.Variable(tf.truncated_normal(shape=[int(new_shape), 1024], stddev=STDDEV_), name='w3')
+b3 = tf.Variable(tf.constant(0.1, shape=[1024]), name='b3')
+
+dense_layer_bottleneck = tf.add(tf.matmul(pooling_layer_2, w3), b3)
+dense_layer_bottleneck = tf.nn.relu(dense_layer_bottleneck, name='dense_layer_bottleneck')
+
+dropout_bool = tf.placeholder(tf.bool)
+dropout_layer = tf.layers.dropout(
+    inputs=dense_layer_bottleneck,
+    rate=0.4,
+    training=dropout_bool
+)
+
+w4 = tf.Variable(tf.truncated_normal(shape=[1024, NUM_CLASSES], stddev=STDDEV_), name='w4')
+b4 = tf.Variable(tf.constant(0.1, shape=[NUM_CLASSES]), name='b4')
+logits = tf.add(tf.matmul(dropout_layer, w4), name='logits')
+logits = tf.nn.relu(logits)
