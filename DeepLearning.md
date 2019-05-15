@@ -139,6 +139,7 @@ Video analysis processes a video as a whole, as opposed to images as in previous
     * Projector: Helps visualize the data in 3-dimensional space
     * Text: Prints the training text data
     * Profile: Sees the hardware resources utilized for training
+* [TensorflowRecord](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/TFRecord.md)    
     
 ## Image Classification
 Image classification is the task of classifying a whole image as a single label. For example, an image classification task could label an image as a dog or a cat, given an image is either a dog or a cat. In this chapter.
