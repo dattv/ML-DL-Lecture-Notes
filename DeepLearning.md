@@ -114,7 +114,16 @@ Video analysis processes a video as a whole, as opposed to images as in previous
 # The bigger deep learning models
 ## [The AlexNet model](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
 
-:+1: error rate was 15.4% 
+:+1: Classify 1000 classes
+
+:+1: Error rate was 15.4% 
+
+:+1: Use ReLU as activation function
+
+:+1: Had used dropout layer to prevents overfitting
+
+:+1: Had used SGD
+
 ## 
 # Installing software packages
 * [Cuda driver]()
