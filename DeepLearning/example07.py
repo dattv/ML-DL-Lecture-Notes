@@ -1,16 +1,12 @@
-import tarfile
-import zipfile
-import numpy as np
-
-import pickle as cPickle
 import os
+import pickle as cPickle
+import tarfile
 import urllib.request
 
-import time
-from tqdm import tqdm
 import matplotlib.pyplot as plt
+import numpy as np
 import tensorflow as tf
-
+from tqdm import tqdm
 
 CIFAR_DIR = "./CIFA"
 
@@ -150,9 +146,8 @@ tarfile.open(file_path, "r:gz").extractall(work_dir)
 # extract VGG16 model =============================================================================================
 
 # x = tf.get_variable("", shape=[224, 224, 3])
-if os.path.isfile(work_dir+"/vgg_16.ckpt") == True:
+if os.path.isfile(work_dir + "/vgg_16.ckpt") == True:
     vgg_16_dir = os.path.join(work_dir, "vgg_16.ckpt")
-
 
 from tensorflow.python import pywrap_tensorflow
 
@@ -181,12 +176,30 @@ with tf.name_scope("vgg_16") as scope:
             conv1_1 = tf.nn.relu(conv1_1, name='activation')
 
         with tf.name_scope("conv1_2") as scope:
+            weights_1_2 = reader.get_tensor("vgg_16/conv1/conv1_2/weights")
+            t_weights_1_2 = tf.Variable(initial_value=weights_1_2, name='weights')
+
+            bias_1_2 = reader.get_tensor("vgg_16/conv1/conv1_2/biases")
+            t_biases_1_2 = tf.Variable(initial_value=bias_1_2, name='biases')
+
+            conv1_2 = tf.nn.conv2d(input=conv1_1,
+                                   filter=t_weights_1_2,
+                                   strides=[1, 1, 1, 1],
+                                   padding='SAME')
+            conv1_2 = conv1_2 + t_biases_1_2
+            conv1_2 = tf.nn.relu(conv1_2, name='activation')
+
+    with tf.name_scope("pool1") as scope:
+        pooling1 = tf.nn.max_pool(conv1_2,
+                                  ksize=[1, 2, 2, 1],
+                                  strides=[1, 2, 2, 1],
+                                  padding='VALID',
+                                  name='pooling1')
+
+    with tf.name_scope("conv2") as scope:
+        with tf.name_scope("conv2_1") as scope:
 
 
 print(t_weights_1_1)
 print(t_bias_1_1)
 print("jkdflkdsjf")
-
-
-
-
