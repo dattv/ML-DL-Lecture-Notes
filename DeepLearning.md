@@ -141,7 +141,7 @@ Video analysis processes a video as a whole, as opposed to images as in previous
 |     |__VGG16__|__VGG19__|
 |-----|---------|---------|
 |parameters|138 M|144M|
-|Top-5 error|__8.8%__|__9.0%__|
+|Top-5 error|8.8%|9.0%|
 
 
 
