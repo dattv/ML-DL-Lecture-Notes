@@ -111,7 +111,11 @@ Generative models are very interesting as they generate images. Images can be ge
 ## Video analysis
 Video analysis processes a video as a whole, as opposed to images as in previous cases. It has several applications, such as sports tracking, intrusion detection, and surveillance cameras.
 
+# The bigger deep learning models
+## [The AlexNet model](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
 
+:+1: error rate was 15.4% 
+## 
 # Installing software packages
 * [Cuda driver]()
 * [Cudnn]()

@@ -303,7 +303,7 @@ with tf.Session() as session:
     test_images = d.test.images
     test_labels = d.test.labels
 
-    for epoch in range(10000):
+    for epoch in range(20000):
         # id = np.random.randint(1, TOTAL_BATCH)
         # train_img = d.train.nex_batch(BATCH_SIZE)[0]
         # train_lab = d.train.nex_batch(BATCH_SIZE)[1]
