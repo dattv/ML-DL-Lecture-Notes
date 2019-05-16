@@ -278,7 +278,44 @@ with tf.name_scope("vgg_16") as scope:
             conv3_3 = conv3_3 + t_biases_3_3
             conv3_3 = tf.nn.relu(conv3_3, name='conv3_3')
 
+    with tf.name_scope("pool3") as scope:
+        pooling3 = tf.nn.max_pool(conv3_3,
+                                  ksize=[1, 2, 2, 1],
+                                  strides=[1, 2, 2, 1],
+                                  padding='VALID',
+                                  name='pooling3')
 
-print(conv3_1)
+    with tf.name_scope("conv4") as scope:
+        with tf.name_scope("conv4_1") as scope:
+            weights_4_1 = reader.get_tensor("vgg_16/conv4/conv4_1/weights")
+            t_weights_4_1 = tf.Variable(initial_value=weights_4_1, name='weights', trainable=TRAINABLE)
+
+            biases_4_1 = reader.get_tensor("vgg_16/conv4/conv4_1/biases")
+            t_biases_4_1 = tf.Variable(initial_value=biases_4_1, name='biases', trainable=TRAINABLE)
+
+            conv4_1 = tf.nn.conv2d(input=pooling3,
+                                   filter=t_weights_4_1,
+                                   strides=[1, 1, 1, 1],
+                                   padding='SAME')
+            conv4_1 = conv4_1 + t_biases_4_1
+            conv4_1 = tf.nn.relu(conv4_1, name='conv4_1')
+
+        with tf.name_scope("conv4_2") as scope:
+            weights_4_2 = reader.get_tensor("vgg_16/conv4/conv4_2/weights")
+            t_weights_4_2 = tf.Variable(initial_value=weights_4_2, name='weights', trainable=TRAINABLE)
+
+            biases_4_2 = reader.get_tensor("vgg_16/conv4/conv4_2/biases")
+            t_biases_4_2 = tf.Variable(initial_value=biases_4_2, name='biases', trainable=TRAINABLE)
+
+            conv4_2 = tf.nn.conv2d(input=conv4_1,
+                                   filter=t_weights_4_2,
+                                   strides=[1, 1, 1, 1],
+                                   padding='SAME')
+            conv4_2 = conv4_2 + t_biases_4_2
+            conv4_2 = tf.nn.relu(conv4_2, name='conv4_2')
+
+
+
+print(conv4_2)
 
 print("jkdflkdsjf")
