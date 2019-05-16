@@ -129,7 +129,7 @@ test_labels = d.test.labels
 # display_cifar(images, 10)
 
 
-model_url = "http://download.tensorflow.org/models/image/imagenet/inception-2015-12-05.tgz"
+model_url = "http://download.tensorflow.org/models/vgg_16_2016_08_28.tar.gz"
 file_name = model_url.split("/")[-1]
 
 work_dir = os.getcwd()
