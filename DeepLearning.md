@@ -143,6 +143,16 @@ Video analysis processes a video as a whole, as opposed to images as in previous
 |parameters|138 M|144M|
 |Top-5 error|8.8%|9.0%|
 
+## [The Google inception-V3 model]()
+
+## [The Microsoft ResNet-50 model]()
+
+## [The SqueezeNet model]()
+
+## [Spatial transformer networks]()
+
+## [The DenseNet model]()
+
 
 
 # Installing software packages
@@ -201,5 +211,8 @@ The dataset is divided into five training batches and one test batch, each with 
     * Load pretrained model
     * Save TF model
     * Transfer learning
+
+<b>[cats versus dogs]()</b> The dataset from <b>kaggle</b> which is including ``train.zip``, ``test1.zip``. the ``train.zip`` file contains 25000 images of pet data.
+
 
 ... Continue.
