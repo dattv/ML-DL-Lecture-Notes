@@ -154,13 +154,13 @@ Modified National Institute of Standards and Technology (MNIST) database data
 
 * [example05](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example05.py) Building a multilayer convolution network for classification MNIST dataset (using `tensorflow.nn`)  
 
-<b>CIFAR-10</b> dataset: he CIFAR-10 dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images.
+<b>[CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html)</b> dataset: he [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html) dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images.
 The dataset is divided into five training batches and one test batch, each with 10000 images. The test batch contains exactly 1000 randomly-selected images from each class. The training batches contain the remaining images in random order, but some training batches may contain more images from one class than another. Between them, the training batches contain exactly 5000 images from each class.
  
   ![cifar-10-50000](https://user-images.githubusercontent.com/29138292/57755778-eb7a6480-771b-11e9-8f27-0a9a8463a97c.png) 
 
 * [example06](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example06.py) Building a multilayer convolution network for classification Cifar10 dataset (using ``tensorflow.nn``)
 
-* [example07]() VGG16 [transfer learning]() for CIFA-10 dataset
+* [example07]() [VGG16](https://github.com/dattv/VGG16-TF) [transfer learning]() for [CIFA-10 dataset](https://www.cs.toronto.edu/~kriz/cifar.html)
 
 ... Continue.
