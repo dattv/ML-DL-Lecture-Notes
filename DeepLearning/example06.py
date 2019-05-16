@@ -143,62 +143,128 @@ STDDEV_ = 0.1
 x_input = tf.placeholder(tf.float32, shape=[None, WIDTH, HEIGHT, CHANEL], name='x_input')
 y_input = tf.placeholder(tf.float32, shape=[None, NUM_CLASSES], name='y_input')
 
-w1 = tf.Variable(tf.truncated_normal([5, 5, CHANEL, 32], stddev=STDDEV_), name='w1')
-b1 = tf.Variable(tf.constant(0., shape=[32]), name='b1')
+C1, C2, C3 = 30, 50, 80
+F1 = 500
 
-conv1 = tf.nn.conv2d(input=x_input,
-                     filter=w1,
-                     strides=[1, 1, 1, 1],
-                     padding='SAME',
-                     name='conv_1')
+# layer 1 ===============================================================================
+w1_1 = tf.Variable(tf.truncated_normal([3, 3, CHANEL, C1], stddev=STDDEV_), name="w1_1")
+b1_1 = tf.Variable(tf.constant(0.1, shape=[C1]), name="b1_1")
+conv1_1 = tf.nn.conv2d(input=x_input,
+                       filter=w1_1,
+                       strides=[1, 1, 1, 1],
+                       padding='SAME')
+conv1_1 = conv1_1 + b1_1
+conv1_1 = tf.nn.relu(conv1_1, name='conv1_1')
 
-conv1 = conv1 + b1
-convolution_layer_1 = tf.nn.relu(conv1)
+w1_2 = tf.Variable(tf.truncated_normal([3, 3, C1, C1], stddev=STDDEV_), name='w1_2')
+b1_2 = tf.Variable(tf.constant(0.1, shape=[C1]), name='b1_2')
+conv1_2 = tf.nn.conv2d(input=conv1_1,
+                       filter=w1_2,
+                       strides=[1, 1, 1, 1],
+                       padding='SAME')
+conv1_2 = conv1_2 + b1_2
+conv1_2 = tf.nn.relu(conv1_2, name='conv1_2')
 
-pooling_layer_1 = tf.nn.max_pool(convolution_layer_1,
-                                 ksize=[1, 2, 2, 1],
-                                 strides=[1, 2, 2, 1],
-                                 padding='VALID',
-                                 name='pooling_layer_1')
+w1_3 = tf.Variable(tf.truncated_normal([3, 3, C1, C1], stddev=STDDEV_), name='w1_3')
+b1_3 = tf.Variable(tf.constant(0.1, shape=[C1]), name='b1_3')
+conv1_3 = tf.nn.conv2d(input=conv1_2,
+                       filter=w1_3,
+                       strides=[1, 1, 1, 1],
+                       padding='SAME')
+conv1_3 = conv1_3 + b1_3
+conv1_3 = tf.nn.relu(conv1_3, name='conv1_3')
 
-w2 = tf.Variable(tf.truncated_normal([5, 5, 32, 64], stddev=STDDEV_), name='w2')
-b2 = tf.Variable(tf.constant(0., shape=[64]), name='b3')
+conv1_pool = tf.nn.max_pool(conv1_3,
+                            ksize=[1, 2, 2, 1],
+                            strides=[1, 2, 2, 1],
+                            padding='SAME',
+                            name="conv1_pool")
 
-conv2 = tf.nn.conv2d(input=pooling_layer_1,
-                     filter=w2,
-                     strides=[1, 1, 1, 1],
-                     padding='SAME',
-                     name='conv_2')
+keep_prob = tf.placeholder(tf.float32)
+conv1_drop = tf.nn.dropout(conv1_pool, keep_prob=keep_prob)
 
-conv2 = conv2 + b2
-convolution_layer_2 = tf.nn.relu(conv2)
+# Layer 2 ===============================================================================
+w2_1 = tf.Variable(tf.truncated_normal([3, 3, C1, C2], stddev=STDDEV_), name='w2_1')
+b2_1 = tf.Variable(tf.constant(0.1, shape=[C2]), name='b2_1')
+conv2_1 = tf.nn.conv2d(input=conv1_drop,
+                       filter=w2_1,
+                       strides=[1, 1, 1, 1],
+                       padding='SAME')
+conv2_1 = conv2_1 + b2_1
+conv2_1 = tf.nn.relu(conv2_1, name='conv2_1')
 
-pooling_layer_2 = tf.nn.max_pool(convolution_layer_2,
-                                 ksize=[1, 2, 2, 1],
-                                 strides=[1, 2, 2, 1],
-                                 padding='VALID',
-                                 name='pooling_layer_2')
+w2_2 = tf.Variable(tf.truncated_normal([3, 3, C2, C2], stddev=STDDEV_), name='w2_2')
+b2_2 = tf.Variable(tf.constant(0.1, shape=[C2]), name='b2_2')
+conv2_2 = tf.nn.conv2d(input=conv2_1,
+                       filter=w2_2,
+                       strides=[1, 1, 1, 1],
+                       padding='SAME')
+conv2_2 = conv2_2 + b2_2
+conv2_2 = tf.nn.relu(conv2_2, name='conv2_2')
 
-new_shape = pooling_layer_2.shape[1] * pooling_layer_2.shape[2] * pooling_layer_2.shape[3]
-flatten = tf.reshape(pooling_layer_2, shape=[-1, int(new_shape)], name='flatten')
+w2_3 = tf.Variable(tf.truncated_normal([3, 3, C2, C2], stddev=STDDEV_), name='w2_3')
+b2_3 = tf.Variable(tf.constant(0.1, shape=[C2]), name='b2_3')
+conv2_3 = tf.nn.conv2d(input=conv2_2,
+                       filter=w2_3,
+                       strides=[1, 1, 1, 1],
+                       padding='SAME')
+conv2_3 = conv2_3 + b2_3
+conv2_3 = tf.nn.relu(conv2_3, name='conv2_3')
+conv2_pool = tf.nn.max_pool(conv2_3,
+                            ksize=[1, 2, 2, 1],
+                            strides=[1, 2, 2, 1],
+                            padding='SAME',
+                            name='conv2_pool')
+conv2_drop = tf.nn.dropout(conv2_pool, keep_prob=keep_prob)
 
-w3 = tf.Variable(tf.truncated_normal(shape=[int(new_shape), 1024], stddev=STDDEV_), name='w3')
-b3 = tf.Variable(tf.constant(0.1, shape=[1024]), name='b3')
+# layer 3 ===============================================================================
+w3_1 = tf.Variable(tf.truncated_normal([3, 3, C2, C3], stddev=STDDEV_), name='w3_1')
+b3_1 = tf.Variable(tf.constant(0.1, shape=[C3]), name='b3_1')
+conv3_1 = tf.nn.conv2d(input=conv2_drop,
+                       filter=w3_1,
+                       strides=[1, 1, 1, 1],
+                       padding='SAME')
+conv3_1 = conv3_1 + b3_1
+conv3_1 = tf.nn.relu(conv3_1, name='conv3_1')
 
-dense_layer_bottleneck = tf.add(tf.matmul(flatten, w3), b3)
-dense_layer_bottleneck = tf.nn.relu(dense_layer_bottleneck, name='dense_layer_bottleneck')
+w3_2 = tf.Variable(tf.truncated_normal([3, 3, C3, C3], stddev=STDDEV_), name='w3_2')
+b3_2 = tf.Variable(tf.constant(0.1, shape=[C3]), name='b3_2')
+conv3_2 = tf.nn.conv2d(input=conv3_1,
+                       filter=w3_2,
+                       strides=[1, 1, 1, 1],
+                       padding='SAME')
+conv3_2 = conv3_2 + b3_2
+conv3_2 = tf.nn.relu(conv3_2, name='conv3_2')
 
-dropout_bool = tf.placeholder(tf.bool)
-dropout_layer = tf.layers.dropout(
-    inputs=dense_layer_bottleneck,
-    rate=0.4,
-    training=dropout_bool
-)
+w3_3 = tf.Variable(tf.truncated_normal([3, 3, C3, C3], stddev=STDDEV_), name='w3_3')
+b3_3 = tf.Variable(tf.constant(0.1, shape=[C3]), name='b3_3')
+conv3_3 = tf.nn.conv2d(input=conv3_2,
+                       filter=w3_3,
+                       strides=[1, 1, 1, 1],
+                       padding='SAME')
+conv3_3 = conv3_3 + b3_3
+conv3_3 = tf.nn.relu(conv3_3, name='conv3_3')
 
-w4 = tf.Variable(tf.truncated_normal(shape=[1024, NUM_CLASSES], stddev=STDDEV_), name='w4')
-b4 = tf.Variable(tf.constant(0.1, shape=[NUM_CLASSES]), name='b4')
-logits = tf.add(tf.matmul(dropout_layer, w4), b4)
-logits = tf.nn.relu(logits, name='logits')
+conv3_pool = tf.nn.max_pool(conv3_3,
+                            ksize=[1, 8, 8, 1],
+                            strides=[1, 8, 8, 1],
+                            padding='SAME',
+                            name='conv3_pool')
+conv3_flat = tf.reshape(conv3_pool, shape=[-1, C3], name='conv3_flat')
+conv3_drop = tf.nn.dropout(conv3_flat, keep_prob=keep_prob, name='conv3_drop')
+
+# fully layer
+w4 = tf.Variable(tf.truncated_normal(shape=[C3, F1], stddev=STDDEV_), name='w4')
+b4 = tf.Variable(tf.constant(0.1, shape=[F1]), name='b4')
+full1 = tf.add(tf.matmul(conv3_drop, w4), b4)
+full1 = tf.nn.relu(full1, name='full1')
+
+full1_drop = tf.nn.dropout(full1, keep_prob=keep_prob)
+
+# output layer
+w5 = tf.Variable(tf.truncated_normal(shape=[F1, NUM_CLASSES], stddev=STDDEV_), name='w5')
+b5 = tf.Variable(tf.constant(0.1, shape=[NUM_CLASSES]), name='b5')
+logits = tf.add(tf.matmul(full1_drop, w5), b5, name='logits')
 
 with tf.name_scope("loss") as scope:
     softmax_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits,
@@ -238,24 +304,32 @@ with tf.Session() as session:
     test_labels = d.test.labels
 
     for epoch in range(10000):
-        id = np.random.randint(1, TOTAL_BATCH)
-        train_img = d.train.nex_batch(BATCH_SIZE)[0]
-        # train_img = train_images[(id - 1)*BATCH_SIZE: id*BATCH_SIZE]
-        # train_lab = train_labels[(id - 1)*BATCH_SIZE: id*BATCH_SIZE]
-        train_lab = d.train.nex_batch(BATCH_SIZE)[1]
+        # id = np.random.randint(1, TOTAL_BATCH)
+        # train_img = d.train.nex_batch(BATCH_SIZE)[0]
+        # train_lab = d.train.nex_batch(BATCH_SIZE)[1]
+
+        batch = d.train.nex_batch(BATCH_SIZE)
 
         _, merged_sum = session.run([optimiser, merged_summary_operation],
-                                    feed_dict={x_input: train_images[0:BATCH_SIZE],
-                                               y_input: train_lab[0:BATCH_SIZE],
-                                               dropout_bool: True})
+                                    feed_dict={x_input: batch[0],
+                                               y_input: batch[1],
+                                               keep_prob: 0.5})
+
         train_summary_writer.add_summary(merged_sum, epoch)
 
         if epoch % 100 == 0:
+            X = d.test.images.reshape(10, 1000, 32, 32, 3)
+            Y = d.test.labels.reshape(10, 1000, 10)
+
             acc, loss, merged_sum = session.run([accuracy_operation, loss_operation, merged_summary_operation],
-                                                feed_dict={x_input: test_images,
-                                                           y_input: test_labels,
-                                                           dropout_bool: False})
+                                                feed_dict={x_input: X,
+                                                           y_input: Y,
+                                                           keep_prob: 1.0})
 
             test_summary_writer.add_summary(merged_sum, epoch)
+            # acc, loss = session.run([accuracy_operation, loss_operation],
+            #                                     feed_dict={x_input: batch[0],
+            #                                                y_input: batch[1],
+            #                                                keep_prob: 1.0})
 
-            print("EPOCH: {}, ACC: {}, LOSS: {}".format(epoch, acc, loss))
+            print("EPOCH: {}, ACC: {:.4}%, LOSS: {}".format(epoch, acc * 100, loss))
