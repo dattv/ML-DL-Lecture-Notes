@@ -126,7 +126,25 @@ Video analysis processes a video as a whole, as opposed to images as in previous
 
 :+1: 60 million parameter in total.
 
-## 
+## [The VGG16 model](https://arxiv.org/abs/1409.1556)
+
+:+1: Visual Gemotry Group from Oxford.
+
+:+1: Greater depth than AlexNet
+
+:+1: Has two variables VGG16 and VGG19
+
+:+1: CNN layers was using 3x3 kernel and padd of size 1
+
+:+1: all Max pooling size of 2 with stride 2
+
+|     |__VGG16__|__VGG19__|
+|-----|---------|---------|
+|parameters|138 M|140M|
+|Top-5|__8.8%__|__9.0%__|
+
+
+
 # Installing software packages
 * [Cuda driver]()
 * [Cudnn]()
