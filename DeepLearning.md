@@ -160,9 +160,13 @@ The dataset is divided into five training batches and one test batch, each with 
   ![cifar-10-50000](https://user-images.githubusercontent.com/29138292/57755778-eb7a6480-771b-11e9-8f27-0a9a8463a97c.png) 
 
 * [example06](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example06.py) Building a multilayer convolution network for classification Cifar10 dataset (using ``tensorflow.nn``)
+    * Download compressed dataset
+    * Extract dataset
+    * Build model by ``tf.nn`` package
 
 * [example07]() [VGG16](https://github.com/dattv/VGG16-TF) [transfer learning]() for [CIFA-10 dataset](https://www.cs.toronto.edu/~kriz/cifar.html)
     * Load pretrained model
     * Save TF model
+    * Transfer learning
 
 ... Continue.
