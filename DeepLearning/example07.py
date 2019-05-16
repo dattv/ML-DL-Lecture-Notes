@@ -9,6 +9,8 @@ import urllib.request
 import time
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+import tensorflow as tf
+
 
 CIFAR_DIR = "./CIFA"
 
@@ -146,3 +148,9 @@ if not os.path.exists(file_path):
 tarfile.open(file_path, "r:gz").extractall(work_dir)
 
 # extract VGG16 model =============================================================================================
+
+x = tf.get_variable("", shape=[224, 224, 3])
+saver = tf.train.Saver()
+with tf.Session() as session:
+    saver.restore(session, work_dir + "/vgg_16.ckpt")
+    print("model restored")
