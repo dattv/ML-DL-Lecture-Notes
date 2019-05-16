@@ -128,7 +128,7 @@ test_labels = d.test.labels
 
 # display_cifar(images, 10)
 
-
+# downloading tensorflow model ====================================================================================
 model_url = "http://download.tensorflow.org/models/vgg_16_2016_08_28.tar.gz"
 file_name = model_url.split("/")[-1]
 
@@ -144,3 +144,5 @@ if not os.path.exists(file_path):
         file_path, _ = urllib.request.urlretrieve(model_url, filename=file_path, reporthook=my_hook(t), data=None)
 
 tarfile.open(file_path, "r:gz").extractall(work_dir)
+
+# extract VGG16 model =============================================================================================
