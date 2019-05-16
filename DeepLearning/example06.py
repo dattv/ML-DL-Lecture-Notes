@@ -321,10 +321,10 @@ with tf.Session() as session:
             X = d.test.images.reshape(10, 1000, 32, 32, 3)
             Y = d.test.labels.reshape(10, 1000, 10)
 
-            acc, loss, merged_sum = session.run([accuracy_operation, loss_operation, merged_summary_operation],
-                                                feed_dict={x_input: X,
-                                                           y_input: Y,
-                                                           keep_prob: 1.0})
+            acc = np.mean([session.run([accuracy_operation],
+                                       feed_dict={x_input: X[i],
+                                                  y_input: Y[i],
+                                                  keep_prob: 1.0}) for i in range(10)])
 
             test_summary_writer.add_summary(merged_sum, epoch)
             # acc, loss = session.run([accuracy_operation, loss_operation],
@@ -332,4 +332,4 @@ with tf.Session() as session:
             #                                                y_input: batch[1],
             #                                                keep_prob: 1.0})
 
-            print("EPOCH: {}, ACC: {:.4}%, LOSS: {}".format(epoch, acc * 100, loss))
+            print("EPOCH: {}, ACC: {:.4}%".format(epoch, acc * 100))
