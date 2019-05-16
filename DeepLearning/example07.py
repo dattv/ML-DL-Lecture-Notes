@@ -149,8 +149,44 @@ tarfile.open(file_path, "r:gz").extractall(work_dir)
 
 # extract VGG16 model =============================================================================================
 
-x = tf.get_variable("", shape=[224, 224, 3])
-saver = tf.train.Saver()
-with tf.Session() as session:
-    saver.restore(session, work_dir + "/vgg_16.ckpt")
-    print("model restored")
+# x = tf.get_variable("", shape=[224, 224, 3])
+if os.path.isfile(work_dir+"/vgg_16.ckpt") == True:
+    vgg_16_dir = os.path.join(work_dir, "vgg_16.ckpt")
+
+
+from tensorflow.python import pywrap_tensorflow
+
+reader = pywrap_tensorflow.NewCheckpointReader(vgg_16_dir)
+var_to_shape_map = reader.get_variable_to_shape_map()
+for key in var_to_shape_map:
+    print("tensor name: {}".format(key))
+
+x_input = tf.placeholder(tf.float32, shape=[None, 224, 224, 3], name='x_input')
+y_input = tf.placeholder(tf.float32, shape=[None, 1000], name='y_input')
+
+with tf.name_scope("vgg_16") as scope:
+    with tf.name_scope("conv1") as scope:
+        with tf.name_scope("conv1_1") as scope:
+            weights_1_1 = reader.get_tensor("vgg_16/conv1/conv1_1/weights")
+            t_weights_1_1 = tf.Variable(initial_value=weights_1_1, name='weights')
+
+            bias_1_ = reader.get_tensor("vgg_16/conv1/conv1_1/biases")
+            t_bias_1_1 = tf.Variable(initial_value=bias_1_, name='biases')
+
+            conv1_1 = tf.nn.conv2d(input=x_input,
+                                   filter=t_weights_1_1,
+                                   strides=[1, 1, 1, 1],
+                                   padding='SAME')
+            conv1_1 = conv1_1 + t_bias_1_1
+            conv1_1 = tf.nn.relu(conv1_1, name='activation')
+
+        with tf.name_scope("conv1_2") as scope:
+
+
+print(t_weights_1_1)
+print(t_bias_1_1)
+print("jkdflkdsjf")
+
+
+
+
