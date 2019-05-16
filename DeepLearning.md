@@ -124,6 +124,8 @@ Video analysis processes a video as a whole, as opposed to images as in previous
 
 :+1: Had used SGD
 
+:+1: 60 million parameter in total.
+
 ## 
 # Installing software packages
 * [Cuda driver]()
