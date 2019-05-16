@@ -111,6 +111,28 @@ Generative models are very interesting as they generate images. Images can be ge
 ## Video analysis
 Video analysis processes a video as a whole, as opposed to images as in previous cases. It has several applications, such as sports tracking, intrusion detection, and surveillance cameras.
 
+## Augmentation techniques
+
+## Transfer learning or finie-turning of a model
+Transfer learning is the process of learning from a pre-trained model that was trained on a larger dataset. Training a model with random initialization often takes time and energy to get the result. Initializing the model with a pre-trained model gives faster convergence, saving time and energy. These models tha tare pre-trained are often trained with carefully chosen hyperparameters.
+
+## Tackling the underfitting and overfitting scenarios
+The model may be sometimes too big or too small for the problem. This could be classified as underfitting or overfitting, respectively. Underfitting happens when the model is too small and can be measured when training accuracy is less. Overfitting happens when the model is too big and there is a large gap between training and testing accuracies. Underfitting can be solved by the following methods:
+
+* Getting more data
+
+* Trying out a bigger model
+
+* If dataset is small, try transfer learning techniques or do data augmentation
+
+Overfitting can be sloved by the following methods:
+
+* Regularizing using techniques such as dropout and batch normalization
+
+* Augmenting the dataset
+
+
+
 # The bigger deep learning models
 ## [The AlexNet model](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
 
