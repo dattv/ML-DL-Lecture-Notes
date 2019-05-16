@@ -265,6 +265,19 @@ with tf.name_scope("vgg_16") as scope:
             conv3_2 = tf.nn.relu(conv3_2, name='conv3_2')
 
         with tf.name_scope("conv3_3") as scope:
+            weights_3_3 = reader.get_tensor("vgg_16/conv3/conv3_3/weights")
+            t_weights_3_3 = tf.Variable(initial_value=weights_3_3, name='weights', trainable=TRAINABLE)
+
+            biases_3_3 = reader.get_tensor("vgg_16/conv3/conv3_3/biases")
+            t_biases_3_3 = tf.Variable(initial_value=biases_3_3, name='biases', trainable=TRAINABLE)
+
+            conv3_3 = tf.nn.conv2d(input=conv3_2,
+                                   filter=t_weights_3_3,
+                                   strides=[1, 1, 1, 1],
+                                   padding='SAME')
+            conv3_3 = conv3_3 + t_biases_3_3
+            conv3_3 = tf.nn.relu(conv3_3, name='conv3_3')
+
 
 print(conv3_1)
 
