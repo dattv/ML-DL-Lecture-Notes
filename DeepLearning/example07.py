@@ -4,6 +4,7 @@ import numpy as np
 
 import pickle as cPickle
 import os
+import urllib.request
 
 import time
 from tqdm import tqdm
@@ -126,3 +127,20 @@ test_images = d.test.images
 test_labels = d.test.labels
 
 # display_cifar(images, 10)
+
+
+model_url = "http://download.tensorflow.org/models/image/imagenet/inception-2015-12-05.tgz"
+file_name = model_url.split("/")[-1]
+
+work_dir = os.getcwd()
+work_dir = os.path.join(work_dir, file_name.split(".")[0])
+if os.path.isdir(work_dir) == False:
+    os.mkdir(work_dir)
+
+file_path = os.path.join(work_dir, file_name)
+
+if not os.path.exists(file_path):
+    with tqdm(unit="B", unit_scale=True, leave=True, miniters=1, desc=model_url.split("/")[-1]) as t:
+        file_path, _ = urllib.request.urlretrieve(model_url, filename=file_path, reporthook=my_hook(t), data=None)
+
+tarfile.open(file_path, "r:gz").extractall(work_dir)
