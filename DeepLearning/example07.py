@@ -3,6 +3,7 @@ import zipfile
 import numpy as np
 
 import pickle as cPickle
+import os
 
 import time
 from tqdm import tqdm
