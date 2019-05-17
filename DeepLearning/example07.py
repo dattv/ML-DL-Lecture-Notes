@@ -426,3 +426,5 @@ with tf.name_scope("vgg_16") as scope:
                            padding='VALID')
         fc8 = fc8 + t_biases_8
         fc8 = tf.nn.softmax(fc8, name='fc8')
+
+# test VGG16 1000 classes

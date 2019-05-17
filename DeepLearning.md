@@ -236,6 +236,7 @@ The dataset is divided into five training batches and one test batch, each with 
 * [example07](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example07.py) [VGG16](https://github.com/dattv/VGG16-TF) [transfer learning]() for [CIFA-10 dataset](https://www.cs.toronto.edu/~kriz/cifar.html)
     * Need tqdm package
     * Load pretrained model
+        * Download and reconstruct VGG16 model from ``http://download.tensorflow.org/models/vgg_16_2016_08_28.tar.gz``
     * Save TF model
     * Transfer learning
 
