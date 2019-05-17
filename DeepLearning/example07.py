@@ -427,4 +427,8 @@ with tf.name_scope("vgg_16") as scope:
         fc8 = fc8 + t_biases_8
         fc8 = tf.nn.softmax(fc8, name='fc8')
 
-# test VGG16 1000 classes
+        # name the original VGG16 as VGG16_1000
+        VGG16_1000 = fc8
+
+# test VGG16_1000
+cifa = CifarDataManager()

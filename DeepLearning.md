@@ -237,8 +237,12 @@ The dataset is divided into five training batches and one test batch, each with 
     * Need tqdm package
     * Load pretrained model
         * Download and reconstruct VGG16 model from ``http://download.tensorflow.org/models/vgg_16_2016_08_28.tar.gz``
+        * Name the original VGG16 model as VGG16_1000 model and check
     * Save TF model
     * Transfer learning
+        * remove top layer of VGG16_1000 
+        * make a new top layer so that the output of network will classify 10 object in cifa-10 dataset and named that model is VGG16_10
+        * retrain the VGG16_10 model (fixed 5 convolution layers and two dense layers, just re train the top layer)
 
 <b>[cats versus dogs]()</b> The dataset from <b>kaggle</b> which is including ``train.zip``, ``test1.zip``. the ``train.zip`` file contains 25000 images of pet data.
 
