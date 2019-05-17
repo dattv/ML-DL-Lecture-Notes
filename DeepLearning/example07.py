@@ -145,7 +145,6 @@ tarfile.open(file_path, "r:gz").extractall(work_dir)
 
 # extract VGG16 model =============================================================================================
 
-# x = tf.get_variable("", shape=[224, 224, 3])
 if os.path.isfile(work_dir + "/vgg_16.ckpt") == True:
     vgg_16_dir = os.path.join(work_dir, "vgg_16.ckpt")
 
@@ -156,6 +155,7 @@ var_to_shape_map = reader.get_variable_to_shape_map()
 for key in var_to_shape_map:
     print("tensor name: {}".format(key))
 
+# Recover VGG16 ===================================================================================================
 TRAINABLE = False
 
 x_input = tf.placeholder(tf.float32, shape=[None, 224, 224, 3], name='x_input')
