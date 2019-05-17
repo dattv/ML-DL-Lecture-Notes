@@ -432,3 +432,12 @@ with tf.name_scope("vgg_16") as scope:
 
 # test VGG16_1000
 cifa = CifarDataManager()
+test_img = cifa.test.images
+test_labels = cifa.test.labels
+
+merged_summary_operation = tf.summary.merge_all()
+
+with tf.Session() as session:
+    session.run(tf.global_variables_initializer())
+
+    test_summary = tf.summary.FileWriter()
