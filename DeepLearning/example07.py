@@ -413,6 +413,16 @@ with tf.name_scope("vgg_16") as scope:
         fc7 = fc7 + t_biases_7
         fc7 = tf.nn.relu(fc7, name='fc7')
 
-print(fc7)
+    with tf.name_scope("dense8") as scope:
+        weights_8 = reader.get_tensor("vgg_16/fc8/weights")
+        t_weights_8 = tf.Variable(initial_value=weights_8, name='weights', trainable=True)
 
-print("jkdflkdsjf")
+        biases_8 = reader.get_tensor("vgg_16/fc8/biases")
+        t_biases_8 = tf.Variable(initial_value=biases_8, name='biases', trainable=True)
+
+        fc8 = tf.nn.conv2d(input=fc7,
+                           filter=t_weights_8,
+                           strides=[1, 1, 1, 1],
+                           padding='VALID')
+        fc8 = fc8 + t_biases_8
+        fc8 = tf.nn.softmax(fc8, name='fc8')
