@@ -314,8 +314,105 @@ with tf.name_scope("vgg_16") as scope:
             conv4_2 = conv4_2 + t_biases_4_2
             conv4_2 = tf.nn.relu(conv4_2, name='conv4_2')
 
+        with tf.name_scope("conv4_3") as scope:
+            weights_4_3 = reader.get_tensor("vgg_16/conv4/conv4_3/weights")
+            t_weights_4_3 = tf.Variable(initial_value=weights_4_3, name='weights', trainable=TRAINABLE)
 
+            biases_4_3 = reader.get_tensor("vgg_16/conv4/conv4_3/biases")
+            t_biases_4_3 = tf.Variable(initial_value=biases_4_3, name='biases', trainable=TRAINABLE)
 
-print(conv4_2)
+            conv4_3 = tf.nn.conv2d(input=conv4_2,
+                                   filter=t_weights_4_3,
+                                   strides=[1, 1, 1, 1],
+                                   padding='SAME')
+            conv4_3 = conv4_3 + t_biases_4_3
+            conv4_3 = tf.nn.relu(conv4_3, name='conv4_3')
+
+    with tf.name_scope("pool4") as scope:
+        pooling4 = tf.nn.max_pool(conv4_3,
+                                  ksize=[1, 2, 2, 1],
+                                  strides=[1, 2, 2, 1],
+                                  padding='VALID',
+                                  name='pooling4')
+
+    with tf.name_scope("conv5") as scope:
+        with tf.name_scope("conv5_1") as scope:
+            weights_5_1 = reader.get_tensor("vgg_16/conv5/conv5_1/weights")
+            t_weights_5_1 = tf.Variable(initial_value=weights_5_1, name='weights', trainable=TRAINABLE)
+
+            biases_5_1 = reader.get_tensor("vgg_16/conv5/conv5_1/biases")
+            t_biases_5_1 = tf.Variable(initial_value=biases_5_1, name='biases', trainable=TRAINABLE)
+
+            conv5_1 = tf.nn.conv2d(input=pooling4,
+                                   filter=t_weights_5_1,
+                                   strides=[1, 1, 1, 1],
+                                   padding='SAME')
+            conv5_1 = conv5_1 + t_biases_5_1
+            conv5_1 = tf.nn.relu(conv5_1, name='conv5_1')
+
+        with tf.name_scope("conv5_2") as scope:
+            weights_5_2 = reader.get_tensor("vgg_16/conv5/conv5_2/weights")
+            t_weights_5_2 = tf.Variable(initial_value=weights_5_2, name='weights', trainable=TRAINABLE)
+
+            biases_5_2 = reader.get_tensor("vgg_16/conv5/conv5_2/biases")
+            t_biases_5_2 = tf.Variable(initial_value=biases_5_2, name='biases', trainable=TRAINABLE)
+
+            conv5_2 = tf.nn.conv2d(input=conv5_1,
+                                   filter=t_weights_5_2,
+                                   strides=[1, 1, 1, 1],
+                                   padding='SAME')
+            conv5_2 = conv5_2 + t_biases_5_2
+            conv5_2 = tf.nn.relu(conv5_2, name='conv5_2')
+
+        with tf.name_scope("conv5_3") as scope:
+            weights_5_3 = reader.get_tensor("vgg_16/conv5/conv5_3/weights")
+            t_weights_5_3 = tf.Variable(initial_value=weights_5_3, name='weights', trainable=TRAINABLE)
+
+            biases_5_3 = reader.get_tensor("vgg_16/conv5/conv5_3/biases")
+            t_biases_5_3 = tf.Variable(initial_value=biases_5_3, name='biases', trainable=TRAINABLE)
+
+            conv5_3 = tf.nn.conv2d(input=conv5_2,
+                                   filter=t_weights_5_3,
+                                   strides=[1, 1, 1, 1],
+                                   padding='SAME')
+            conv5_3 = conv5_3 + t_biases_5_3
+            conv5_3 = tf.nn.relu(conv5_3, name='conv5_3')
+
+    with tf.name_scope("pool5") as scope:
+        pooling5 = tf.nn.max_pool(conv5_3,
+                                  ksize=[1, 2, 2, 1],
+                                  strides=[1, 2, 2, 1],
+                                  padding='VALID',
+                                  name='pooling5')
+
+    with tf.name_scope("dense6") as scope:
+        weights_6 = reader.get_tensor("vgg_16/fc6/weights")
+        t_weights_6 = tf.Variable(initial_value=weights_6, name='weights', trainable=TRAINABLE)
+
+        biases_6 = reader.get_tensor("vgg_16/fc6/biases")
+        t_biases_6 = tf.Variable(initial_value=biases_6, name='biases', trainable=TRAINABLE)
+
+        fc6 = tf.nn.conv2d(input=pooling5,
+                           filter=t_weights_6,
+                           strides=[1, 1, 1, 1],
+                           padding='VALID')
+        fc6 = fc6 + t_biases_6
+        fc6 = tf.nn.relu(fc6, name='fc6')
+
+    with tf.name_scope("dense7") as scope:
+        weights_7 = reader.get_tensor("vgg_16/fc7/weights")
+        t_weights_7 = tf.Variable(initial_value=weights_7, name='weights', trainable=TRAINABLE)
+
+        biases_7 = reader.get_tensor("vgg_16/fc7/weights")
+        t_biases_7 = tf.Variable(initial_value=biases_7, name='biases', trainable=TRAINABLE)
+
+        fc7 = tf.nn.conv2d(input=fc6,
+                           filter=t_weights_7,
+                           strides=[1, 1, 1, 1],
+                           padding='VALID')
+        fc7 = fc7 + t_biases_7
+        fc7 = tf.nn.relu(fc7, name='fc7')
+
+print(fc7)
 
 print("jkdflkdsjf")
