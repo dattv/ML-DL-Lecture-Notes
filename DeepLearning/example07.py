@@ -297,6 +297,8 @@ class VGG16:
 
         self._biases_8 = reader.get_tensor("vgg_16/fc8/biases")
         self._t_biases_8 = tf.Variable(initial_value=self._biases_8, name='biases', trainable=True)
+        print(self._biases_8.shape)
+        print("jdkfjldkjf")
 
     def build_Net(self, x_input):
         with tf.name_scope("vgg_16") as scope:
@@ -480,7 +482,23 @@ class VGG16:
             n_classes = len(labels[0])
 
             vgg_without_top = self._fc7
+            with tf.name_scope("top") as scope:
+                weights_top = tf.Variable(tf.truncated_normal(shape=[self._weights_8.shape[0], self._weights_8.shape[1],
+                                                                     self._weights_8.shape[2], n_classes], stddev=0.1),
+                                          name="w_top")
+                biases_top = tf.Variable(tf.constant(0.1, shape=[int(n_classes)]), name='biases_top')
 
+                self._logits = tf.nn.conv2d(input=vgg_without_top,
+                                            filter=weights_top,
+                                            strides=[1, 1, 1, 1],
+                                            padding='VALID')
+
+                self._logits = self._logits + biases_top
+                self._logits = tf.nn.softmax(self._logits, name='logits')
+
+            with tf.name_scope("loss") as scope:
+                soft_max_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=self._logits,
+                                                                                 labels=)
 
 VGG16_1000 = VGG16()
 ouput = VGG16_1000.build_Net(x_input)
@@ -521,3 +539,5 @@ with tf.Session() as session:
     top1_title0 = synset[title0[0]]
 
     print(top1_title0)
+
+    session.close()
