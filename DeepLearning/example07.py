@@ -480,6 +480,7 @@ class VGG16:
             return None
         else:
             n_classes = len(labels[0])
+            y_input = tf.placeholder(tf.float32, shape=[None, int(n_classes)], name='y_input')
 
             vgg_without_top = self._fc7
             with tf.name_scope("top") as scope:
@@ -498,7 +499,29 @@ class VGG16:
 
             with tf.name_scope("loss") as scope:
                 soft_max_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=self._logits,
-                                                                                 labels=)
+                                                                                 labels=y_input)
+
+                loss_operation = tf.reduce_mean(soft_max_cross_entropy, name='loss')
+
+                tf.summary.scalar("loss", loss_operation)
+
+            with tf.name_scope("optimization") as scope:
+                optimiser = tf.train.AdamOptimizer(1.e-4).minimize(loss_operation)
+
+            with tf.name_scope("accuracy") as scope:
+                with tf.name_scope("correct_preduction") as scope:
+                    predictions = tf.argmax(self._logits, 1)
+                    correct_prediction = tf.equal(tf.argmax(y_input, 1), predictions)
+
+                with tf.name_scope("acc") as scope:
+                    accuracy_operation = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+                    tf.summary.scalar("acc", accuracy_operation)
+
+            file_name = os.path.basename(__file__)
+            file_name = file_name.split(".")
+            print(file_name)
+
 
 VGG16_1000 = VGG16()
 ouput = VGG16_1000.build_Net(x_input)
@@ -539,5 +562,13 @@ with tf.Session() as session:
     top1_title0 = synset[title0[0]]
 
     print(top1_title0)
+
+    session.close()
+
+#
+with tf.Session() as session:
+    session.run([tf.global_variables_initializer()])
+
+    test_summary = tf.summary.FileWriter(os.path.join(LOG_DIR, file_name) + "/transefer_learning", session.graph)
 
     session.close()
