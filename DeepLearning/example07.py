@@ -162,7 +162,7 @@ TRAINABLE = False
 x_input = tf.placeholder(tf.float32, shape=[None, 224, 224, 3], name='x_input')
 y_input = tf.placeholder(tf.float32, shape=[None, 1000], name='y_input')
 
-
+KEEP_PROB = 1
 class VGG16:
     def __init__(self, VGG_URL="http://download.tensorflow.org/models/vgg_16_2016_08_28.tar.gz",
                  trainable=False, dropout=0.5):
@@ -297,8 +297,16 @@ class VGG16:
 
         self._biases_8 = reader.get_tensor("vgg_16/fc8/biases")
         self._t_biases_8 = tf.Variable(initial_value=self._biases_8, name='biases', trainable=True)
-        print(self._biases_8.shape)
-        print("jdkfjldkjf")
+
+        self._keep_pro = tf.placeholder(tf.float32, shape=[1])
+
+        #
+        self._LOG_DIR = "./tmp"
+        self._file_name = os.path.basename(__file__)
+        self._file_name = self._file_name.split(".")[0]
+
+        SYNSET_DIR = './vgg_16_2016_08_28/synset.txt'
+        self._synset = [l.strip() for l in open(SYNSET_DIR).readlines()]
 
     def build_Net(self, x_input):
         with tf.name_scope("vgg_16") as scope:
@@ -455,6 +463,8 @@ class VGG16:
 
                 self._fc6 = tf.nn.relu(self._fc6, name='fc6')
 
+                self._fc6 = tf.nn.dropout(self._fc6, keep_prob=self._keep_pro)
+
             with tf.name_scope("dense7") as scope:
                 self._fc7 = tf.nn.conv2d(input=self._fc6,
                                          filter=self._t_weights_7,
@@ -463,6 +473,8 @@ class VGG16:
 
                 self._fc7 = self._fc7 + self._t_biases_7
                 self._fc7 = tf.nn.relu(self._fc7, name='fc7')
+
+                self._fc7 = tf.nn.dropout(self._fc7, keep_prob=self._keep_pro)
 
             with tf.name_scope("dense8") as scope:
                 self._fc8 = tf.nn.conv2d(input=self._fc7,
@@ -474,9 +486,25 @@ class VGG16:
 
         return self._fc8
 
+    def check_VGG(self, sess=None, image=None, labels=None):
+        if sess == None:
+            return None
+
+        else:
+            merged_summary_operation = tf.summary.merge_all()
+
+            test_summary = tf.summary.FileWriter(os.path.join(LOG_DIR, file_name) + "/test_vgg16_1000", session.graph)
+
+            out = sess.run([ouput], feed_dict={x_input: image})
+
+            title0 = np.argsort(out)[::-1]
+            top1_title0 = self._synset[title0[0]]
+            print("The picture is about: {}".format(top1_title0))
+
+
     def VGG_tranfer_learning(self, sess=None, images=None, labels=None, NEPOCH=1000, NBATCH=128):
 
-        if sess == None or images == None or labels == None:
+        if sess == None:
             return None
         else:
             n_classes = len(labels[0])
@@ -519,8 +547,24 @@ class VGG16:
                     tf.summary.scalar("acc", accuracy_operation)
 
             file_name = os.path.basename(__file__)
-            file_name = file_name.split(".")
-            print(file_name)
+            file_name = file_name.split(".")[0]
+
+            merged_summary_operation = tf.summary.merge_all()
+
+            for epoch in range(NEPOCH):
+                x = images.train.images.next_batch(NBATCH)
+                y = images.train.labels.next_batch(NBATCH)
+
+                _, merged_sum = session.run([optimiser, merged_summary_operation],
+                                            feed_dict={x_input: x,
+                                                       y_input: y,
+                                                       self._keep_pro: 0.5})
+
+                if epoch % 100 == 0:
+                    x = images.test.images
+                    y = images.test.labels
+
+
 
 
 VGG16_1000 = VGG16()
@@ -535,12 +579,12 @@ merged_summary_operation = tf.summary.merge_all()
 LOG_DIR = "./tmp"
 file_name = os.path.basename(__file__)
 file_name = file_name.split(".")[0]
-
+# Check VGG16 ORIGINALY ====================================================================================
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
-
-    test_summary = tf.summary.FileWriter(os.path.join(LOG_DIR, file_name) + "/test_vgg16_1000", session.graph)
-
+    #
+    #     test_summary = tf.summary.FileWriter(os.path.join(LOG_DIR, file_name) + "/test_vgg16_1000", session.graph)
+    #
     img = cv.imread("./vgg_16_2016_08_28/tiger.jpeg")
     # cv.imshow('image', img)
     # cv.waitKey(0)
@@ -548,27 +592,29 @@ with tf.Session() as session:
     img = cv.resize(img, (224, 224))
     img = img.reshape((1, 224, 224, 3))
 
-    out = session.run([ouput], feed_dict={x_input: img})
-
-    out = np.reshape(out, newshape=[-1])
-
-    print(out[np.argmax(out)])
-    print(np.argmax(out))
-
-    SYNSET_DIR = './vgg_16_2016_08_28/synset.txt'
-    synset = [l.strip() for l in open(SYNSET_DIR).readlines()]
-
-    title0 = np.argsort(out)[::-1]
-    top1_title0 = synset[title0[0]]
-
-    print(top1_title0)
-
-    session.close()
+    VGG16_1000.check_VGG(session, img)
 
 #
-with tf.Session() as session:
-    session.run([tf.global_variables_initializer()])
+#     out = session.run([ouput], feed_dict={x_input: img})
+#
+#     out = np.reshape(out, newshape=[-1])
+#
+#     print(out[np.argmax(out)])
+#     print(np.argmax(out))
+#
+#     SYNSET_DIR = './vgg_16_2016_08_28/synset.txt'
+#     synset = [l.strip() for l in open(SYNSET_DIR).readlines()]
+#
+#     title0 = np.argsort(out)[::-1]
+#     top1_title0 = synset[title0[0]]
+#
+#     print(top1_title0)
+#
+#     session.close()
 
-    test_summary = tf.summary.FileWriter(os.path.join(LOG_DIR, file_name) + "/transefer_learning", session.graph)
-
-    session.close()
+# with tf.Session() as session:
+#     session.run([tf.global_variables_initializer()])
+#
+#     VGG16_1000.VGG_tranfer_learning(session, cifa, cifa)
+#
+#     session.close()
