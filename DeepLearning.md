@@ -244,7 +244,11 @@ The dataset is divided into five training batches and one test batch, each with 
         * make a new top layer so that the output of network will classify 10 object in cifa-10 dataset and named that model is VGG16_10
         * retrain the VGG16_10 model (fixed 5 convolution layers and two dense layers, just re train the top layer)
 
+* [example08](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example08.py) simple example show to to save tensorflow model
+
+
 <b>[cats versus dogs]()</b> The dataset from <b>kaggle</b> which is including ``train.zip``, ``test1.zip``. the ``train.zip`` file contains 25000 images of pet data.
+
 
 
 ... Continue.
