@@ -165,7 +165,7 @@ y_input = tf.placeholder(tf.float32, shape=[None, 1000], name='y_input')
 KEEP_PROB = 1
 class VGG16:
     def __init__(self, VGG_URL="http://download.tensorflow.org/models/vgg_16_2016_08_28.tar.gz",
-                 trainable=False, dropout=0.5):
+                 trainable=False, dropout=1.):
         self._VGG_URL = VGG_URL
         self._trainable = trainable
         self._dropout = dropout
@@ -307,6 +307,8 @@ class VGG16:
 
         SYNSET_DIR = './vgg_16_2016_08_28/synset.txt'
         self._synset = [l.strip() for l in open(SYNSET_DIR).readlines()]
+        self._keep_pro = self._dropout
+
 
     def build_Net(self, x_input):
         with tf.name_scope("vgg_16") as scope:
@@ -495,11 +497,16 @@ class VGG16:
 
             test_summary = tf.summary.FileWriter(os.path.join(LOG_DIR, file_name) + "/test_vgg16_1000", session.graph)
 
-            out = sess.run([ouput], feed_dict={x_input: image})
+            x_input = tf.placeholder(tf.float32, shape=[None, 224, 224, 3])
+            self.build_Net(x_input)
 
+            out = sess.run([self._fc8], feed_dict={x_input: image})
+
+            out = np.reshape(out, newshape=[-1])
             title0 = np.argsort(out)[::-1]
             top1_title0 = self._synset[title0[0]]
-            print("The picture is about: {}".format(top1_title0))
+
+            print(top1_title0)
 
 
     def VGG_tranfer_learning(self, sess=None, images=None, labels=None, NEPOCH=1000, NBATCH=128):
@@ -561,8 +568,8 @@ class VGG16:
                                                        self._keep_pro: 0.5})
 
                 if epoch % 100 == 0:
-                    x = images.test.images
-                    y = images.test.labels
+                    x = images.test.images.reshape(10, 1000, 32, 32, 3)
+                    y = images.test.labels.reshape(10, 1000)
 
 
 
@@ -585,36 +592,29 @@ with tf.Session() as session:
     #
     #     test_summary = tf.summary.FileWriter(os.path.join(LOG_DIR, file_name) + "/test_vgg16_1000", session.graph)
     #
-    img = cv.imread("./vgg_16_2016_08_28/tiger.jpeg")
-    # cv.imshow('image', img)
-    # cv.waitKey(0)
-    # cv.destroyAllWindows()
+    img = cv.imread("./vgg_16_2016_08_28/cat.jpg")
+    cv.imshow('image', img)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
     img = cv.resize(img, (224, 224))
     img = img.reshape((1, 224, 224, 3))
 
     VGG16_1000.check_VGG(session, img)
 
-#
-#     out = session.run([ouput], feed_dict={x_input: img})
-#
-#     out = np.reshape(out, newshape=[-1])
-#
-#     print(out[np.argmax(out)])
-#     print(np.argmax(out))
-#
-#     SYNSET_DIR = './vgg_16_2016_08_28/synset.txt'
-#     synset = [l.strip() for l in open(SYNSET_DIR).readlines()]
-#
-#     title0 = np.argsort(out)[::-1]
-#     top1_title0 = synset[title0[0]]
-#
-#     print(top1_title0)
-#
-#     session.close()
-
-# with tf.Session() as session:
-#     session.run([tf.global_variables_initializer()])
-#
-#     VGG16_1000.VGG_tranfer_learning(session, cifa, cifa)
-#
-#     session.close()
+    #
+    # out = session.run([ouput], feed_dict={x_input: img})
+    #
+    # out = np.reshape(out, newshape=[-1])
+    #
+    # print(out[np.argmax(out)])
+    # print(np.argmax(out))
+    #
+    # SYNSET_DIR = './vgg_16_2016_08_28/synset.txt'
+    # synset = [l.strip() for l in open(SYNSET_DIR).readlines()]
+    #
+    # title0 = np.argsort(out)[::-1]
+    # top1_title0 = synset[title0[0]]
+    #
+    # print(top1_title0)
+    #
+    # session.close()
