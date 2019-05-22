@@ -134,7 +134,8 @@ Overfitting can be sloved by the following methods:
 
 * Augmenting the dataset
 
-
+## [Autoencoders of raw images]()
+An autoencoders is an unsupervised algorithm for generating efficient encodings. The input layer and target ouput is typically the same. in ML/DL aspect, an <b>encoder</b> typically reduces the dimensional of the data and a <b>decode</b> increases the dimensiona. This combination of encoder and decoder is called an autoencoder.
 
 # The bigger deep learning models
 ## [The AlexNet model](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
@@ -177,7 +178,6 @@ Overfitting can be sloved by the following methods:
 ## [Spatial transformer networks]()
 
 ## [The DenseNet model]()
-
 
 
 # Installing software packages
