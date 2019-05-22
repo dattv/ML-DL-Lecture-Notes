@@ -250,6 +250,12 @@ The dataset is divided into five training batches and one test batch, each with 
 
 <b>[cats versus dogs]()</b> The dataset from <b>kaggle</b> which is including ``train.zip``, ``test1.zip``. the ``train.zip`` file contains 25000 images of pet data.
 
+## Detecting objects in an image
+### Dataset
+1. [ImageNet]()
 
+2. [PASCAL VOC]()
+
+3. [COCO]()
 
 ... Continue.
