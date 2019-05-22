@@ -14,12 +14,14 @@ def convolution_layer(input_layer, filter_size):
                             strides=2)
 
 def deconvolution_layer(input_layer, filter_size, activation=tf.nn.relu):
-    return tf.layers.conv2d_transpose(input_layer,
-                                      filters=filter_size,
-                                      kernel_initializer=tf.contrib.layers.xavier_initializer_conv2d(),
-                                      kernel_size=3,
-                                      activation=activation,
-                                      strides=2)
+    return tf.layers.conv2d_transpose(
+        input_layer,
+        filters=filter_size,
+        kernel_initializer=tf.contrib.layers.xavier_initializer_conv2d(),
+        kernel_size=3,
+        activation=activation,
+        strides=2
+    )
 
 # Define the converging encoder with five layers of convolution, as shown in the following code:
 input_layer = tf.placeholder(tf.float32, [None, 128, 128, 3])
@@ -38,4 +40,13 @@ fully_connected = fully_connected_layer(bottleneck_layer,
                                         c5f_flat_shape)
 fully_connected = tf.reshape(fully_connected,
                              [-1, c5f_flat_shape])
+
+deconvolution_layer_1 = deconvolution_layer(fully_connected, 128)
+deconvolution_layer_2 = deconvolution_layer(deconvolution_layer_1, 256)
+deconvolution_layer_3 = deconvolution_layer(deconvolution_layer_2, 512)
+deconvolution_layer_4 = deconvolution_layer(deconvolution_layer_3, 1024)
+deconvolution_layer_5 = deconvolution_layer(deconvolution_layer_4, 3,
+                                            activation=tf.nn.tanh)
+
+print(deconvolution_layer_5.shape)
 
