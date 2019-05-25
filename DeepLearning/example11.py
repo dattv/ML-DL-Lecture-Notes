@@ -1,10 +1,13 @@
 import os
+import random
+import sys
 import tarfile
+import threading
 import zipfile
 
 from tensorflow.python import pywrap_tensorflow
 import tensorflow as tf
-
+import multiprocessing
 
 from tqdm import tqdm
 import urllib.request
@@ -35,6 +38,51 @@ def my_hook(t):
 
     return inner
 
+class ImageCoder(object):
+    """
+    Helper class which provides Tensorflow image coding utilities
+    """
+
+    def __init__(self):
+        #
+        # Create a single session to run all image coding calls
+        #
+        self._sess = tf.Session()
+
+        #
+        # Initializes function that convert PNG to JPEG data
+        #
+        self._png_data = tf.placeholder(dtype=tf.string)
+        image = tf.image.decode_png(self._png_data, channels=3)
+        self._png_to_jpeg = tf.image.encode_jpeg(image, format='rgb', quality=100)
+
+        #
+        # Initializes function that convert CMYK JPEG data to RGB JPEG data
+        #
+        self._cmyk_data = tf.placeholder(dtype=tf.string)
+        image = tf.image.decode_jpeg(self._cmyk_data, channels=0)
+        self._cmyk_to_rgb = tf.image.encode_jpeg(image, format='rgb', quality=100)
+
+        #
+        # Initializes function that decodes RGB JPEG data
+        #
+        self._decode_jpeg_data = tf.placeholder(dtype=tf.string)
+        self._decode_jpeg = tf.image.decode_jpeg(self._decode_jpeg_data, channels=3)
+
+    def png_to_jpeg(self, image_data):
+        return self._sess.run(self._png_to_jpeg,
+                              feed_dict={self._png_data: image_data})
+
+    def cmyk_to_rgb(self, image_data):
+        return self._sess.run(self._cmyk_to_rgb,
+                              feed_dict={self._cmyk_data: image_data})
+
+    def decode_jpeg(self, image_data):
+        image = self._sess.run(self._decode_jpeg,
+                               feed_dict={self._decode_jpeg_data: image_data})
+        assert len(image.shape) == 3
+        assert image.shape[2] == 3
+        return image
 
 class VGG:
     def __init__(self, VGG_URL="http://download.tensorflow.org/models/vgg_16_2016_08_28.tar.gz",
@@ -551,6 +599,40 @@ class VGG:
 
         return self._fc8
 
+def _process_image_file_batch(coder, thread_index, ranges, name, directory, all_records, num_shards):
+    """
+
+    :param coder:
+    :param thread_index:
+    :param ranges:
+    :param name:
+    :param directory:
+    :param all_records:
+    :param num_shards:
+    :return:
+    """
+    num_threads = len(ranges)
+    assert not num_shards % num_threads
+    num_shards_per_batch = int(num_shards / num_threads)
+
+    shard_ranges = np.linspace(ranges[thread_index][0],
+                               ranges[thread_index][1],
+                               num_shards_per_batch + 1).astype(int)
+
+    num_files_in_threads = ranges[thread_index][1] - ranges[thread_index][0]
+
+    counter = 0
+    for s in range(num_shards_per_batch):
+        shard = thread_index * num_shards_per_batch + s
+        output_filename = "{}-{:05d}-of-{:05d}".format(name, shard, num_shards)
+        output_file = os.path.join(directory, output_filename)
+
+        writer = tf.python_io.TFRecordWriter(output_file)
+
+        shard_counter = 0
+        files_in_shard = np.arange(shard_ranges[s], shard_ranges[s+1], dtype=int)
+        for i in files_in_shard:
+            cur_record = all_records[i]
 
 
 VGG16 = VGG()
@@ -597,7 +679,7 @@ cat_dog_train_dir = os.path.join(cat_dog_folder, "train")
 cat_dog_test_dir = os.path.join(cat_dog_folder, "test")
 
 temp_img_file = os.path.join(cat_dog_folder, "PetImages")+"/Cat"
-cat_img_names = [[os.path.join(temp_img_file, name), 0]
+cat_img_names = [[os.path.join(temp_img_file, name), 1, 0]
                  for name in os.listdir(temp_img_file)
                  if os.path.isfile(os.path.join(temp_img_file, name))]
 
@@ -606,7 +688,7 @@ len_cat_img = len(cat_img_names)
 print("number of cat imgage is :{}".format(len_cat_img))
 
 temp_img_file = os.path.join(cat_dog_folder, "PetImages") + "/Dog"
-dog_img_names = [[os.path.join(cat_dog_folder, name), 1]
+dog_img_names = [[os.path.join(temp_img_file, name), 0, 1]
                  for name in os.listdir(temp_img_file)
                  if os.path.isfile(os.path.join(temp_img_file, name))]
 
@@ -617,6 +699,45 @@ print("number of dog image is:{}".format(len_dog_img))
 img_files = np.concatenate((cat_img_names, dog_img_names))
 num_nmg_files = len(img_files)
 
-shuffled_index = list(range(len(img_files)))
-
 RANDOM_SEED = 180428
+shuffled_index = list(range(len(img_files)))
+random.seed(RANDOM_SEED)
+random.shuffle(shuffled_index)
+random.shuffle(shuffled_index)
+
+img_files = [img_files[i][:] for i in shuffled_index]
+
+# 80% for training, 20% for testing
+pivot = int(len(img_files)*0.8)
+train_data = img_files[0:pivot][:]
+test_data = img_files[pivot:][:]
+
+coder = ImageCoder()
+
+
+NUM_THREADS = multiprocessing.cpu_count()
+
+# process train_data
+spacing = np.linspace(0, len(train_data), NUM_THREADS + 1).astype(np.int)
+
+ranges = []
+threads = []
+
+for i in range(len(spacing) - 1):
+    ranges.append([spacing[i], spacing[i+1]])
+
+print("Launching {} Threads for spacing {}".format(NUM_THREADS, ranges))
+
+coord = tf.train.Coordinator()
+
+coder = ImageCoder()
+name = "train"
+num_shards = 16
+for thread_index in range(len(ranges)):
+    args = (coder, thread_index, ranges, name, cat_dog_folder, train_data, num_shards)
+    t = threading.Thread(target=_process_image_file_batch, args=args)
+    t.start()
+    threads.append(t)
+
+coord.join(threads)
+sys.stdout.flush()
