@@ -786,4 +786,5 @@ for thread_index in range(len(ranges)):
     threads.append(t)
 
 coord.join(threads)
+print("{} Finish writing all {} image to data set.".format(datetime.now(), len(train_data)))
 sys.stdout.flush()
