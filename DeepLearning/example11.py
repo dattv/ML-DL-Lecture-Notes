@@ -556,4 +556,24 @@ x_input = tf.placeholder(dtype=tf.float32, shape=[None, 224, 224, 3], name='x_in
 y_input = tf.placeholder(dtype=tf.float32, shape=[None, n_output], name='y_input')
 logits = VGG16.build_VGG_classify(x_input, keep_prob=0.5, n_output=n_output)
 
+# Download data cat and dog from microsoft
+
+cat_dog_url = "https://download.microsoft.com/download/3/E/1/3E1C3F21-ECDB-4869-8368-6DEBA77B919F/kagglecatsanddogs_3367a.zip"
+temp_cat_dog_file = cat_dog_url.split("/")[-1]
+temp_cat_dog_folder = temp_cat_dog_file.split(".")[0]
+work_dir = os.getcwd()
+
+cat_dog_folder = os.path.join(work_dir, temp_cat_dog_folder)
+cat_dog_file = os.path.join(cat_dog_folder, temp_cat_dog_file)
+
+if os.path.isdir(cat_dog_folder) == False:
+    os.mkdir(cat_dog_folder)
+
+if os.path.exists(cat_dog_file) == False:
+    with tqdm(unit="B", unit_scale=True, leave=True, miniters=1, desc=cat_dog_url.split("/")[-1]) as t:
+        file_path, _ = urllib.request.urlretrieve(cat_dog_url, filename=cat_dog_file, reporthook=my_hook(t),
+                                                  data=None)
+
+
+
 
