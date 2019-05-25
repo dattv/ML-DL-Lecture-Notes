@@ -10,7 +10,7 @@ from tqdm import tqdm
 import urllib.request
 
 import cv2 as cv
-
+import numpy as np
 
 def my_hook(t):
     """
@@ -578,18 +578,45 @@ if os.path.exists(cat_dog_file) == False:
                                                   data=None)
 
 # Extract dog and cat dataset
-if cat_dog_file.endswith("zip"):
-    with zipfile.ZipFile(cat_dog_file) as zip:
-        for member in tqdm(iterable=zip.namelist(), total=len(zip.namelist())):
-            zip.extract(member=member, path=cat_dog_folder)
-            if member.endswith("jpg"):
-                img = cv.imread(os.path.join(cat_dog_folder, member))
-                try:
-                    img = cv.resize(img, (224, 224), interpolation=cv.INTER_CUBIC)
-                    cv.imwrite(os.path.join(cat_dog_folder, member), img)
-                except:
-                    os.remove(os.path.join(cat_dog_folder, member))
-                    print("There are some error with file: {}, so we remove it".format(member))
+# if cat_dog_file.endswith("zip"):
+#     with zipfile.ZipFile(cat_dog_file) as zip:
+#         for member in tqdm(iterable=zip.namelist(), total=len(zip.namelist())):
+#             zip.extract(member=member, path=cat_dog_folder)
+#             if member.endswith("jpg"):
+#                 img = cv.imread(os.path.join(cat_dog_folder, member))
+#                 try:
+#                     img = cv.resize(img, (224, 224), interpolation=cv.INTER_CUBIC)
+#                     cv.imwrite(os.path.join(cat_dog_folder, member), img)
+#                 except:
+#                     os.remove(os.path.join(cat_dog_folder, member))
+#                     print("There are some error with file: {}, so we remove it".format(member))
 
 # Prepare data
 # split it into train and test dataset
+cat_dog_train_dir = os.path.join(cat_dog_folder, "train")
+cat_dog_test_dir = os.path.join(cat_dog_folder, "test")
+
+temp_img_file = os.path.join(cat_dog_folder, "PetImages")+"/Cat"
+cat_img_names = [[os.path.join(temp_img_file, name), 0]
+                 for name in os.listdir(temp_img_file)
+                 if os.path.isfile(os.path.join(temp_img_file, name))]
+
+cat_img_names = np.asarray(cat_img_names)
+len_cat_img = len(cat_img_names)
+print("number of cat imgage is :{}".format(len_cat_img))
+
+temp_img_file = os.path.join(cat_dog_folder, "PetImages") + "/Dog"
+dog_img_names = [[os.path.join(cat_dog_folder, name), 1]
+                 for name in os.listdir(temp_img_file)
+                 if os.path.isfile(os.path.join(temp_img_file, name))]
+
+dog_img_names = np.asarray(dog_img_names)
+len_dog_img = len(dog_img_names)
+print("number of dog image is:{}".format(len_dog_img))
+
+img_files = np.concatenate((cat_img_names, dog_img_names))
+num_nmg_files = len(img_files)
+
+shuffled_index = list(range(len(img_files)))
+
+RANDOM_SEED = 180428
