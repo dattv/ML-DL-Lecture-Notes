@@ -1,5 +1,6 @@
 import os
 import tarfile
+import zipfile
 
 from tensorflow.python import pywrap_tensorflow
 import tensorflow as tf
@@ -7,6 +8,8 @@ import tensorflow as tf
 
 from tqdm import tqdm
 import urllib.request
+
+import cv2 as cv
 
 
 def my_hook(t):
@@ -551,7 +554,7 @@ class VGG:
 
 
 VGG16 = VGG()
-n_output = 10
+n_output = 2
 x_input = tf.placeholder(dtype=tf.float32, shape=[None, 224, 224, 3], name='x_input')
 y_input = tf.placeholder(dtype=tf.float32, shape=[None, n_output], name='y_input')
 logits = VGG16.build_VGG_classify(x_input, keep_prob=0.5, n_output=n_output)
@@ -574,6 +577,19 @@ if os.path.exists(cat_dog_file) == False:
         file_path, _ = urllib.request.urlretrieve(cat_dog_url, filename=cat_dog_file, reporthook=my_hook(t),
                                                   data=None)
 
+# Extract dog and cat dataset
+if cat_dog_file.endswith("zip"):
+    with zipfile.ZipFile(cat_dog_file) as zip:
+        for member in tqdm(iterable=zip.namelist(), total=len(zip.namelist())):
+            zip.extract(member=member, path=cat_dog_folder)
+            if member.endswith("jpg"):
+                img = cv.imread(os.path.join(cat_dog_folder, member))
+                try:
+                    img = cv.resize(img, (224, 224), interpolation=cv.INTER_CUBIC)
+                    cv.imwrite(os.path.join(cat_dog_folder, member), img)
+                except:
+                    os.remove(os.path.join(cat_dog_folder, member))
+                    print("There are some error with file: {}, so we remove it".format(member))
 
-
-
+# Prepare data
+# split it into train and test dataset
