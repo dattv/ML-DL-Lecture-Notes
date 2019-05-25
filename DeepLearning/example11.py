@@ -1,19 +1,18 @@
+import multiprocessing
 import os
 import random
 import sys
 import tarfile
 import threading
-import zipfile
-
-from tensorflow.python import pywrap_tensorflow
-import tensorflow as tf
-import multiprocessing
-
-from tqdm import tqdm
 import urllib.request
+from datetime import datetime
 
-import cv2 as cv
 import numpy as np
+import six
+import tensorflow as tf
+from tensorflow.python import pywrap_tensorflow
+from tqdm import tqdm
+
 
 def my_hook(t):
     """
@@ -37,6 +36,7 @@ def my_hook(t):
         last_b[0] = b
 
     return inner
+
 
 class ImageCoder(object):
     """
@@ -84,6 +84,7 @@ class ImageCoder(object):
         assert image.shape[2] == 3
         return image
 
+
 class VGG:
     def __init__(self, VGG_URL="http://download.tensorflow.org/models/vgg_16_2016_08_28.tar.gz",
                  ):
@@ -113,11 +114,8 @@ class VGG:
                 for member in tqdm(iterable=tar.getmembers(), total=len(tar.getmembers())):
                     tar.extract(member=member, path=temp_vgg_file_name)
 
-
         # Load VGG parameters
         self.read_VGG_model(file_path=self._vgg_model_file_name)
-
-        
 
     def read_VGG_model(self, file_path="", TRAINABLE=False):
         if file_path.endswith("ckpt"):
@@ -231,7 +229,6 @@ class VGG:
 
             self._biases_8 = reader.get_tensor("vgg_16/fc8/biases")
             self._t_biases_8 = tf.Variable(initial_value=self._biases_8, name='biases', trainable=True)
-
 
     def build_vgg(self, x_input, keep_prob=1.):
         with tf.name_scope("vgg_16") as scope:
@@ -588,7 +585,6 @@ class VGG:
                                                            name="new_t_biases_8",
                                                            trainable=True)
 
-
             with tf.name_scope("dense8") as scope:
                 self._fc8 = tf.nn.conv2d(input=self._fc7,
                                          filter=self._new_t_weights_8,
@@ -598,6 +594,7 @@ class VGG:
                 self._fc8 = tf.nn.softmax(self._fc8, name='fc8')
 
         return self._fc8
+
 
 def _process_image_file_batch(coder, thread_index, ranges, name, directory, all_records, num_shards):
     """
@@ -619,7 +616,7 @@ def _process_image_file_batch(coder, thread_index, ranges, name, directory, all_
                                ranges[thread_index][1],
                                num_shards_per_batch + 1).astype(int)
 
-    num_files_in_threads = ranges[thread_index][1] - ranges[thread_index][0]
+    num_files_in_thread = ranges[thread_index][1] - ranges[thread_index][0]
 
     counter = 0
     for s in range(num_shards_per_batch):
@@ -630,9 +627,60 @@ def _process_image_file_batch(coder, thread_index, ranges, name, directory, all_
         writer = tf.python_io.TFRecordWriter(output_file)
 
         shard_counter = 0
-        files_in_shard = np.arange(shard_ranges[s], shard_ranges[s+1], dtype=int)
+        files_in_shard = np.arange(shard_ranges[s], shard_ranges[s + 1], dtype=int)
         for i in files_in_shard:
             cur_record = all_records[i]
+            with tf.gfile.FastGFile(cur_record[0], 'rb') as f:
+                cur_img = f.read()
+
+            temp_cur_img = coder.decode_jpeg(cur_img)
+            cur_label = cur_record[1:]
+            w, h, c = temp_cur_img.shape
+
+            if not isinstance(w, list):
+                w = [w]
+            if not isinstance(h, list):
+                h = [h]
+            if not isinstance(c, list):
+                c = [c]
+            if isinstance(cur_img, six.string_types):
+                cur_img = six.binary_type(cur_img, encoding='utf-8')
+
+            temp_file_name = cur_record[0].encode('utf8')
+            if isinstance(temp_file_name, six.string_types):
+                temp_file_name = six.binary_type(temp_file_name, encoding='utf-8')
+
+            if not isinstance(cur_label, list):
+                cur_label = [int(cur_label[0]), int(cur_label[1])]
+
+            image_format = 'JPEG'
+            if isinstance(image_format, six.string_types):
+                image_format = six.binary_type(image_format, encoding='utf-8')
+            # print("")
+            example = tf.train.Example(features=tf.train.Features(
+                feature={'image/height': tf.train.Feature(int64_list=tf.train.Int64List(value=h)),
+                         'image/weight': tf.train.Feature(int64_list=tf.train.Int64List(value=w)),
+                         'image/chanels': tf.train.Feature(int64_list=tf.train.Int64List(value=c)),
+                         'image/format': tf.train.Feature(bytes_list=tf.train.BytesList(value=[image_format])),
+                         'image/label': tf.train.Feature(int64_list=tf.train.Int64List(value=cur_label)),
+                         'image/filename': tf.train.Feature(bytes_list=tf.train.BytesList(value=[temp_file_name])),
+                         'image/encoded': tf.train.Feature(bytes_list=tf.train.BytesList(value=[cur_img]))}))
+            writer.write(example.SerializeToString())
+            shard_counter += 1
+            counter += 1
+            if not counter % 1000:
+                print("{} [thread {}]: Processed {} of {} images in thread batch.".format(datetime.now(), thread_index,
+                                                                                          counter, num_files_in_thread))
+
+                sys.stdout.flush()
+
+    writer.close()
+    print("{} [thread {}]: Wrote {} images to {}".format(datetime.now(), thread_index, shard_counter, output_file))
+    sys.stdout.flush()
+    shard_counter = 0
+    print("{} [thread {}]: Wrote {} images to {} shared".format(datetime.now(), thread_index, counter,
+                                                                num_files_in_thread))
+    sys.stdout.flush()
 
 
 VGG16 = VGG()
@@ -678,7 +726,7 @@ if os.path.exists(cat_dog_file) == False:
 cat_dog_train_dir = os.path.join(cat_dog_folder, "train")
 cat_dog_test_dir = os.path.join(cat_dog_folder, "test")
 
-temp_img_file = os.path.join(cat_dog_folder, "PetImages")+"/Cat"
+temp_img_file = os.path.join(cat_dog_folder, "PetImages") + "/Cat"
 cat_img_names = [[os.path.join(temp_img_file, name), 1, 0]
                  for name in os.listdir(temp_img_file)
                  if os.path.isfile(os.path.join(temp_img_file, name))]
@@ -708,12 +756,9 @@ random.shuffle(shuffled_index)
 img_files = [img_files[i][:] for i in shuffled_index]
 
 # 80% for training, 20% for testing
-pivot = int(len(img_files)*0.8)
+pivot = int(len(img_files) * 0.8)
 train_data = img_files[0:pivot][:]
 test_data = img_files[pivot:][:]
-
-coder = ImageCoder()
-
 
 NUM_THREADS = multiprocessing.cpu_count()
 
@@ -724,13 +769,14 @@ ranges = []
 threads = []
 
 for i in range(len(spacing) - 1):
-    ranges.append([spacing[i], spacing[i+1]])
+    ranges.append([spacing[i], spacing[i + 1]])
 
 print("Launching {} Threads for spacing {}".format(NUM_THREADS, ranges))
 
 coord = tf.train.Coordinator()
 
 coder = ImageCoder()
+
 name = "train"
 num_shards = 16
 for thread_index in range(len(ranges)):
