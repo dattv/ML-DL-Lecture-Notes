@@ -250,7 +250,9 @@ The dataset is divided into five training batches and one test batch, each with 
 
 <b>[cats versus dogs](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example11.py)</b> The dataset from <b>kaggle</b> which is including ``train.zip``, ``test1.zip``. the ``train.zip`` file contains 25000 images of pet data.
 
+
 * [example11]() Transfer learning VGG16 for classification cat and dog
+    * [Reference](http://www.machinelearninguru.com/deep_learning/tensorflow/basics/tfrecord/tfrecord.html)
 ## Detecting objects in an image
 ### Dataset
 1. [ImageNet]()

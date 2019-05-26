@@ -716,6 +716,10 @@ if cat_dog_file.endswith("zip"):
             zip.extract(member=member, path=cat_dog_folder)
             if member.endswith("jpg"):
                 img = cv.imread(os.path.join(cat_dog_folder, member))
+                if img.shape[2] != 3:
+                    print("not color")
+                    os.remove(os.path.join(cat_dog_folder, member))
+                    print("There are some error with file: {}, so we remove it".format(member))
                 try:
                     img = cv.resize(img, (224, 224), interpolation=cv.INTER_CUBIC)
                     cv.imwrite(os.path.join(cat_dog_folder, member), img)
@@ -762,7 +766,7 @@ pivot = int(len(img_files) * 0.8)
 train_data = img_files[0:pivot][:]
 test_data = img_files[pivot:][:]
 
-NUM_THREADS = multiprocessing.cpu_count()
+NUM_THREADS = 1 # multiprocessing.cpu_count()
 
 # process train_data
 spacing = np.linspace(0, len(train_data), NUM_THREADS + 1).astype(np.int)
@@ -816,3 +820,4 @@ for thread_index in range(len(ranges)):
 coord.join(threads)
 print("{} Finish writing all {} image to data set.".format(datetime.now(), len(test_data)))
 sys.stdout.flush()
+
