@@ -791,6 +791,20 @@ coord.join(threads)
 print("{} Finish writing all {} image to data set.".format(datetime.now(), len(train_data)))
 sys.stdout.flush()
 # =================================================================================================
+spacing = np.linspace(0, len(test_data), NUM_THREADS + 1).astype(np.int)
+
+ranges = []
+threads = []
+
+for i in range(len(spacing) - 1):
+    ranges.append([spacing[i], spacing[i + 1]])
+
+print("Launching {} Threads for spacing {}".format(NUM_THREADS, ranges))
+
+coord = tf.train.Coordinator()
+
+coder = ImageCoder()
+
 name = "test"
 num_shards = 16
 for thread_index in range(len(ranges)):
