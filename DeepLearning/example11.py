@@ -5,6 +5,8 @@ import sys
 import tarfile
 import threading
 import urllib.request
+import zipfile
+import cv2 as cv
 from datetime import datetime
 
 import numpy as np
@@ -708,18 +710,18 @@ if os.path.exists(cat_dog_file) == False:
                                                   data=None)
 
 # Extract dog and cat dataset
-# if cat_dog_file.endswith("zip"):
-#     with zipfile.ZipFile(cat_dog_file) as zip:
-#         for member in tqdm(iterable=zip.namelist(), total=len(zip.namelist())):
-#             zip.extract(member=member, path=cat_dog_folder)
-#             if member.endswith("jpg"):
-#                 img = cv.imread(os.path.join(cat_dog_folder, member))
-#                 try:
-#                     img = cv.resize(img, (224, 224), interpolation=cv.INTER_CUBIC)
-#                     cv.imwrite(os.path.join(cat_dog_folder, member), img)
-#                 except:
-#                     os.remove(os.path.join(cat_dog_folder, member))
-#                     print("There are some error with file: {}, so we remove it".format(member))
+if cat_dog_file.endswith("zip"):
+    with zipfile.ZipFile(cat_dog_file) as zip:
+        for member in tqdm(iterable=zip.namelist(), total=len(zip.namelist())):
+            zip.extract(member=member, path=cat_dog_folder)
+            if member.endswith("jpg"):
+                img = cv.imread(os.path.join(cat_dog_folder, member))
+                try:
+                    img = cv.resize(img, (224, 224), interpolation=cv.INTER_CUBIC)
+                    cv.imwrite(os.path.join(cat_dog_folder, member), img)
+                except:
+                    os.remove(os.path.join(cat_dog_folder, member))
+                    print("There are some error with file: {}, so we remove it".format(member))
 
 # Prepare data
 # split it into train and test dataset
@@ -776,7 +778,7 @@ print("Launching {} Threads for spacing {}".format(NUM_THREADS, ranges))
 coord = tf.train.Coordinator()
 
 coder = ImageCoder()
-
+# ================================================================================================
 name = "train"
 num_shards = 16
 for thread_index in range(len(ranges)):
@@ -787,4 +789,16 @@ for thread_index in range(len(ranges)):
 
 coord.join(threads)
 print("{} Finish writing all {} image to data set.".format(datetime.now(), len(train_data)))
+sys.stdout.flush()
+# =================================================================================================
+name = "test"
+num_shards = 16
+for thread_index in range(len(ranges)):
+    args = (coder, thread_index, ranges, name, cat_dog_folder, test_data, num_shards)
+    t = threading.Thread(target=_process_image_file_batch, args=args)
+    t.start()
+    threads.append(t)
+
+coord.join(threads)
+print("{} Finish writing all {} image to data set.".format(datetime.now(), len(test_data)))
 sys.stdout.flush()
