@@ -718,22 +718,22 @@ if os.path.exists(cat_dog_file) == False:
                                                   data=None)
 
 # Extract dog and cat dataset
-if cat_dog_file.endswith("zip"):
-    with zipfile.ZipFile(cat_dog_file) as zip:
-        for member in tqdm(iterable=zip.namelist(), total=len(zip.namelist())):
-            zip.extract(member=member, path=cat_dog_folder)
-            if member.endswith("jpg"):
-                img = cv.imread(os.path.join(cat_dog_folder, member))
-                try:
-                    img = cv.resize(img, (224, 224), interpolation=cv.INTER_CUBIC)
-                    cv.imwrite(os.path.join(cat_dog_folder, member), img)
-                except:
-                    os.remove(os.path.join(cat_dog_folder, member))
-                    print("There are some error with file: {}, so we remove it".format(member))
-            else:
-                if os.path.isfile(os.path.join(cat_dog_folder, member)):
-                    os.remove(os.path.join(cat_dog_folder, member))
-                    print("remove: ", os.path.join(cat_dog_folder, member))
+# if cat_dog_file.endswith("zip"):
+#     with zipfile.ZipFile(cat_dog_file) as zip:
+#         for member in tqdm(iterable=zip.namelist(), total=len(zip.namelist())):
+#             zip.extract(member=member, path=cat_dog_folder)
+#             if member.endswith("jpg"):
+#                 img = cv.imread(os.path.join(cat_dog_folder, member))
+#                 try:
+#                     img = cv.resize(img, (224, 224), interpolation=cv.INTER_CUBIC)
+#                     cv.imwrite(os.path.join(cat_dog_folder, member), img)
+#                 except:
+#                     os.remove(os.path.join(cat_dog_folder, member))
+#                     print("There are some error with file: {}, so we remove it".format(member))
+#             else:
+#                 if os.path.isfile(os.path.join(cat_dog_folder, member)):
+#                     os.remove(os.path.join(cat_dog_folder, member))
+#                     print("remove: ", os.path.join(cat_dog_folder, member))
 
 # Prepare data
 # split it into train and test dataset
@@ -774,7 +774,7 @@ pivot = int(len(img_files) * 0.8)
 train_data = img_files[0:pivot][:]
 test_data = img_files[pivot:][:]
 
-NUM_THREADS = 1 # multiprocessing.cpu_count()
+NUM_THREADS = multiprocessing.cpu_count()
 
 # process train_data
 spacing = np.linspace(0, len(train_data), NUM_THREADS + 1).astype(np.int)
@@ -804,29 +804,29 @@ coord.join(threads)
 print("{} Finish writing all {} image to data set.".format(datetime.now(), len(train_data)))
 sys.stdout.flush()
 # =================================================================================================
-# spacing = np.linspace(0, len(test_data), NUM_THREADS + 1).astype(np.int)
-#
-# ranges = []
-# threads = []
-#
-# for i in range(len(spacing) - 1):
-#     ranges.append([spacing[i], spacing[i + 1]])
-#
-# print("Launching {} Threads for spacing {}".format(NUM_THREADS, ranges))
-#
-# coord = tf.train.Coordinator()
-#
-# coder = ImageCoder()
-#
-# name = "test"
-# num_shards = 16
-# for thread_index in range(len(ranges)):
-#     args = (coder, thread_index, ranges, name, cat_dog_folder, test_data, num_shards)
-#     t = threading.Thread(target=_process_image_file_batch, args=args)
-#     t.start()
-#     threads.append(t)
-#
-# coord.join(threads)
-# print("{} Finish writing all {} image to data set.".format(datetime.now(), len(test_data)))
-# sys.stdout.flush()
+spacing = np.linspace(0, len(test_data), NUM_THREADS + 1).astype(np.int)
+
+ranges = []
+threads = []
+
+for i in range(len(spacing) - 1):
+    ranges.append([spacing[i], spacing[i + 1]])
+
+print("Launching {} Threads for spacing {}".format(NUM_THREADS, ranges))
+
+coord = tf.train.Coordinator()
+
+coder = ImageCoder()
+
+name = "test"
+num_shards = 16
+for thread_index in range(len(ranges)):
+    args = (coder, thread_index, ranges, name, cat_dog_folder, test_data, num_shards)
+    t = threading.Thread(target=_process_image_file_batch, args=args)
+    t.start()
+    threads.append(t)
+
+coord.join(threads)
+print("{} Finish writing all {} image to data set.".format(datetime.now(), len(test_data)))
+sys.stdout.flush()
 
