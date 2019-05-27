@@ -835,3 +835,12 @@ logits = VGG16.build_VGG_classify(x_input, keep_prob=0.5, n_output=n_output)
 with tf.name_scope("loss") as scope:
     softmax_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits,
                                                                     labels=y_input)
+
+    loss_operation = tf.reduce_mean(softmax_cross_entropy, name='loss')
+
+    tf.summary.scalar("loss", loss_operation)
+
+with tf.name_scope("optimization") as scope:
+    optimiser = tf.train.AdamOptimizer(1.e-4).minimize(loss_operation)
+
+with tf.name_scope("accuracy") as scope:
