@@ -716,10 +716,6 @@ if cat_dog_file.endswith("zip"):
             zip.extract(member=member, path=cat_dog_folder)
             if member.endswith("jpg"):
                 img = cv.imread(os.path.join(cat_dog_folder, member))
-                if img.shape[2] != 3:
-                    print("not color")
-                    os.remove(os.path.join(cat_dog_folder, member))
-                    print("There are some error with file: {}, so we remove it".format(member))
                 try:
                     img = cv.resize(img, (224, 224), interpolation=cv.INTER_CUBIC)
                     cv.imwrite(os.path.join(cat_dog_folder, member), img)
