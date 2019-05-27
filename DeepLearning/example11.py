@@ -6,9 +6,9 @@ import tarfile
 import threading
 import urllib.request
 import zipfile
-import cv2 as cv
 from datetime import datetime
 
+import cv2 as cv
 import numpy as np
 import six
 import tensorflow as tf
@@ -824,8 +824,6 @@ coord.join(threads)
 print("{} Finish writing all {} image to data set.".format(datetime.now(), len(test_data)))
 sys.stdout.flush()
 
-
-
 VGG16 = VGG()
 n_output = 2
 x_input = tf.placeholder(dtype=tf.float32, shape=[None, 224, 224, 3], name='x_input')
@@ -833,8 +831,8 @@ y_input = tf.placeholder(dtype=tf.float32, shape=[None, n_output], name='y_input
 logits = VGG16.build_VGG_classify(x_input, keep_prob=0.5, n_output=n_output)
 
 with tf.name_scope("loss") as scope:
-    softmax_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits,
-                                                                    labels=y_input)
+    softmax_cross_entropy = tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits,
+                                                                       labels=y_input)
 
     loss_operation = tf.reduce_mean(softmax_cross_entropy, name='loss')
 
@@ -852,4 +850,3 @@ with tf.name_scope("accuracy") as scope:
         accuracy_prediction = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 tf.summary.scalar("accuracy", accuracy_prediction)
-
