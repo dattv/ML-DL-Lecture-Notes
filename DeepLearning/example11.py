@@ -844,3 +844,12 @@ with tf.name_scope("optimization") as scope:
     optimiser = tf.train.AdamOptimizer(1.e-4).minimize(loss_operation)
 
 with tf.name_scope("accuracy") as scope:
+    with tf.name_scope("correct_prediction") as scope:
+        prediction = tf.argmax(logits, 1)
+        correct_prediction = tf.equal(prediction, tf.argmax(y_input, 1))
+
+    with tf.name_scope("accuracy") as scope:
+        accuracy_prediction = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+tf.summary.scalar("accuracy", accuracy_prediction)
+
