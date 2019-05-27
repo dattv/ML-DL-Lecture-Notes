@@ -635,6 +635,14 @@ def _process_image_file_batch(coder, thread_index, ranges, name, directory, all_
             with tf.gfile.FastGFile(cur_record[0], 'rb') as f:
                 cur_img = f.read()
 
+            # cur_img = cv.imread(cur_record[0])
+            # try:
+            #     cur_img = cv.cvtColor(cur_img, cv.COLOR_BGR2RGB)
+            #     cur_img = cur_img.astype(np.float32)
+            # except:
+            #     # print(cur_img.shape)
+            #     print(cur_record)
+
             temp_cur_img = coder.decode_jpeg(cur_img)
             cur_label = cur_record[1:]
             w, h, c = temp_cur_img.shape
@@ -722,13 +730,17 @@ if cat_dog_file.endswith("zip"):
                 except:
                     os.remove(os.path.join(cat_dog_folder, member))
                     print("There are some error with file: {}, so we remove it".format(member))
+            else:
+                if os.path.isfile(os.path.join(cat_dog_folder, member)):
+                    os.remove(os.path.join(cat_dog_folder, member))
+                    print("remove: ", os.path.join(cat_dog_folder, member))
 
 # Prepare data
 # split it into train and test dataset
 cat_dog_train_dir = os.path.join(cat_dog_folder, "train")
 cat_dog_test_dir = os.path.join(cat_dog_folder, "test")
 
-temp_img_file = os.path.join(cat_dog_folder, "PetImages") + "/Cat"
+temp_img_file = os.path.join(os.path.join(cat_dog_folder, "PetImages"), "Cat")
 cat_img_names = [[os.path.join(temp_img_file, name), 1, 0]
                  for name in os.listdir(temp_img_file)
                  if os.path.isfile(os.path.join(temp_img_file, name))]
@@ -737,7 +749,7 @@ cat_img_names = np.asarray(cat_img_names)
 len_cat_img = len(cat_img_names)
 print("number of cat imgage is :{}".format(len_cat_img))
 
-temp_img_file = os.path.join(cat_dog_folder, "PetImages") + "/Dog"
+temp_img_file = os.path.join(os.path.join(cat_dog_folder, "PetImages"), "Dog")
 dog_img_names = [[os.path.join(temp_img_file, name), 0, 1]
                  for name in os.listdir(temp_img_file)
                  if os.path.isfile(os.path.join(temp_img_file, name))]
@@ -782,6 +794,7 @@ coder = ImageCoder()
 name = "train"
 num_shards = 16
 for thread_index in range(len(ranges)):
+    # _process_image_file_batch(coder, thread_index, ranges, name, cat_dog_folder, train_data, num_shards)
     args = (coder, thread_index, ranges, name, cat_dog_folder, train_data, num_shards)
     t = threading.Thread(target=_process_image_file_batch, args=args)
     t.start()
@@ -791,29 +804,29 @@ coord.join(threads)
 print("{} Finish writing all {} image to data set.".format(datetime.now(), len(train_data)))
 sys.stdout.flush()
 # =================================================================================================
-spacing = np.linspace(0, len(test_data), NUM_THREADS + 1).astype(np.int)
-
-ranges = []
-threads = []
-
-for i in range(len(spacing) - 1):
-    ranges.append([spacing[i], spacing[i + 1]])
-
-print("Launching {} Threads for spacing {}".format(NUM_THREADS, ranges))
-
-coord = tf.train.Coordinator()
-
-coder = ImageCoder()
-
-name = "test"
-num_shards = 16
-for thread_index in range(len(ranges)):
-    args = (coder, thread_index, ranges, name, cat_dog_folder, test_data, num_shards)
-    t = threading.Thread(target=_process_image_file_batch, args=args)
-    t.start()
-    threads.append(t)
-
-coord.join(threads)
-print("{} Finish writing all {} image to data set.".format(datetime.now(), len(test_data)))
-sys.stdout.flush()
+# spacing = np.linspace(0, len(test_data), NUM_THREADS + 1).astype(np.int)
+#
+# ranges = []
+# threads = []
+#
+# for i in range(len(spacing) - 1):
+#     ranges.append([spacing[i], spacing[i + 1]])
+#
+# print("Launching {} Threads for spacing {}".format(NUM_THREADS, ranges))
+#
+# coord = tf.train.Coordinator()
+#
+# coder = ImageCoder()
+#
+# name = "test"
+# num_shards = 16
+# for thread_index in range(len(ranges)):
+#     args = (coder, thread_index, ranges, name, cat_dog_folder, test_data, num_shards)
+#     t = threading.Thread(target=_process_image_file_batch, args=args)
+#     t.start()
+#     threads.append(t)
+#
+# coord.join(threads)
+# print("{} Finish writing all {} image to data set.".format(datetime.now(), len(test_data)))
+# sys.stdout.flush()
 
