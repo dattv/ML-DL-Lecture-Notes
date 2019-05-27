@@ -623,7 +623,7 @@ def _process_image_file_batch(coder, thread_index, ranges, name, directory, all_
     counter = 0
     for s in range(num_shards_per_batch):
         shard = thread_index * num_shards_per_batch + s
-        output_filename = "{}-{:05d}-of-{:05d}".format(name, shard, num_shards)
+        output_filename = "{}-{:05d}-of-{:05d}.tfrecords".format(name, shard, num_shards)
         output_file = os.path.join(directory, output_filename)
 
         writer = tf.python_io.TFRecordWriter(output_file)
@@ -693,12 +693,6 @@ def _process_image_file_batch(coder, thread_index, ranges, name, directory, all_
     sys.stdout.flush()
 
 
-VGG16 = VGG()
-n_output = 2
-x_input = tf.placeholder(dtype=tf.float32, shape=[None, 224, 224, 3], name='x_input')
-y_input = tf.placeholder(dtype=tf.float32, shape=[None, n_output], name='y_input')
-logits = VGG16.build_VGG_classify(x_input, keep_prob=0.5, n_output=n_output)
-
 # Download data cat and dog from microsoft
 
 cat_dog_url = "https://download.microsoft.com/download/3/E/1/3E1C3F21-ECDB-4869-8368-6DEBA77B919F/kagglecatsanddogs_3367a.zip"
@@ -718,22 +712,22 @@ if os.path.exists(cat_dog_file) == False:
                                                   data=None)
 
 # Extract dog and cat dataset
-# if cat_dog_file.endswith("zip"):
-#     with zipfile.ZipFile(cat_dog_file) as zip:
-#         for member in tqdm(iterable=zip.namelist(), total=len(zip.namelist())):
-#             zip.extract(member=member, path=cat_dog_folder)
-#             if member.endswith("jpg"):
-#                 img = cv.imread(os.path.join(cat_dog_folder, member))
-#                 try:
-#                     img = cv.resize(img, (224, 224), interpolation=cv.INTER_CUBIC)
-#                     cv.imwrite(os.path.join(cat_dog_folder, member), img)
-#                 except:
-#                     os.remove(os.path.join(cat_dog_folder, member))
-#                     print("There are some error with file: {}, so we remove it".format(member))
-#             else:
-#                 if os.path.isfile(os.path.join(cat_dog_folder, member)):
-#                     os.remove(os.path.join(cat_dog_folder, member))
-#                     print("remove: ", os.path.join(cat_dog_folder, member))
+if cat_dog_file.endswith("zip"):
+    with zipfile.ZipFile(cat_dog_file) as zip:
+        for member in tqdm(iterable=zip.namelist(), total=len(zip.namelist())):
+            zip.extract(member=member, path=cat_dog_folder)
+            if member.endswith("jpg"):
+                img = cv.imread(os.path.join(cat_dog_folder, member))
+                try:
+                    img = cv.resize(img, (224, 224), interpolation=cv.INTER_CUBIC)
+                    cv.imwrite(os.path.join(cat_dog_folder, member), img)
+                except:
+                    os.remove(os.path.join(cat_dog_folder, member))
+                    print("There are some error with file: {}, so we remove it".format(member))
+            else:
+                if os.path.isfile(os.path.join(cat_dog_folder, member)):
+                    os.remove(os.path.join(cat_dog_folder, member))
+                    print("remove: ", os.path.join(cat_dog_folder, member))
 
 # Prepare data
 # split it into train and test dataset
@@ -830,3 +824,14 @@ coord.join(threads)
 print("{} Finish writing all {} image to data set.".format(datetime.now(), len(test_data)))
 sys.stdout.flush()
 
+
+
+VGG16 = VGG()
+n_output = 2
+x_input = tf.placeholder(dtype=tf.float32, shape=[None, 224, 224, 3], name='x_input')
+y_input = tf.placeholder(dtype=tf.float32, shape=[None, n_output], name='y_input')
+logits = VGG16.build_VGG_classify(x_input, keep_prob=0.5, n_output=n_output)
+
+with tf.name_scope("loss") as scope:
+    softmax_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits,
+                                                                    labels=y_input)
