@@ -23,5 +23,7 @@ for d in range(len(data_splits)):
     data_set = datasets[d]
 
     file_name = os.path.join(save_dir, data_splits[d] + ".tfrecords")
+    writer = tf.python_io.TFRecordWriter(file_name)
+
 
 
