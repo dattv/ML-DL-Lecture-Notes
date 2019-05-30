@@ -75,7 +75,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
 
-    for i in range(1000):
+    for i in range(500):
 
         batch = mnist.train.next_batch(124)
         if i % 100 == 0:
@@ -105,6 +105,7 @@ with tf.Session() as session:
 model_file_name = os.path.join(DATA_DIR, "model01")
 np.savez(model_file_name, data_dict)
 
-load_model = np.load(model_file_name + ".npz")["arr_0"]
+load_model = np.load(model_file_name + ".npz")
 
-print(load_model[:])
+temp = load_model['arr_0'].item()
+print(temp.keys())
