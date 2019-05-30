@@ -256,6 +256,7 @@ The dataset is divided into five training batches and one test batch, each with 
     
 * [example12](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example12.py) How to save and load weights in npz format
     
+* [example13](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example13.py) How to save and load weights in npz format (more complexity)    
 ## Detecting objects in an image
 ### Dataset
 1. [ImageNet]()
