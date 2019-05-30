@@ -2,7 +2,10 @@
 import tensorflow as tf
 import numpy as np
 import os
+
 tf.test.is_gpu_available()
+
+
 # Create a model
 def weight_variables(shape, name=None):
     initial = tf.truncated_normal(shape, stddev=0.1)
@@ -11,7 +14,7 @@ def weight_variables(shape, name=None):
 
 def bias_variables(shape, name=None):
     initial = tf.constant(0.1, shape=[shape])
-    return tf.Variable(initial,name=name)
+    return tf.Variable(initial, name=name)
 
 
 def conv2d(x, W, name=None):
@@ -28,15 +31,15 @@ def max_pool_2d(x):
 
 
 def conv_layer(input, shape, name=None):
-    W = weight_variables(shape, name=name+"_weights")
-    b = bias_variables(shape[3], name=name+"_biases")
+    W = weight_variables(shape, name=name + "/weights")
+    b = bias_variables(shape[3], name=name + "/biases")
     return tf.nn.relu(conv2d(input, W) + b, name=name)
 
 
 def full_layer(input, size, name=None):
     in_size = int(input.get_shape()[1])
-    W = weight_variables([in_size, size], name=name+"_weights")
-    b = bias_variables(size, name=name + '_biases')
+    W = weight_variables([in_size, size], name=name + "/weights")
+    b = bias_variables(size, name=name + '/biases')
     return tf.matmul(input, W) + b
 
 
@@ -76,7 +79,6 @@ with tf.Session() as session:
 
         batch = mnist.train.next_batch(124)
         if i % 100 == 0:
-
             train_accuracy = session.run(accuracy, feed_dict={x: batch[0],
                                                               y_: batch[1],
                                                               keep_prop: 1.})
@@ -85,5 +87,24 @@ with tf.Session() as session:
                                            y_: batch[1],
                                            keep_prop: 0.5})
 
-    for operations in tf.get_default_graph().get_operations():
-        print(str(operations.name))
+    data_dict = {}
+    idx = 0
+    for tensor in tf.get_default_graph().get_collection(tf.GraphKeys.VARIABLES):
+        temp_value = session.run(tf.get_default_graph().get_tensor_by_name(tensor.name))
+        temp_shape = tensor.shape
+        temp_value = np.reshape(temp_value, temp_shape)
+
+        temp_name = tensor.name
+        temp_name = temp_name.split("/")
+        if temp_name[len(temp_name) - 1].split(":")[0] == "weights":
+            data_dict[tensor.name] = temp_value
+        if temp_name[len(temp_name) - 1].split(":")[0] == "biases":
+            data_dict[tensor.name] = temp_value
+
+# save to cross-platform format
+model_file_name = os.path.join(DATA_DIR, "model01")
+np.savez(model_file_name, data_dict)
+
+load_model = np.load(model_file_name + ".npz")["arr_0"]
+
+print(load_model[:])
