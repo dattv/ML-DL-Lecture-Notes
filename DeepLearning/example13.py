@@ -106,6 +106,6 @@ model_file_name = os.path.join(DATA_DIR, "model01")
 np.savez(model_file_name, data_dict)
 
 load_model = np.load(model_file_name + ".npz")
+load_model = load_model['arr_0'].item()
 
-temp = load_model['arr_0'].item()
-print(temp.keys())
+print(load_model.keys())

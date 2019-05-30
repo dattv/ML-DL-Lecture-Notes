@@ -254,9 +254,9 @@ The dataset is divided into five training batches and one test batch, each with 
 * [example11]() Transfer learning VGG16 for classification cat and dog
     * [Reference](http://www.machinelearninguru.com/deep_learning/tensorflow/basics/tfrecord/tfrecord.html)
     
-* [example12](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example12.py) How to save and load weights in npz format
+* [example12](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example12.py) How to save and load weights in npz format (cross-platform)
     
-* [example13](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example13.py) How to save and load weights in npz format (more complexity)    
+* [example13](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/example13.py) How to save and load weights in npz format (cross-platform)(more complexity)    
 ## Detecting objects in an image
 ### Dataset
 1. [ImageNet]()
