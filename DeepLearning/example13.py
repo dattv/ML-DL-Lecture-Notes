@@ -2,6 +2,7 @@
 import tensorflow as tf
 import numpy as np
 import os
+import collections
 
 tf.test.is_gpu_available()
 
@@ -87,7 +88,7 @@ with tf.Session() as session:
                                            y_: batch[1],
                                            keep_prop: 0.5})
 
-    data_dict = {}
+    data_dict = collections.OrderedDict()
     idx = 0
     for tensor in tf.get_default_graph().get_collection(tf.GraphKeys.VARIABLES):
         temp_value = session.run(tf.get_default_graph().get_tensor_by_name(tensor.name))
@@ -97,9 +98,11 @@ with tf.Session() as session:
         temp_name = tensor.name
         temp_name = temp_name.split("/")
         if temp_name[len(temp_name) - 1].split(":")[0] == "weights":
-            data_dict[tensor.name] = temp_value
+            data_dict[tensor.name[:-2]] = temp_value
         if temp_name[len(temp_name) - 1].split(":")[0] == "biases":
-            data_dict[tensor.name] = temp_value
+            data_dict[tensor.name[:-2]] = temp_value
+
+    session.close()
 
 # save to cross-platform format
 model_file_name = os.path.join(DATA_DIR, "model01")
@@ -107,5 +110,53 @@ np.savez(model_file_name, data_dict)
 
 load_model = np.load(model_file_name + ".npz")
 load_model = load_model['arr_0'].item()
+keys = load_model.keys()
 
-print(load_model.keys())
+class simple_cnn:
+    def __init__(self, x_image, keep_prop, load_model, sess):
+        self.parameters = []
+        self.x_image = x_image
+
+    def weight_variable(self, shape):
+        initial = tf.truncated_normal(shape=shape, stddev=0.1)
+        return tf.Variable(initial_value=initial, name='weights')
+
+    def bias_variable(self, shape):
+        initial = tf.constant(0.1, shape=shape)
+        return tf.Variable(initial, name='biases')
+
+    def conv2d(self, x, W):
+        return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
+
+    def max_pooling_2x2(self, x):
+        return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
+
+    def conv_layer(self, input, shape):
+        W = self.weight_variable(shape)
+        b = self.bias_variable(shape[3])
+        self.parameters += [W, b]
+
+        return tf.nn.relu(self.conv2d(input, W) + b)
+
+    def full_layer(self, input, size):
+        in_size = int(input.get_shape()[1])
+        W = self.weight_variable([in_size, size])
+        b = self.bias_variable([size])
+        self.parameters += [W, b]
+        return tf.matmul(input, W) + b
+
+    def load_weights(self, weights, sess):
+        for i, w in enumerate(weights):
+            print("Weights index: {}".format(i),
+                  "weights shape: {}".format(w.shape))
+            session.run(self.parameters[i].assign(w))
+
+
+
+x = tf.placeholder(tf.float32, shape=[None, 784])
+x_image = tf.reshape(x, shape=[-1, 28, 28, 1])
+y_ = tf.placeholder(tf.float32, shape=[None, 10])
+
+keep_prop = tf.placeholder(tf.float32)
+
+sess = tf.Session()
