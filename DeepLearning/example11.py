@@ -850,3 +850,16 @@ with tf.name_scope("accuracy") as scope:
         accuracy_prediction = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 tf.summary.scalar("accuracy", accuracy_prediction)
+
+file_name = os.path.basename(__file__)
+name = file_name.split(".")[0]
+
+LOG_DIR = "./tmp"
+merged_summary_operation = tf.summary.merge_all()
+with tf.Session() as session:
+    session.run(tf.global_variables_initializer())
+
+    train_summary_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, name) + "/train", session.graph)
+    test_summary_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, name) + "/test")
+
+
