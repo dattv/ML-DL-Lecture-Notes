@@ -20,4 +20,16 @@
         2. Refuelling a helicopter
         3. Blocking oppoent moves
         
-        
+3. Agent and Environment:
+    1. At each step ``t`` the agent:
+        1. excutes action ``A_t``
+        2. Recieves observation ``O_t``
+        3. Receives scalar reward ``R_t``
+    2. The environment:
+        1. Receives action ``A_t``
+        2. Emits observation ``O_{t+1}``
+        3. Emits scalar reward ``R_{t+1}``
+    3. ``t`` increments at env.   
+    
+3. History and State:
+                  
