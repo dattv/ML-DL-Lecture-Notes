@@ -11,7 +11,9 @@
 3. Consuming Data
 
 ### Importing Data
-
+1. numpy
+    1. [dataset_example01]()
+    
 # References
 [1] [Dataset in TensorFlow - towardsdatascience.com](https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428)
 
