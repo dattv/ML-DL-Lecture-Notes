@@ -15,7 +15,6 @@ import tensorflow as tf
 from tensorflow.python import pywrap_tensorflow
 from tqdm import tqdm
 
-
 def my_hook(t):
     """
     Wraps tqdm instance
@@ -861,5 +860,23 @@ with tf.Session() as session:
 
     train_summary_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, name) + "/train", session.graph)
     test_summary_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, name) + "/test")
+
+    # print(cat_dog_train_dir)
+    # print(cat_dog_test_dir)
+
+    feature = {'image/height': tf.FixedLenFeature([], tf.int64),
+               'image/weight': tf.FixedLenFeature([], tf.int64),
+               'image/chanels': tf.FixedLenFeature([], tf.int64),
+               'image/format': tf.FixedLenFeature([], tf.string),
+               'image/label': tf.FixedLenFeature([], tf.int64),
+               'image/filename': tf.FixedLenFeature([], tf.string),
+               'image/encoded': tf.FixedLenFeature([], tf.string)}
+
+    name, _ = os.path.split(cat_dog_train_dir)
+    for epoch in range(num_shards):
+        idx = np.random.randint(0, num_shards)
+        file_batch = "{}-{:05d}-of-{:05d}.tfrecords".format(name+"/train", idx, num_shards)
+
+
 
 
