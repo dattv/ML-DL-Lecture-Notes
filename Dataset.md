@@ -3,6 +3,14 @@
 
 :+1: the correct way to feed data into your models is to use an input pipeline to ensure that the GPU has never to wait for new stuff to come in.
 
+## Generic Overview
+1. Importing Data
+
+2. Create an Iterator
+
+3. Consuming Data
+
+### Importing Data
 
 # References
 [1] [Dataset in TensorFlow - towardsdatascience.com](https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428)
