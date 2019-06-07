@@ -12,8 +12,9 @@
 
 ### Importing Data
 1. numpy
-    1. [dataset_example01]()
-    
+    1. [dataset_example01](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/Dataset/dataset_example01.py)
+2. tensor
+    1. [dataset_example02]()    
 # References
 [1] [Dataset in TensorFlow - towardsdatascience.com](https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428)
 
