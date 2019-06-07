@@ -6,3 +6,5 @@
 
 # References
 [1] [Dataset in TensorFlow - towardsdatascience.com](https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428)
+
+[2] [code explaint Dataset in Tensorflow](https://github.com/FrancescoSaverioZuppichini/Tensorflow-Dataset-Tutorial/blob/master/dataset_tutorial.ipynb)
