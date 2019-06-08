@@ -876,7 +876,3 @@ with tf.Session() as session:
     for epoch in range(num_shards):
         idx = np.random.randint(0, num_shards)
         file_batch = "{}-{:05d}-of-{:05d}.tfrecords".format(name+"/train", idx, num_shards)
-
-
-
-
