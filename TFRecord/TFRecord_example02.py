@@ -94,8 +94,7 @@ try:
         session.run([train_op])
         if step % 100 == 0:
             loss_mean_val = session.run([loss_mean])
-            print(step)
-            print(loss_mean_val)
+            print("step: {}, loss mean: {}".format(step, loss_mean_val))
 except:
     print('Done training for %d epochs, %d steps.' % (NUM_EPOCHS, step))
 finally:
