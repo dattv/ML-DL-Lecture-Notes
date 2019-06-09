@@ -32,4 +32,20 @@
     3. ``t`` increments at env.   
     
 3. History and State:
-                  
+    1. The history is th esequence of {obsevations, actions, rewards} ``H_t = O_1,R_1,A_1...A_{t-1},O_t,R_t``
+    2. All observable variables up to time ``t``
+    3. The sensorimotor stream of a robot or embodied agent.
+    4. What happens next depends on the history
+    5. State is the information used to determine what happens next
+    6. Formally, state is a function of the history: ``S_t = f(H_t)``
+
+
+4. Environment state
+    1. The environment state ``S_t^e`` is the environment's private representation
+    2. the environment state is not usually visible to the agent
+    
+5. Agent State ``S_t^a``:
+    1. It's the informatin used by reinforcement learning algorithms
+    2. ``S_t^a=f(H_t)`` It can be any function of history:
+    
+                               
