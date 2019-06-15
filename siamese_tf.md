@@ -51,6 +51,8 @@ All of the data file is stored in the [link](https://github.com/brendenlake/omni
 
 [code_example_load_data_to_tensor](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/siamese_tf/Omniglot_loader.py)
 
+
+
 # Reference
 
 [1] [One Shot Learning with Siamese Networks using Keras](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)

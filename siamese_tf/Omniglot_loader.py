@@ -1,7 +1,8 @@
 import os
-from matplotlib.pyplot import imread
+
 import numpy as np
-import tensorflow as tf
+from matplotlib.pyplot import imread
+
 
 def omniglot_loader(path, n=0):
     """
@@ -49,6 +50,7 @@ def omniglot_loader(path, n=0):
     X = np.stack(X)
     return X, y, lang_dict
 
+
 def main():
     root_path = os.path.dirname(os.path.dirname(__file__))
     siamese_dir = os.path.join(root_path, "siamese_tf")
@@ -58,12 +60,10 @@ def main():
     print("process train data: {}".format(train_folder))
     omniglot_loader(train_folder)
 
-
     test_folder = os.path.join(omniglot_dir, "images_evaluation")
     print("process test data: {}".format(test_folder))
     omniglot_loader(test_folder)
 
+
 if __name__ == '__main__':
     main()
-
-
