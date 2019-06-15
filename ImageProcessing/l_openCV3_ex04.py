@@ -75,5 +75,3 @@ while success and cv.waitKey(1) == -1 and not clicked:
 cv.destroyAllWindows("my_window")
 video_capture.release()
 
-
-
