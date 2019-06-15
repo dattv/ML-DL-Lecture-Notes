@@ -20,6 +20,10 @@ if we use traditional classification apporach, we might come up with a system
 one short classification which helps to solve both problems above.
 
 
+![image](https://user-images.githubusercontent.com/29138292/59548083-aa23e180-8f73-11e9-8a31-2d74ce198354.png)
+
+
+
 # Reference
 
 [1] [One Shot Learning with Siamese Networks using Keras](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)
