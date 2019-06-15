@@ -2,7 +2,7 @@
 This tutorial to learn how to develop Siamese Neural network with Tensorflow framework.
 This is converted from [1]
 
-## 
+##Introduction
 Assume that we want to build face recognition system for a small organization with only 10 employees.
 if we use traditional classification apporach, we might come up with a system 
 
