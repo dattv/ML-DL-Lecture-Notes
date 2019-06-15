@@ -55,3 +55,4 @@ with tqdm(unit="B", unit_scale=True, leave=True, miniters=1, desc=images_evaluat
 zip_ref = zipfile.ZipFile(images_evalutaion_full_file_path, "r")
 zip_ref.extractall(omniglot_folder)
 zip_ref.close()
+
