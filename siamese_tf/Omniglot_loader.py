@@ -58,7 +58,7 @@ def main():
 
     train_folder = os.path.join(omniglot_dir, "images_background")
     print("process train data: {}".format(train_folder))
-    omniglot_loader(train_folder)
+    X, y, c = omniglot_loader(train_folder)
 
     test_folder = os.path.join(omniglot_dir, "images_evaluation")
     print("process test data: {}".format(test_folder))
