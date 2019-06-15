@@ -40,6 +40,13 @@ How does this solve the two problems above:
 
 3. Offline signature verification system [4] 
 
+### Dataset
+
+Omniglot dataset:
+1623 hand drawn characters from 50 different alphabets. Every character there are just 20 examples. each image have size of 105x105.
+All of the data file is stored in the link: https://github.com/brendenlake/omniglot/tree/master/python
+. We download two file ``image_background.zip`` and ``images_eveluation.zip`` which corresponding to the link 
+
 # Reference
 
 [1] [One Shot Learning with Siamese Networks using Keras](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)
