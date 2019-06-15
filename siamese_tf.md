@@ -47,7 +47,7 @@ Omniglot dataset:
 All of the data file is stored in the [link](https://github.com/brendenlake/omniglot/tree/master/python) 
 . We download two file [image_background.zip](https://github.com/brendenlake/omniglot/raw/master/python/images_background.zip) and [images_eveluation.zip](https://github.com/brendenlake/omniglot/raw/master/python/images_evaluation.zip).
  
- [code_example]()
+ [code_example](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/siamese_tf/Omniglot_dataset.py)
 
 
 # Reference
