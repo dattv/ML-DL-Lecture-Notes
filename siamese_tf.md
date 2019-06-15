@@ -22,7 +22,12 @@ one short classification which helps to solve both problems above.
 
 ![image](https://user-images.githubusercontent.com/29138292/59548083-aa23e180-8f73-11e9-8a31-2d74ce198354.png)
 
+Instead of directly classifying an input(test) image to one of th e10 people in the organization, this network instead takes an extra reference image of the person as input and will produce a similarity score denoting the chances tha tthe two input images belong to the same person. Typically the similarity score is squished between 0 and 1 using a sigmoid function; Wherein 0 denotes no similarity and 1 denotes full similarity. Any number between 0 and 1 is interpreted accordingly.
 
+<b>Notice: Thjsi network is not learnign to classify and image directly to any of the output classes. Rather, it is learning a similarity functiono, which takes two images as input and expresses how similar they are. </b>
+
+How does this solve the two problems above:
+1. 
 
 # Reference
 
