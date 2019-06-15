@@ -27,7 +27,10 @@ Instead of directly classifying an input(test) image to one of th e10 people in 
 <b>Notice: Thjsi network is not learnign to classify and image directly to any of the output classes. Rather, it is learning a similarity functiono, which takes two images as input and expresses how similar they are. </b>
 
 How does this solve the two problems above:
-1. 
+
+1. In a short while we will see that to train this network, we do not need too many instances of a class ans only few are enought to build a good model.
+
+2. <b> Biggest advantages</b> is that let's say in case of face recognition, we have a new employee who has joined the organization. Now inorder for the network to detect his face, we only require a single of afew images of his face which will be stored in the database. Using this as the reference image.   
 
 # Reference
 
