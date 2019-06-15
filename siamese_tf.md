@@ -1,5 +1,5 @@
 # Siamese Neural Network
-This tutorial to learn how to develop Siamese Neural network with Tensorflow framework.
+This tutorial to learn how to develop Siamese Neural network with <b>Tensorflow framework</b>.
 This is converted from [1]
 
 ## Introduction
