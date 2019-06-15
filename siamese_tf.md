@@ -49,7 +49,7 @@ All of the data file is stored in the [link](https://github.com/brendenlake/omni
  
 [code_example_download_omniglot_dataset](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/siamese_tf/Omniglot_dataset.py)
 
-[code_example_load_data_to_tensor]()
+[code_example_load_data_to_tensor](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/siamese_tf/Omniglot_loader.py)
 
 # Reference
 
