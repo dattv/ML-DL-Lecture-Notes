@@ -10,4 +10,5 @@ if we use traditional classification apporach, we might come up with a system
 :+1: Require only one or afew training example for each class.
 
 #Reference
+
 [1] [One Shot Learning with Siamese Networks using Keras](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)
