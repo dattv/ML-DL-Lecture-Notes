@@ -55,8 +55,13 @@ def main():
     omniglot_dir = os.path.join(siamese_dir, "omniglot")
 
     train_folder = os.path.join(omniglot_dir, "images_background")
-
+    print("process train data: {}".format(train_folder))
     omniglot_loader(train_folder)
+
+
+    test_folder = os.path.join(omniglot_dir, "images_evaluation")
+    print("process test data: {}".format(test_folder))
+    omniglot_loader(test_folder)
 
 if __name__ == '__main__':
     main()
