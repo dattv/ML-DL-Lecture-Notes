@@ -5,6 +5,12 @@ class siamese():
     def __init__(self, input_shape):
         print("init")
 
+    def model(self, input_tensor1, input_tensor2):
+        encoded_l = self.sub_model(input_tensor1)
+        encoded_r = self.sub_model(input_tensor2)
+
+
+
     def sub_model(self, input_tensor):
         n_chanel = input_tensor.shape[3]
         stddev_ = 0.1
