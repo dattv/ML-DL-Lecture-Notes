@@ -51,7 +51,10 @@ All of the data file is stored in the [link](https://github.com/brendenlake/omni
 
 [code_example_load_data_to_tensor](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/siamese_tf/Omniglot_loader.py)
 
-
+output of load_data_to_tensor function are X, y, c
+1. X are images
+2. y index of character
+3. c are label 
 
 # Reference
 

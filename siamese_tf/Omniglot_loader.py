@@ -17,19 +17,19 @@ def omniglot_loader(path, n=0):
     lang_dict = {}
     curr_y = n
 
-    # we load every alphabet seperately so we can isolate them later
+    # we load every alphabet separately so we can isolate them later
     for alphabet in os.listdir(path):
         print("loading alphabet: {}".format(alphabet))
         lang_dict[alphabet] = [curr_y, None]
         alphabet_path = os.path.join(path, alphabet)
 
-        # every letter/category has it's own column in the array, so load seperately
+        # every letter/category has it's own column in the array, so load separately
         for letter in os.listdir(alphabet_path):
             cat_dict[curr_y] = (alphabet, letter)
             category_images = []
             letter_path = os.path.join(alphabet_path, letter)
 
-            # read all the images in the current ctegory
+            # read all the images in the current category
             for filename in os.listdir(letter_path):
                 image_path = os.path.join(letter_path, filename)
                 image = imread(image_path)
@@ -43,8 +43,8 @@ def omniglot_loader(path, n=0):
             except ValueError as e:
                 print("error - category_images: {}".format(category_images))
 
+            lang_dict[alphabet][1] = curr_y
             curr_y += 1
-            lang_dict[alphabet][1] = curr_y - 1
 
     y = np.vstack(y)
     X = np.stack(X)
