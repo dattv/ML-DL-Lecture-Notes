@@ -1,5 +1,5 @@
 import os
-
+import pickle
 import numpy as np
 from matplotlib.pyplot import imread
 
@@ -60,10 +60,17 @@ def main():
     print("process train data: {}".format(train_folder))
     X, y, c = omniglot_loader(train_folder)
 
+    # save train
+    with open(os.path.join(siamese_dir, "train.pickle"), "wb") as f:
+        pickle.dump((X, c), f)
+
     test_folder = os.path.join(omniglot_dir, "images_evaluation")
     print("process test data: {}".format(test_folder))
-    omniglot_loader(test_folder)
+    Xval, yval, cval = omniglot_loader(test_folder)
 
+    # save val
+    with open(os.path.join(siamese_dir, "val.pickle"), "wb") as f:
+        pickle.dump((Xval, cval), f)
 
 if __name__ == '__main__':
     main()
