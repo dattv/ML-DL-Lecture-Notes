@@ -77,3 +77,5 @@ Thus we need to create pairs of images along with the target variable, as shown 
 [3] [One-shot Learning Methods Applied to Drug Discovery with DeepChem](https://www.microway.com/hpc-tech-tips/one-shot-learning-methods-applied-drug-discovery-deepchem/)
 
 [4] [SigNet: Convolutional Siamese Network for Writer Independent Offline Signature Verification](https://arxiv.org/abs/1707.02131)
+
+[5] [One-Shot-Learning-with-Siamese-Networks](https://github.com/hlamba28/One-Shot-Learning-with-Siamese-Networks)

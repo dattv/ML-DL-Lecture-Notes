@@ -18,6 +18,8 @@ def get_batch(batch_size, s="train"):
         X = Xval
         categories = val_classes
 
+    n_classes, n_examples, w, h = X.shape
+
 
 def main():
     get_batch(100, "train")
