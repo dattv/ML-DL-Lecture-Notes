@@ -71,7 +71,7 @@ Thus we need to create pairs of images along with the target variable, as shown 
 ### Siamese model
 ![image](https://user-images.githubusercontent.com/29138292/59574945-79fb5080-90e3-11e9-977f-73ff06481531.png)
 
-
+![image](https://user-images.githubusercontent.com/29138292/59575004-c21a7300-90e3-11e9-812e-1f02f1c60fc1.png)
 # Reference
 
 [1] [One Shot Learning with Siamese Networks using Keras](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)
