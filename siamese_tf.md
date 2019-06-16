@@ -66,6 +66,8 @@ target := {1 if both contain the same character, 0 if both images contain differ
  
 ![image](https://user-images.githubusercontent.com/29138292/59565345-8d270580-907c-11e9-98ae-d09d76218f1c.png)
 
+Thus we need to create pairs of images along with the target variable, as shown above, to be fed as input to the Siamese Network. Note that even though characters from Sanskrit alphabet are shown above, but in practice we will generate pairs randomly from all the alphabets in the training data.
+
 # Reference
 
 [1] [One Shot Learning with Siamese Networks using Keras](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)
