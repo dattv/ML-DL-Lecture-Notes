@@ -1,5 +1,4 @@
 import tensorflow as tf
-import numpy as np
 
 
 class siamese():
@@ -82,3 +81,19 @@ class siamese():
                                    padding="SAME")
             conv4_1 += b4_1
             conv4_1 = tf.nn.relu(conv4_1, name="CONV4_1")
+
+        with tf.name_scope("flatten_layer_1") as scope:
+            shape = conv4_1.shape
+            size = shape[1] * shape[2] * shape[3]
+            flatten1_1 = tf.reshape(conv4_1, shape[-1, size], name="FLATTEN1_1")
+
+        with tf.name_scope("fully_layer_1") as scope:
+            with tf.name_scope("weights") as scope:
+                w_flat1_1 = tf.Variable(tf.truncated_normal([size, 4096], stddev=stddev_), name="w_flat1_1")
+            with tf.name_scope("biases") as scope:
+                b_flat1_1 = tf.Variable(tf.constant(0.1, shape[4096]), name="b_flat1_1")
+
+            fully1_1 = tf.matmul(flatten1_1, w_flat1_1) + b_flat1_1
+            fully1_1 = tf.nn.sigmoid(fully1_1, name="FULLY1_1")
+
+        return fully1_1
