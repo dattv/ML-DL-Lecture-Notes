@@ -52,3 +52,33 @@ class siamese():
 
         with tf.name_scope("conv_layer_3") as scope:
             with tf.name_scope("weights") as scope:
+                w3_1 = tf.Variable(tf.truncated_normal([4, 4, 128, 128], stddev=stddev_), name="w3_1")
+            with tf.name_scope("biases") as scope:
+                b3_1 = tf.Variable(tf.constant(0.1, shape=[128]), name="b3_1")
+
+            conv3_1 = tf.nn.conv2d(input=pool2_1,
+                                   filter=w3_1,
+                                   strides=[1, 1, 1, 1],
+                                   padding="SAME")
+            conv3_1 += b3_1
+            conv3_1 = tf.nn.relu(conv3_1, name="CONV3_1")
+
+        with tf.name_scope("pooling_layer_3") as scope:
+            pool3_1 = tf.nn.max_pool(conv3_1,
+                                     ksize=[1, 2, 2, 1],
+                                     strides=[1, 2, 2, 1],
+                                     padding="SAME",
+                                     name="POOL3_1")
+
+        with tf.name_scope("conv_layer_4") as scope:
+            with tf.name_scope("weights") as scope:
+                w4_1 = tf.Variable(tf.truncated_normal([4, 4, 128, 256], stddev=stddev_), name="w4_1")
+            with tf.name_scope("biases") as scope:
+                b4_1 = tf.Variable(tf.constant(0.1, shape=[256]), name="b4_1")
+
+            conv4_1 = tf.nn.conv2d(input=pool3_1,
+                                   filter=w4_1,
+                                   strides=[1, 1, 1, 1],
+                                   padding="SAME")
+            conv4_1 += b4_1
+            conv4_1 = tf.nn.relu(conv4_1, name="CONV4_1")
