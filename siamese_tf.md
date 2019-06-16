@@ -54,7 +54,16 @@ All of the data file is stored in the [link](https://github.com/brendenlake/omni
 output of load_data_to_tensor function are X, y, c
 1. X are images
 2. y index of character
-3. c are label 
+3. c are label
+
+### Mapping the problem to binary classification task
+ 
+We map this problem into classification problem, (we need {X, Y} := {input, target} data type)
+
+input := Pair of images
+
+target := {1 if both contain the same character, 0 if both images contain different class}
+ 
 
 # Reference
 
