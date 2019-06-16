@@ -64,6 +64,7 @@ input := Pair of images
 
 target := {1 if both contain the same character, 0 if both images contain different class}
  
+![image](https://user-images.githubusercontent.com/29138292/59565345-8d270580-907c-11e9-98ae-d09d76218f1c.png)
 
 # Reference
 
