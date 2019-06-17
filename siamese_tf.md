@@ -80,6 +80,9 @@ Thus we need to create pairs of images along with the target variable, as shown 
 
 ![image](https://user-images.githubusercontent.com/29138292/59588417-bba2f000-9111-11e9-9a2d-b3bbdf9d1b50.png)
 
+<b> Continue ... </b>
+
+
 # Reference
 
 [1] [One Shot Learning with Siamese Networks using Keras](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)
