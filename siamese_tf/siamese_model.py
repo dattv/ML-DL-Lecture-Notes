@@ -116,6 +116,7 @@ class siamese():
 
         return fully1_1
 
+
 def main():
     model = siamese()
 
@@ -132,6 +133,7 @@ def main():
         model = model.make_model(img1, img2)
 
         summary_writer = tf.summary.FileWriter(siamese_log_dir, session.graph)
+
 
 if __name__ == '__main__':
     main()
