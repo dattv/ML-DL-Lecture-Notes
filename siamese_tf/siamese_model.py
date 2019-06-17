@@ -134,6 +134,5 @@ def main():
 
         summary_writer = tf.summary.FileWriter(siamese_log_dir, session.graph)
 
-
 if __name__ == '__main__':
     main()
