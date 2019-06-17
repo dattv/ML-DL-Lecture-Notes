@@ -73,7 +73,7 @@ Thus we need to create pairs of images along with the target variable, as shown 
 
 ![image](https://user-images.githubusercontent.com/29138292/59575004-c21a7300-90e3-11e9-812e-1f02f1c60fc1.png)
 
-[siamese_model.py](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/siamese_tf/siamese_model.py)
+[code_example_siamese_model](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/siamese_tf/siamese_model.py)
 
 
 ![image](https://user-images.githubusercontent.com/29138292/59576476-29d3bc80-90ea-11e9-9bac-04530f94e404.png)
