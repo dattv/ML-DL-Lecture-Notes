@@ -1,3 +1,5 @@
+import os
+
 import tensorflow as tf
 
 
@@ -22,7 +24,7 @@ class siamese():
         return pred
 
     def sub_model(self, input_tensor):
-        n_chanel = input_tensor.shape[3]
+        n_chanel = int(input_tensor.shape[3])
         stddev_ = self.stddev_
 
         with tf.name_scope("conv_layer_1") as scope:
@@ -100,14 +102,14 @@ class siamese():
 
         with tf.name_scope("flatten_layer_1") as scope:
             shape = conv4_1.shape
-            size = shape[1] * shape[2] * shape[3]
-            flatten1_1 = tf.reshape(conv4_1, shape[-1, size], name="FLATTEN1_1")
+            size = int(shape[1] * shape[2] * shape[3])
+            flatten1_1 = tf.reshape(conv4_1, shape=[-1, size], name="FLATTEN1_1")
 
         with tf.name_scope("fully_layer_1") as scope:
             with tf.name_scope("weights") as scope:
                 w_flat1_1 = tf.Variable(tf.truncated_normal([size, 4096], stddev=stddev_), name="w_flat1_1")
             with tf.name_scope("biases") as scope:
-                b_flat1_1 = tf.Variable(tf.constant(0.1, shape[4096]), name="b_flat1_1")
+                b_flat1_1 = tf.Variable(tf.constant(0.1, shape=[4096]), name="b_flat1_1")
 
             fully1_1 = tf.matmul(flatten1_1, w_flat1_1) + b_flat1_1
             fully1_1 = tf.nn.sigmoid(fully1_1, name="FULLY1_1")
@@ -117,7 +119,19 @@ class siamese():
 def main():
     model = siamese()
 
-    img1 = tf.placeholder()
+    root_path = os.path.dirname(os.path.dirname(__file__))
+    siamese_path = os.path.join(root_path, "siamese_tf")
+    siamese_log_dir = os.path.join(siamese_path, "log")
+    if os.path.isdir(siamese_log_dir) == False:
+        os.mkdir(siamese_log_dir)
+
+    with tf.Session() as session:
+        img1 = tf.placeholder(tf.float32, shape=[None, 105, 105, 3], name="img1")
+        img2 = tf.placeholder(tf.float32, shape=[None, 105, 105, 3], name="img2")
+
+        model = model.make_model(img1, img2)
+
+        summary_writer = tf.summary.FileWriter(siamese_log_dir, session.graph)
 
 
 if __name__ == '__main__':
