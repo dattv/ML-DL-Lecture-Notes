@@ -70,7 +70,6 @@ def get_batch(batch_size, s="train"):
     # randomly sample several classes to use in the batch
     categories = rng.choice(n_classes, size=(batch_size), replace=False)
 
-
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
 
