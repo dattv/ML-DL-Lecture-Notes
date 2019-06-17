@@ -7,6 +7,7 @@ import numpy.random as rng
 
 from siamese_model import siamese
 
+# I tempolary reduce the size of image from 105x105x3 to 50x50x3 because my GPU device doesn't have enough memory
 input_img1 = tf.placeholder(tf.float32, shape=[None, 50, 50, 3], name="input_img1")
 input_img2 = tf.placeholder(tf.float32, shape=[None, 50, 50, 3], name="input_img2")
 
