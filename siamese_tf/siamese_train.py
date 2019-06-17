@@ -3,6 +3,7 @@ import pickle
 
 import tensorflow as tf
 import numpy as np
+import numpy.random as rng
 
 from siamese_model import siamese
 
@@ -47,6 +48,27 @@ with open(test_path, "rb") as f:
     (Xtest, test_classes) = pickle.load(f)
 
 print(list(test_classes.keys()))
+
+def get_batch(batch_size, s="train"):
+    """
+    Create batch of n pairs, half same class, half different class
+
+    :param batch_size:
+    :param s:
+    :return:
+    """
+    if s == "train":
+        X = Xtrain
+        categories = train_classes
+    else:
+        X = Xtest
+        categories = test_classes
+
+    n_classes, n_examples, w, h = X.shape
+
+    # randomly sample several classes to use in the batch
+    categories = rng.choice(n_classes, size=(batch_size), replace=False)
+
 
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
