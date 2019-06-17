@@ -1,4 +1,5 @@
 import os
+import pickle
 
 import tensorflow as tf
 import numpy as np
@@ -33,8 +34,23 @@ if os.path.isdir(log_dir) == False:
     os.mkdir(log_dir)
 log_dir = os.path.join(log_dir, "log")
 
+train_path = os.path.join(root_path, "siamese_tf")
+train_path = os.path.join(train_path, "train.pickle")
+with open(train_path, "rb") as f:
+    (Xtrain, train_classes) = pickle.load(f)
+
+print(list(train_classes.keys()))
+
+test_path = os.path.join(root_path, "siamese_tf")
+test_path = os.path.join(test_path, "val.pickle")
+with open(test_path, "rb") as f:
+    (Xtest, test_classes) = pickle.load(f)
+
+print(list(test_classes.keys()))
+
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
 
     train_summary_writer = tf.summary.FileWriter(log_dir + "/train", session.graph)
     test_summary_writer = tf.summary.FileWriter(log_dir + "/test")
+
