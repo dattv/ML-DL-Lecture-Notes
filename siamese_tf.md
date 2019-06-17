@@ -78,6 +78,7 @@ Thus we need to create pairs of images along with the target variable, as shown 
 
 ![image](https://user-images.githubusercontent.com/29138292/59576476-29d3bc80-90ea-11e9-9bac-04530f94e404.png)
 
+![image](https://user-images.githubusercontent.com/29138292/59588417-bba2f000-9111-11e9-9a2d-b3bbdf9d1b50.png)
 
 # Reference
 

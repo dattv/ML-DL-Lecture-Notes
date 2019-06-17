@@ -5,8 +5,8 @@ import numpy as np
 
 from siamese_model import siamese
 
-input_img1 = tf.placeholder(tf.float32, shape=[None, 105, 105, 3], name="input_img1")
-input_img2 = tf.placeholder(tf.float32, shape=[None, 105, 105, 3], name="input_img2")
+input_img1 = tf.placeholder(tf.float32, shape=[None, 50, 50, 3], name="input_img1")
+input_img2 = tf.placeholder(tf.float32, shape=[None, 50, 50, 3], name="input_img2")
 
 target = tf.placeholder(tf.float32, shape=[None, 1], name="target")
 
@@ -28,17 +28,13 @@ with tf.name_scope("accuracy") as scope:
 merged_summation = tf.summary.merge_all()
 
 root_path = os.path.dirname(os.path.dirname(__file__))
-print(root_path)
-log_dir = os.path.join(root_path, "log")
+log_dir = os.path.join(root_path, "siamese_tf")
 if os.path.isdir(log_dir) == False:
     os.mkdir(log_dir)
+log_dir = os.path.join(log_dir, "log")
 
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
 
     train_summary_writer = tf.summary.FileWriter(log_dir + "/train", session.graph)
     test_summary_writer = tf.summary.FileWriter(log_dir + "/test")
-
-
-
-
