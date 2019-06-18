@@ -105,7 +105,7 @@ def generate(bat_size, s="train"):
     :return:
     """
     while True:
-        pairs, targets = get_batch(batch_size=bat_size, s)
+        pairs, targets = get_batch(bat_size, s)
         yield (pairs, targets)
 
 
@@ -136,6 +136,8 @@ def make_oneshot_task(N, s="val", language=None):
     else:
         categories = rng.choice(range(n_classes), size=(N,), replace=False)
 
+    true_category = categories[0]
+    ex1, ex2 = rng.choice()
 
 
 
