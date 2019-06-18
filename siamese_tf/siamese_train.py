@@ -96,6 +96,7 @@ def get_batch(batch_size, s="train"):
 
     return pairs, targets
 
+
 def generate(bat_size, s="train"):
     """
     A generator for batches, so model.fit_generator can be used
@@ -107,6 +108,7 @@ def generate(bat_size, s="train"):
         pairs, targets = get_batch(batch_size=bat_size, s)
         yield (pairs, targets)
 
+
 def make_oneshot_task(N, s="val", language=None):
     """
     Create pairs of test image, support set of testing N way one-shot learning
@@ -115,6 +117,21 @@ def make_oneshot_task(N, s="val", language=None):
     :param language:
     :return:
     """
+    if s == "train":
+        X = Xtrain
+        categories = train_classes
+    else:
+        X = Xtest
+        categories = test_classes
+
+    n_classes, n_examples, w, h = X.shape
+
+    indices = rng.randint(0, n_examples, size=(N,))
+    if language is not None:
+        low, high = categories[language]
+        if N > high - low:
+            raise ValueError("This languages ({}) has less than {} letters".format(language, N))
+
 
 
 with tf.Session() as session:
