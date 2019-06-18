@@ -137,7 +137,8 @@ def make_oneshot_task(N, s="val", language=None):
         categories = rng.choice(range(n_classes), size=(N,), replace=False)
 
     true_category = categories[0]
-    ex1, ex2 = rng.choice()
+    ex1, ex2 = rng.choice(n_examples, replace=False, size=(2, ))
+    test_image = np.asarray([X[true_category, ex1, :, :]]*N).reshape(N, w, h, l)
 
 
 
