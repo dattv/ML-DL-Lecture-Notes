@@ -27,7 +27,6 @@ with tf.name_scope("optimiser") as scope:
 with tf.name_scope("accuracy") as scope:
     correct = tf.equal(net, target)
 
-
 merged_summation = tf.summary.merge_all()
 
 root_path = os.path.dirname(os.path.dirname(__file__))
@@ -49,6 +48,7 @@ with open(test_path, "rb") as f:
     (Xtest, test_classes) = pickle.load(f)
 
 print(list(test_classes.keys()))
+
 
 def get_batch(batch_size, s="train"):
     """
@@ -73,9 +73,48 @@ def get_batch(batch_size, s="train"):
     # Initial 2 empty arrays for the input image_batch
     pairs = [np.zeros((batch_size, h, w, l)) for l in range(2)]
 
-    #initialize vector fo the targets
-    targets = np.zeros((batch_size, ))
+    # initialize vector fo the targets
+    targets = np.zeros((batch_size,))
 
+    # make one half of it "1"s so 2nd half of batch has same class
+    targets[batch_size // 2:] = 1
+
+    for i in range(batch_size):
+        category = categories[i]
+        idx_1 = rng.randint(0, n_examples)
+        pairs[0][i, :, :, :] = X[category, idx_1].reshape(w, h, 1)
+        idx_2 = rng.randint(0, n_examples)
+
+        # pick images of same class for 1st half, different for 2nd
+        if i >= batch_size // 2:
+            category_2 = category
+        else:
+            # add a random number to the category modulo n classes to ensure 2nd image has a different category
+            category_2 = (category + rng.randint(1, n_classes)) % n_classes
+
+        pairs[1][i, :, :, :] = X[category_2, idx_2].reshape(w, h, 1)
+
+    return pairs, targets
+
+def generate(bat_size, s="train"):
+    """
+    A generator for batches, so model.fit_generator can be used
+    :param bat_size:
+    :param s:
+    :return:
+    """
+    while True:
+        pairs, targets = get_batch(batch_size=bat_size, s)
+        yield (pairs, targets)
+
+def make_oneshot_task(N, s="val", language=None):
+    """
+    Create pairs of test image, support set of testing N way one-shot learning
+    :param N:
+    :param s:
+    :param language:
+    :return:
+    """
 
 
 with tf.Session() as session:
@@ -83,6 +122,3 @@ with tf.Session() as session:
 
     train_summary_writer = tf.summary.FileWriter(log_dir + "/train", session.graph)
     test_summary_writer = tf.summary.FileWriter(log_dir + "/test")
-
-
-
