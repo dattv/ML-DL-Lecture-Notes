@@ -70,9 +70,19 @@ def get_batch(batch_size, s="train"):
     # randomly sample several classes to use in the batch
     categories = rng.choice(n_classes, size=(batch_size), replace=False)
 
+    # Initial 2 empty arrays for the input image_batch
+    pairs = [np.zeros((batch_size, h, w, l)) for l in range(2)]
+
+    #initialize vector fo the targets
+    targets = np.zeros((batch_size, ))
+
+
+
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
 
     train_summary_writer = tf.summary.FileWriter(log_dir + "/train", session.graph)
     test_summary_writer = tf.summary.FileWriter(log_dir + "/test")
+
+
 
