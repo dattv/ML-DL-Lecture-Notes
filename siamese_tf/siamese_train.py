@@ -131,6 +131,12 @@ def make_oneshot_task(N, s="val", language=None):
         low, high = categories[language]
         if N > high - low:
             raise ValueError("This languages ({}) has less than {} letters".format(language, N))
+        categories = rng.choice(range(low, high), size=(N, ), replace=False)
+
+    else:
+        categories = rng.choice(range(n_classes), size=(N,), replace=False)
+
+
 
 
 
