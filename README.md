@@ -198,6 +198,8 @@ This repository for noting some resources that may help me in studying ML/DL and
 <b>[7]</b> [Deep Learning](http://www.deeplearningbook.org/)
   
 <b>[8]</b> [MIT Deep Learning Book (beautiful and flawless PDF version)](https://github.com/janishar/mit-deep-learning-book-pdf)
+
+<b>[9]</b> [Computer Vision Book](http://szeliski.org/Book/drafts/SzeliskiBook_20100903_draft.pdf)
   
   
   
