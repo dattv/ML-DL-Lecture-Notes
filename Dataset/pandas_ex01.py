@@ -24,9 +24,18 @@ full_data_path = os.path.join(dataset_path, "csv_data")
 if os.path.isdir(full_data_path) == False:
     os.mkdir(full_data_path)
 
+full_data_path = os.path.join(full_data_path, "pandas_tutorial_read.csv")
 with tqdm(unit="B", unit_scale=True, leave=True, miniters=1, desc=dataset_url.split("/")[-1]) as t:
-    urllib.request.urlretrieve(dataset_url, filename=full_data_path + "/pandas_tutorial_read.csv", reporthook=my_hook(t))
+    urllib.request.urlretrieve(dataset_url, filename=full_data_path, reporthook=my_hook(t))
 
-data = pd.read_csv(full_data_path, delimiter=";")
 
-print(data)
+data = pd.read_csv(full_data_path, delimiter=";", names=["my_datatime", "event", "country", "user_id", "source", "topic"])
+
+print(data.head())
+print(data.tail())
+print(data.sample(5))
+
+print(data[["country", "user_id"]])
+
+print(data.user_id)
+print(data["user_id"])

@@ -138,9 +138,9 @@ def make_oneshot_task(N, s="val", language=None):
 
     true_category = categories[0]
     ex1, ex2 = rng.choice(n_examples, replace=False, size=(2, ))
-    test_image = np.asarray([X[true_category, ex1, :, :]]*N).reshape(N, w, h, l)
-
-
+    test_image = np.asarray([X[true_category, ex1, :, :]]*N).reshape(N, w, h, 1)
+    support_set = X[categories, indices, :, :]
+    support_set[0, :, :] = X[true_category, ex2]
 
 
 with tf.Session() as session:
