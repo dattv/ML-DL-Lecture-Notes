@@ -27,4 +27,6 @@ if os.path.isdir(full_data_path) == False:
 with tqdm(unit="B", unit_scale=True, leave=True, miniters=1, desc=dataset_url.split("/")[-1]) as t:
     urllib.request.urlretrieve(dataset_url, filename=full_data_path + "/pandas_tutorial_read.csv", reporthook=my_hook(t))
 
+data = pd.read_csv(full_data_path, delimiter=";")
 
+print(data)
