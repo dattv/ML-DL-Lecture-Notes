@@ -11,5 +11,10 @@ There are two types of data structures in pandas: Series and DataFrames.
 
 [pandas_ex01](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/Dataset/pandas_ex01.py)
 [pandas_ex02](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/Dataset/pandas_ex02.py)
+
+## Tutorial 2
+
 # References
 [1] [Pandas Tutorial 1](https://data36.com/pandas-tutorial-1-basics-reading-data-files-dataframes-data-selection/)
+
+[2] [Pandas Tutorial 2](https://data36.com/pandas-tutorial-2-aggregation-and-grouping/)
