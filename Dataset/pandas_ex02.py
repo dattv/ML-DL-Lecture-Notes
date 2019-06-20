@@ -8,6 +8,7 @@ my_dict = {"name":["a", "b", "c", "d", "e", "f", "g"],
            "designation": ["VP", "CEO", "CFO", "VP", "VP", "CEO", "MD"]}
 
 cf = pandas.DataFrame(my_dict)
+print(cf)
 root_path = os.path.dirname(os.path.dirname(__file__))
 
 data_set_path = os.path.join(root_path, "Dataset")
