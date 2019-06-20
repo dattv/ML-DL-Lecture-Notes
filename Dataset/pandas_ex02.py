@@ -12,5 +12,7 @@ print(cf)
 root_path = os.path.dirname(os.path.dirname(__file__))
 
 data_set_path = os.path.join(root_path, "Dataset")
-full_file_path = os.path.join(data_set_path, "pandas_ex02.csv")
+full_file_path = os.path.join(data_set_path, "csv_data")
+full_file_path = os.path.join(full_file_path, "pandas_ex02.csv")
 cf.to_csv(full_file_path)
+
