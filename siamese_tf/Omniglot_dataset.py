@@ -3,6 +3,8 @@ import numpy as np
 import os
 from tqdm import tqdm
 import zipfile
+import matplotlib.pyplot as plt
+from PIL import Image
 
 def my_hook(t):
     """
@@ -47,6 +49,20 @@ zip_ref = zipfile.ZipFile(image_background_full_file_path, "r")
 zip_ref.extractall(omniglot_folder)
 zip_ref.close()
 
+# resize all image to 50x50
+background = image_background_full_file_path.split(".")[0]
+for f in os.listdir(background):
+    temp_folder = os.path.join(background, f)
+    for ff in os.listdir(temp_folder):
+        temp2_folder = os.path.join(temp_folder, ff)
+
+        file = [os.path.join(temp2_folder, f) for f in os.listdir(temp2_folder) if os.path.isfile(os.path.join(temp2_folder, f))]
+        for f in file:
+            img = Image.open(f)
+            img = img.resize((50, 50), Image.BICUBIC)
+            plt.imsave(f, img)
+
+# =====================================================================================================================
 images_evaluation_file_name = os.path.split(images_evaluation_url)[1]
 images_evalutaion_full_file_path = os.path.join(omniglot_folder, images_evaluation_file_name)
 with tqdm(unit="B", unit_scale=True, leave=True, miniters=1, desc=images_evaluation_url.split("/")[-1]) as t:
@@ -56,3 +72,15 @@ zip_ref = zipfile.ZipFile(images_evalutaion_full_file_path, "r")
 zip_ref.extractall(omniglot_folder)
 zip_ref.close()
 
+# resize all image to 50x50
+background = images_evalutaion_full_file_path.split(".")[0]
+for f in os.listdir(background):
+    temp_folder = os.path.join(background, f)
+    for ff in os.listdir(temp_folder):
+        temp2_folder = os.path.join(temp_folder, ff)
+
+        file = [os.path.join(temp2_folder, f) for f in os.listdir(temp2_folder) if os.path.isfile(os.path.join(temp2_folder, f))]
+        for f in file:
+            img = Image.open(f)
+            img = img.resize((50, 50), Image.BICUBIC)
+            plt.imsave(f, img)

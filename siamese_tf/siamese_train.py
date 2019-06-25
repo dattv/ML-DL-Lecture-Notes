@@ -1,5 +1,6 @@
 import os
 import pickle
+import time
 
 import tensorflow as tf
 import numpy as np
@@ -8,8 +9,8 @@ import numpy.random as rng
 from siamese_model import siamese
 
 # I tempolary reduce the size of image from 105x105x3 to 50x50x3 because my GPU device doesn't have enough memory
-input_img1 = tf.placeholder(tf.float32, shape=[None, 50, 50, 3], name="input_img1")
-input_img2 = tf.placeholder(tf.float32, shape=[None, 50, 50, 3], name="input_img2")
+input_img1 = tf.placeholder(tf.float32, shape=[None, 50, 50, 1], name="input_img1")
+input_img2 = tf.placeholder(tf.float32, shape=[None, 50, 50, 1], name="input_img2")
 
 target = tf.placeholder(tf.float32, shape=[None, 1], name="target")
 
@@ -36,7 +37,6 @@ with tf.name_scope("accuracy") as scope:
     with tf.name_scope("accuracy"):
         accuracy_operation = tf.reduce_mean(tf.cast(correct_predictions, tf.float32))
 tf.summary.scalar("accuracy", accuracy_operation)
-
 
 root_path = os.path.dirname(os.path.dirname(__file__))
 log_dir = os.path.join(root_path, "siamese_tf")
@@ -80,8 +80,7 @@ def get_batch(batch_size, s="train"):
     categories = rng.choice(n_classes, size=(batch_size), replace=False)
 
     # Initial 2 empty arrays for the input image_batch
-    pairs = [np.zeros((batch_size, h, w, l)) for l in range(2)]
-
+    pairs = [np.zeros((batch_size, h, w, 1)) for i in range(2)]
     # initialize vector fo the targets
     targets = np.zeros((batch_size,))
 
@@ -160,4 +159,26 @@ with tf.Session() as session:
     train_summary_writer = tf.summary.FileWriter(log_dir + "/train", session.graph)
     test_summary_writer = tf.summary.FileWriter(log_dir + "/test")
 
+    evaluate_every = 200  # interval for evaluating on one-shot tasks
+    batch_size = 32  #
+    n_iter = 20000  # No. of training iterations
+    N_way = 20  # How many classes for testing one-shot tasks
+    n_val = 250  # How many one-shot tasks to validate on
+    best = -1
 
+    model_path = os.path.join(root_path, "siamese_tf")
+    model_path = os.path.join(model_path, "weights")
+    if os.path.isdir(model_path) == False:
+        os.mkdir(model_path)
+
+    t_start = time.time()
+    for epoch in range(1, n_iter + 1):
+        (inputs, targets) = get_batch(batch_size)
+        _, merged_summary = session.run([optimiser, merged_summary_operation],
+                                        feed_dict={input_img1: inputs[0],
+                                                   input_img2: inputs[1],
+                                                   target: targets})
+        train_summary_writer.add_summary(merged_summary, epoch)
+
+        if epoch % 10 == 0:
+            print(epoch)
