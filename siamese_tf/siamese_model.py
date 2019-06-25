@@ -7,7 +7,7 @@ class siamese():
     def __init__(self):
         self.stddev_ = 0.1
 
-    def make_model(self, input_tensor1, input_tensor2):
+    def make_model(self, input_tensor1, input_tensor2, n_class):
 
         with tf.variable_scope("siamese") as scope:
             encoded_l = self.sub_model(input_tensor1)
@@ -20,9 +20,9 @@ class siamese():
 
         with tf.name_scope("fully_layer_2") as scope:
             with tf.name_scope("weights") as scope:
-                w_flat2_1 = tf.Variable(tf.truncated_normal([4096, 1], stddev=self.stddev_), name="w_flat2_1")
+                w_flat2_1 = tf.Variable(tf.truncated_normal([4096, n_class], stddev=self.stddev_), name="w_flat2_1")
             with tf.name_scope("biases") as scope:
-                b_flat2_1 = tf.Variable(tf.constant(0.1, shape=[1]), name="b_flat2_1")
+                b_flat2_1 = tf.Variable(tf.constant(0.1, shape=[n_class]), name="b_flat2_1")
 
             pred = tf.nn.sigmoid(tf.matmul(l1_distance, w_flat2_1) + b_flat2_1, name="pred")
 

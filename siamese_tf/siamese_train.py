@@ -9,13 +9,15 @@ import numpy.random as rng
 from siamese_model import siamese
 
 # I tempolary reduce the size of image from 105x105x3 to 50x50x3 because my GPU device doesn't have enough memory
-input_img1 = tf.placeholder(tf.float32, shape=[None, 50, 50, 1], name="input_img1")
-input_img2 = tf.placeholder(tf.float32, shape=[None, 50, 50, 1], name="input_img2")
+input1 = tf.placeholder(tf.float32, shape=[None, 784])
+input2 = tf.placeholder(tf.float32, shape=[None, 784])
+input_img1 = tf.reshape(input1, [-1, 28, 28, 1], name="input_img1")
+input_img2 = tf.reshape(input2, [-1, 28, 28, 1], name="input_img2")
 
-target = tf.placeholder(tf.float32, shape=[None, 1], name="target")
+target = tf.placeholder(tf.float32, shape=[None, 10], name="target")
 
 net = siamese()
-net = net.make_model(input_img1, input_img2)
+net = net.make_model(input_img1, input_img2, 10)
 
 with tf.name_scope("loss") as scope:
     softmax_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=target,
@@ -153,7 +155,7 @@ def make_oneshot_task(N, s="val", language=None):
 from tensorflow.examples.tutorials.mnist import input_data
 mnist_data = input_data.read_data_sets("MNIST_data", one_hot=True)
 
-
+# test_images, test_labels = mnist_data.test.images, mnist_data.test.labels
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
 
@@ -164,7 +166,7 @@ with tf.Session() as session:
 
     evaluate_every = 200  # interval for evaluating on one-shot tasks
     batch_size = 32  #
-    n_iter = 20000  # No. of training iterations
+    n_iter = 200000  # No. of training iterations
     N_way = 20  # How many classes for testing one-shot tasks
     n_val = 250  # How many one-shot tasks to validate on
     best = -1
@@ -177,17 +179,20 @@ with tf.Session() as session:
     t_start = time.time()
     for epoch in range(1, n_iter + 1):
         (inputs, targets) = get_batch(batch_size)
-        # mnist_batch = mnist_data.train.next_batch(batch_size)
-        # inputs, targets = mnist_batch[0], mnist_batch[1]
+        mnist_batch = mnist_data.train.next_batch(batch_size)
+        inputs, targets = mnist_batch[0], mnist_batch[1]
 
 
-        _, merged_summary, err = session.run([optimiser, merged_summary_operation, loss_operation],
-                                        feed_dict={input_img1: inputs[0],
-                                                   input_img2: inputs[1],
+        _, merged_summary= session.run([optimiser, merged_summary_operation],
+                                        feed_dict={input1: inputs,
+                                                   input2: inputs,
                                                    target: targets})
         train_summary_writer.add_summary(merged_summary, epoch)
 
-        if epoch % 10 == 0:
-            print("\n------------------------\n")
-            print("Time for {0} iterations: {1} mins".format(epoch, (time.time()-t_start)/60.0))
-            print("train loss: {0}".format(err))
+        if epoch % 100 == 0:
+            merged_summary, acc, err = session.run([merged_summary_operation, accuracy_operation, loss_operation],
+                                            feed_dict={input1: inputs,
+                                                       input2: inputs,
+                                                       target: targets})
+            test_summary_writer.add_summary(merged_summary, epoch)
+            print("err: {}, epoch: {}".format(err, epoch))
