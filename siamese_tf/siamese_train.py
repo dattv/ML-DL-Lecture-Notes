@@ -17,15 +17,26 @@ net = siamese()
 net = net.make_model(input_img1, input_img2)
 
 with tf.name_scope("loss") as scope:
-    loss = tf.reduce_mean(net - target)
+    softmax_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=target,
+                                                                    logits=net)
 
-    tf.summary.scalar("loss", loss)
+    # loss = tf.reduce_mean(net - target)
+    # tf.summary.scalar("loss", loss)
+    loss_operation = tf.reduce_mean(softmax_cross_entropy, name="loss")
+    tf.summary.scalar("loss", loss_operation)
 
 with tf.name_scope("optimiser") as scope:
-    optimiser = tf.train.AdamOptimizer(1.e-4).minimize(loss)
+    optimiser = tf.train.AdamOptimizer(1.e-4).minimize(loss_operation)
 
 with tf.name_scope("accuracy") as scope:
-    correct = tf.equal(net, target)
+    with tf.name_scope("correct_prediction"):
+        predictions = tf.argmax(net, 1)
+        correct_predictions = tf.equal(predictions, tf.argmax(target, 1))
+
+    with tf.name_scope("accuracy"):
+        accuracy_operation = tf.reduce_mean(tf.cast(correct_predictions, tf.float32))
+tf.summary.scalar("accuracy", accuracy_operation)
+
 
 merged_summation = tf.summary.merge_all()
 
@@ -148,3 +159,5 @@ with tf.Session() as session:
 
     train_summary_writer = tf.summary.FileWriter(log_dir + "/train", session.graph)
     test_summary_writer = tf.summary.FileWriter(log_dir + "/test")
+
+

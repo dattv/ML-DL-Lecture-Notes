@@ -11,7 +11,9 @@ class siamese():
 
         with tf.variable_scope("siamese") as scope:
             encoded_l = self.sub_model(input_tensor1)
+
             scope.reuse_variables()
+
             encoded_r = self.sub_model(input_tensor2)
 
         l1_distance = tf.abs(encoded_l - encoded_r, name="L1_DISTANCE")
