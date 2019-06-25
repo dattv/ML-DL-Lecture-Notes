@@ -1,3 +1,4 @@
+import tensorflow as tf
 
 
 work_dir = '/tmp'
