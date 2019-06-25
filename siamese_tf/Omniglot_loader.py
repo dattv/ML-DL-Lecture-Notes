@@ -33,6 +33,7 @@ def omniglot_loader(path, n=0):
             for filename in os.listdir(letter_path):
                 image_path = os.path.join(letter_path, filename)
                 image = imread(image_path)
+                # print(image.shape)
                 category_images.append(image)
                 y.append(curr_y)
 

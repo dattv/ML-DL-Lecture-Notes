@@ -3,8 +3,7 @@ import numpy as np
 import os
 from tqdm import tqdm
 import zipfile
-import matplotlib.pyplot as plt
-from PIL import Image
+import cv2 as cv
 
 def my_hook(t):
     """
@@ -58,9 +57,9 @@ for f in os.listdir(background):
 
         file = [os.path.join(temp2_folder, f) for f in os.listdir(temp2_folder) if os.path.isfile(os.path.join(temp2_folder, f))]
         for f in file:
-            img = Image.open(f)
-            img = img.resize((50, 50), Image.BICUBIC)
-            plt.imsave(f, img)
+            img = cv.imread(f, cv.IMREAD_UNCHANGED)
+            img = cv.resize(img, (50, 50), cv.INTER_AREA)
+            cv.imwrite(f, img)
 
 # =====================================================================================================================
 images_evaluation_file_name = os.path.split(images_evaluation_url)[1]
@@ -81,6 +80,6 @@ for f in os.listdir(background):
 
         file = [os.path.join(temp2_folder, f) for f in os.listdir(temp2_folder) if os.path.isfile(os.path.join(temp2_folder, f))]
         for f in file:
-            img = Image.open(f)
-            img = img.resize((50, 50), Image.BICUBIC)
-            plt.imsave(f, img)
+            img = cv.imread(f, cv.IMREAD_UNCHANGED)
+            img = cv.resize(img, (50, 50), cv.INTER_AREA)
+            cv.imwrite(f, img)
