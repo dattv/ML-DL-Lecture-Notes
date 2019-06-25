@@ -82,7 +82,7 @@ def get_batch(batch_size, s="train"):
     # Initial 2 empty arrays for the input image_batch
     pairs = [np.zeros((batch_size, h, w, 1)) for i in range(2)]
     # initialize vector fo the targets
-    targets = np.zeros((batch_size,))
+    targets = np.zeros((batch_size, 1))
 
     # make one half of it "1"s so 2nd half of batch has same class
     targets[batch_size // 2:] = 1
@@ -150,6 +150,9 @@ def make_oneshot_task(N, s="val", language=None):
     support_set = X[categories, indices, :, :]
     support_set[0, :, :] = X[true_category, ex2]
 
+from tensorflow.examples.tutorials.mnist import input_data
+mnist_data = input_data.read_data_sets("MNIST_data", one_hot=True)
+
 
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
@@ -174,11 +177,17 @@ with tf.Session() as session:
     t_start = time.time()
     for epoch in range(1, n_iter + 1):
         (inputs, targets) = get_batch(batch_size)
-        _, merged_summary = session.run([optimiser, merged_summary_operation],
+        # mnist_batch = mnist_data.train.next_batch(batch_size)
+        # inputs, targets = mnist_batch[0], mnist_batch[1]
+
+
+        _, merged_summary, err = session.run([optimiser, merged_summary_operation, loss_operation],
                                         feed_dict={input_img1: inputs[0],
                                                    input_img2: inputs[1],
                                                    target: targets})
         train_summary_writer.add_summary(merged_summary, epoch)
 
         if epoch % 10 == 0:
-            print(epoch)
+            print("\n------------------------\n")
+            print("Time for {0} iterations: {1} mins".format(epoch, (time.time()-t_start)/60.0))
+            print("train loss: {0}".format(err))
