@@ -29,4 +29,3 @@ data_set_path = os.path.join(data_set_path, "data")
 if os.path.isdir(data_set_path) == False:
     os.mkdir(data_set_path)
 
-with tqdm(unit="B", )
