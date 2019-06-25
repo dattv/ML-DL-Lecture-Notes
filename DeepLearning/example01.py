@@ -14,4 +14,3 @@ print(result)
 
 sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
 
-
