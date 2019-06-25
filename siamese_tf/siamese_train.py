@@ -38,8 +38,6 @@ with tf.name_scope("accuracy") as scope:
 tf.summary.scalar("accuracy", accuracy_operation)
 
 
-merged_summation = tf.summary.merge_all()
-
 root_path = os.path.dirname(os.path.dirname(__file__))
 log_dir = os.path.join(root_path, "siamese_tf")
 if os.path.isdir(log_dir) == False:
@@ -142,20 +140,22 @@ def make_oneshot_task(N, s="val", language=None):
         low, high = categories[language]
         if N > high - low:
             raise ValueError("This languages ({}) has less than {} letters".format(language, N))
-        categories = rng.choice(range(low, high), size=(N, ), replace=False)
+        categories = rng.choice(range(low, high), size=(N,), replace=False)
 
     else:
         categories = rng.choice(range(n_classes), size=(N,), replace=False)
 
     true_category = categories[0]
-    ex1, ex2 = rng.choice(n_examples, replace=False, size=(2, ))
-    test_image = np.asarray([X[true_category, ex1, :, :]]*N).reshape(N, w, h, 1)
+    ex1, ex2 = rng.choice(n_examples, replace=False, size=(2,))
+    test_image = np.asarray([X[true_category, ex1, :, :]] * N).reshape(N, w, h, 1)
     support_set = X[categories, indices, :, :]
     support_set[0, :, :] = X[true_category, ex2]
 
 
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
+
+    merged_summary_operation = tf.summary.merge_all()
 
     train_summary_writer = tf.summary.FileWriter(log_dir + "/train", session.graph)
     test_summary_writer = tf.summary.FileWriter(log_dir + "/test")
