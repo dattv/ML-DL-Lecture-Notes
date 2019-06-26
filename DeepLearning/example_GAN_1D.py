@@ -82,7 +82,7 @@ if __name__ == '__main__':
     with tf.Session() as session:
         session.run(tf.global_variables_initializer())
 
-
+        train_summary_writer = tf.summary.FileWriter(os.path.join(log_dir, "train"), session.graph)
 
 
 
