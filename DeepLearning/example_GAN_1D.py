@@ -1,3 +1,5 @@
+import os
+
 import numpy
 from numpy.random import rand
 import tensorflow as tf
@@ -27,7 +29,7 @@ def define_discriminator(input_tensor):
 
     with tf.name_scope("hidden_layer") as scope:
         with tf.name_scope("weights") as scope:
-            w_h = tf.Variable(tf.truncated_normal([tf.int64(n_in), 25], stddev=0.1), name="weights_h")
+            w_h = tf.Variable(tf.truncated_normal([int(n_in), 25], stddev=0.1), name="weights_h")
 
         with tf.name_scope("biases") as scope:
             bias_h = tf.Variable(tf.constant(0.1, shape=[25]), name="biases_h")
@@ -47,6 +49,17 @@ def define_discriminator(input_tensor):
 
     return logit
 
+root_path = os.path.dirname(os.path.dirname(__file__))
+deep_learning_path = os.path.join(root_path, "DeepLearning")
+log_dir = os.path.join(deep_learning_path, "tmp")
+
+temp_file = __file__.split("/")
+temp_file = temp_file[len(temp_file) - 1]
+temp_file = temp_file.split(".")[0]
+
+log_dir = os.path.join(log_dir, temp_file)
+if os.path.isdir(log_dir) == False:
+    os.mkdir(log_dir)
 
 if __name__ == '__main__':
     inputs, outputs = generate_sample(-0.5, 0.5, 100)
@@ -63,5 +76,13 @@ if __name__ == '__main__':
 
     with tf.name_scope("optimization") as scope:
         optimiser = tf.train.AdamOptimizer(0.01).minimize(loss)
+
+    merged_summary_operation = tf.summary.merge_all()
+
+    with tf.Session() as session:
+        session.run(tf.global_variables_initializer())
+
+
+
 
 
