@@ -2,6 +2,8 @@ import os
 import urllib.request
 
 import numpy
+from scipy import ndimage
+
 from matplotlib import pyplot as plt
 from PIL import Image
 
@@ -57,6 +59,10 @@ class Augmentation_image():
         # flip original image
         self.flip_img(self._img_numpy)
 
+        self.blur_img(self._img_numpy)
+
+        self.rotate_img(self._img_numpy)
+
     def flip_img(self, numpy_image=None):
         if numpy_image is not None:
             img_flipped = numpy.fliplr(numpy_image)
@@ -71,8 +77,27 @@ class Augmentation_image():
             img = Image.fromarray(img_flipped)
             img.save(self._file_name_prefix + "_ud." + self._file_name_suffixes)
 
+    def rotate_img(self, numpy_image=None):
+        if numpy_image is not None:
+            for i in range (1, 360, 20):
+                img = Image.fromarray(numpy_image)
+                rot_img = img.rotate(i)
+                rot_img.save(self._file_name_prefix + "_rotate_" + str(i) + "." + self._file_name_suffixes)
+
     def blur_img(self, numpy_image=None):
         if numpy_image is not None:
+            alpha = 30
+            print(numpy_image.shape)
+            for i in range(1, 5):
+                blurred_f = ndimage.gaussian_filter(numpy_image, sigma=i/2.)
+                filter_blurred_f = ndimage.gaussian_filter(blurred_f, 1)
+                sharpened = blurred_f + alpha * (blurred_f - filter_blurred_f)
+
+                img = Image.fromarray(blurred_f)
+                img.save(self._file_name_prefix + "_gaussian_" + str(i) + "." + self._file_name_suffixes)
+
+                # img_sharpened = Image.fromarray(sharpened)
+                # img_sharpened.save(self._file_name_prefix + "_sharpened_" + str(i) + "." + self._file_name_suffixes)
 
 
 def main ():
