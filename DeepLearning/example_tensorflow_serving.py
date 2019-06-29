@@ -60,3 +60,4 @@ with tf.Session() as session:
                                                      legacy_init_op=tf.group(tf.tables_initializer(),
                                                                              name="legacy_init_op"))
     saved_model_builder.save()
+
