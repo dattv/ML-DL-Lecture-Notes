@@ -1,4 +1,4 @@
-from Omniglot_loader import omniglot_loader
+from siamese_tf.Omniglot_loader import omniglot_loader
 
 import numpy as np
 import os
