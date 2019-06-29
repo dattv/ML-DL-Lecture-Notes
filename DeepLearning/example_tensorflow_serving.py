@@ -3,7 +3,12 @@ import os
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
-work_dir = '/tmp'
+root_path = os.path.dirname(os.path.dirname(__file__))
+root_path = os.path.join(root_path, "DeepLearning")
+work_dir = os.path.join(root_path, "tmp")
+if os.path.isdir(work_dir) == False:
+    os.mkdir(work_dir)
+
 model_version = 9
 training_iteration = 1000
 input_size = 784
@@ -48,4 +53,10 @@ with tf.Session() as session:
                                                                             method_name="tensorflow/serving/predict"))
 
     model_path = os.path.join(work_dir, str(model_version))
-
+    saved_model_builder = tf.saved_model.builder.SavedModelBuilder(model_path)
+    saved_model_builder.add_meta_graph_and_variables(session,
+                                                     [tf.saved_model.tag_constants.SERVING],
+                                                     signature_def_map={"prediction": signature_def},
+                                                     legacy_init_op=tf.group(tf.tables_initializer(),
+                                                                             name="legacy_init_op"))
+    saved_model_builder.save()
