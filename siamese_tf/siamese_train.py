@@ -152,10 +152,6 @@ def make_oneshot_task(N, s="val", language=None):
     support_set[0, :, :] = X[true_category, ex2]
 
 
-# from tensorflow.examples.tutorials.mnist import input_data
-#
-# mnist_data = input_data.read_data_sets("MNIST_data", one_hot=True)
-
 # test_images, test_labels = mnist_data.test.images, mnist_data.test.labels
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
@@ -180,8 +176,6 @@ with tf.Session() as session:
     t_start = time.time()
     for epoch in range(1, n_iter + 1):
         (inputs, targets) = get_batch(batch_size)
-        # mnist_batch = mnist_data.train.next_batch(batch_size)
-        # inputs, targets = mnist_batch[0], mnist_batch[1]
         a = inputs[0]
         b = inputs[1]
 
