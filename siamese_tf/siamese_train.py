@@ -8,14 +8,8 @@ import numpy.random as rng
 
 from siamese_tf.siamese_model import siamese
 
-# I tempolary reduce the size of image from 105x105x3 to 50x50x3 because my GPU device doesn't have enough memory
-# input1 = tf.placeholder(tf.float32, shape=[None, 784])
-# input2 = tf.placeholder(tf.float32, shape=[None, 784])
-# input_img1 = tf.reshape(input1, [-1, 28, 28, 1], name="input_img1")
-# input_img2 = tf.reshape(input2, [-1, 28, 28, 1], name="input_img2")
-
 n_output = 1
-
+# I tempolary reduce the size of image from 105x105x3 to 50x50x3 because my GPU device doesn't have enough memory
 input_img1 = tf.placeholder(tf.float32, shape=[None, 50, 50, 1], name="input_img1")
 input_img2 = tf.placeholder(tf.float32, shape=[None, 50, 50, 1], name="input_img2")
 
@@ -190,7 +184,6 @@ with tf.Session() as session:
         # inputs, targets = mnist_batch[0], mnist_batch[1]
         a = inputs[0]
         b = inputs[1]
-
 
         _, merged_summary = session.run([optimiser, merged_summary_operation],
                                         feed_dict={input_img1: a,
