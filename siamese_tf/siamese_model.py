@@ -1,5 +1,4 @@
 import os
-
 import tensorflow as tf
 
 
@@ -8,7 +7,6 @@ class siamese():
         self.stddev_ = 0.1
 
     def make_model(self, input_tensor1, input_tensor2, n_class):
-
         with tf.variable_scope("siamese") as scope:
             encoded_l = self.sub_model(input_tensor1)
 
@@ -138,6 +136,7 @@ def main():
         model = model.make_model(img1, img2)
 
         summary_writer = tf.summary.FileWriter(siamese_log_dir, session.graph)
+
 
 if __name__ == '__main__':
     main()
