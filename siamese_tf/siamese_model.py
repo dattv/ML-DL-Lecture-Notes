@@ -14,15 +14,17 @@ class siamese():
 
             encoded_r = self.sub_model(input_tensor2)
 
-        l1_distance = tf.abs(encoded_l - encoded_r, name="L1_DISTANCE")
+        # l1_distance = tf.abs(encoded_l - encoded_r, name="L1_DISTANCE")
+        l1_distance = tf.sqrt(tf.reduce_sum(tf.pow(encoded_l - encoded_r, 2), 1, keepdims=True), name="L1_DISTANCE")
+        pred = l1_distance
 
-        with tf.name_scope("fully_layer_2") as scope:
-            with tf.name_scope("weights") as scope:
-                w_flat2_1 = tf.Variable(tf.truncated_normal([4096, n_class], stddev=self.stddev_), name="w_flat2_1")
-            with tf.name_scope("biases") as scope:
-                b_flat2_1 = tf.Variable(tf.constant(0.1, shape=[n_class]), name="b_flat2_1")
-
-            pred = tf.nn.sigmoid(tf.matmul(l1_distance, w_flat2_1) + b_flat2_1, name="pred")
+        # with tf.name_scope("fully_layer_2") as scope:
+        #     with tf.name_scope("weights") as scope:
+        #         w_flat2_1 = tf.Variable(tf.truncated_normal([4096, n_class], stddev=self.stddev_), name="w_flat2_1")
+        #     with tf.name_scope("biases") as scope:
+        #         b_flat2_1 = tf.Variable(tf.constant(0.1, shape=[n_class]), name="b_flat2_1")
+        #
+        #     pred = tf.nn.sigmoid(tf.matmul(l1_distance, w_flat2_1) + b_flat2_1, name="pred")
 
         return pred
 

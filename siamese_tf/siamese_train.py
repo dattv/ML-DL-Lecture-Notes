@@ -8,6 +8,8 @@ import numpy.random as rng
 
 from siamese_tf.siamese_model import siamese
 
+import matplotlib.pyplot as plt
+
 n_output = 1
 # I tempolary reduce the size of image from 105x105x3 to 50x50x3 because my GPU device doesn't have enough memory
 input_img1 = tf.placeholder(tf.float32, shape=[None, 50, 50, 1], name="input_img1")
@@ -19,16 +21,19 @@ net = siamese()
 net = net.make_model(input_img1, input_img2, n_output)
 
 with tf.name_scope("loss") as scope:
-    softmax_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=target,
-                                                                    logits=net)
-
-    # loss = tf.reduce_mean(net - target)
-    # tf.summary.scalar("loss", loss)
-    loss_operation = tf.reduce_mean(softmax_cross_entropy, name="loss")
+    similarity = target * tf.square(net)
+    dissimilarity = (1. - target) * tf.square(tf.maximum((0.5 - net), 0))
+    loss_operation = tf.reduce_mean(dissimilarity + similarity) / 2.
+    # softmax_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=target,
+    #                                                                 logits=net)
+    #
+    # # loss = tf.reduce_mean(net - target)
+    # # tf.summary.scalar("loss", loss)
+    # loss_operation = tf.reduce_mean(softmax_cross_entropy, name="loss")
     tf.summary.scalar("loss", loss_operation)
 
 with tf.name_scope("optimiser") as scope:
-    optimiser = tf.train.AdamOptimizer(1.e-4).minimize(loss_operation)
+    optimiser = tf.train.AdamOptimizer(1.e-3).minimize(loss_operation)
 
 with tf.name_scope("accuracy") as scope:
     with tf.name_scope("correct_prediction"):
@@ -87,6 +92,7 @@ def get_batch(batch_size, s="train"):
 
     # make one half of it "1"s so 2nd half of batch has same class
     targets[batch_size // 2:] = 1
+
 
     for i in range(batch_size):
         category = categories[i]
@@ -179,6 +185,9 @@ with tf.Session() as session:
         a = inputs[0]
         b = inputs[1]
 
+        # print(targets.shape)
+        # print("djfkldjf")
+
         _, merged_summary = session.run([optimiser, merged_summary_operation],
                                         feed_dict={input_img1: a,
                                                    input_img2: b,
@@ -191,4 +200,4 @@ with tf.Session() as session:
                                                               input_img2: b,
                                                               target: targets})
             test_summary_writer.add_summary(merged_summary, epoch)
-            print("err: {}, epoch: {}".format(err, epoch))
+            print("err: {}, acc: {}, epoch: {}".format(err, acc, epoch))
