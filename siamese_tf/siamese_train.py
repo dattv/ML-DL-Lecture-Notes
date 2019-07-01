@@ -21,28 +21,18 @@ net = siamese()
 net = net.make_model(input_img1, input_img2, n_output)
 
 with tf.name_scope("loss") as scope:
-    similarity = target * tf.square(net)
-    dissimilarity = (1. - target) * tf.square(tf.maximum((0.5 - net), 0))
-    loss_operation = tf.reduce_mean(dissimilarity + similarity) / 2.
-    # softmax_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=target,
-    #                                                                 logits=net)
-    #
-    # # loss = tf.reduce_mean(net - target)
-    # # tf.summary.scalar("loss", loss)
-    # loss_operation = tf.reduce_mean(softmax_cross_entropy, name="loss")
+
+    loss_operation = tf.reduce_mean(tf.square(net - target))
+    print(loss_operation)
+
     tf.summary.scalar("loss", loss_operation)
 
 with tf.name_scope("optimiser") as scope:
     optimiser = tf.train.AdamOptimizer(1.e-3).minimize(loss_operation)
 
-with tf.name_scope("accuracy") as scope:
-    with tf.name_scope("correct_prediction"):
-        predictions = tf.argmax(net, 1)
-        correct_predictions = tf.equal(predictions, tf.argmax(target, 1))
-
-    with tf.name_scope("accuracy"):
-        accuracy_operation = tf.reduce_mean(tf.cast(correct_predictions, tf.float32))
-tf.summary.scalar("accuracy", accuracy_operation)
+# with tf.name_scope("accuracy") as scope:
+#         accuracy_operation =
+# tf.summary.scalar("accuracy", accuracy_operation)
 
 root_path = os.path.dirname(os.path.dirname(__file__))
 log_dir = os.path.join(root_path, "siamese_tf")
@@ -185,9 +175,6 @@ with tf.Session() as session:
         a = inputs[0]
         b = inputs[1]
 
-        # print(targets.shape)
-        # print("djfkldjf")
-
         _, merged_summary = session.run([optimiser, merged_summary_operation],
                                         feed_dict={input_img1: a,
                                                    input_img2: b,
@@ -195,9 +182,9 @@ with tf.Session() as session:
         train_summary_writer.add_summary(merged_summary, epoch)
 
         if epoch % 100 == 0:
-            merged_summary, acc, err = session.run([merged_summary_operation, accuracy_operation, loss_operation],
+            merged_summary, err = session.run([merged_summary_operation, loss_operation],
                                                    feed_dict={input_img1: a,
                                                               input_img2: b,
                                                               target: targets})
             test_summary_writer.add_summary(merged_summary, epoch)
-            print("err: {}, acc: {}, epoch: {}".format(err, acc, epoch))
+            print("err: {}, epoch: {}".format(err, epoch))
