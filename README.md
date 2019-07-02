@@ -1,4 +1,12 @@
 This repository for noting some resources that may help me in studying ML/DL and applying AI/ML/DL into real world
+# Basic Courses
+<b>[1]</b> [CME 323: Distributed Algorithms and Optimization](https://stanford.edu/~rezab/dao/)
+
+<b>[2]</b> [CME342 - Parallel Methods in Numerical Analysis](http://adl.stanford.edu/cme342/Lecture_Notes.html)
+
+<b>[3]</b>  [Parallel Computer Architecture and Programming (CMU 15-418/618)](http://15418.courses.cs.cmu.edu/spring2017/)
+
+
 # ML/DL - Lecture notes
 
 <b>[1]</b>  [Deep learning for Vision (instructor Yannis Avrithis) - (Univ of Rennes1)](https://sif-dlv.github.io/)

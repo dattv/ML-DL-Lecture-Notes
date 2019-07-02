@@ -18,21 +18,21 @@ input_img2 = tf.placeholder(tf.float32, shape=[None, 50, 50, 1], name="input_img
 target = tf.placeholder(tf.float32, shape=[None, n_output], name="target")
 
 net = siamese()
-net = net.make_model(input_img1, input_img2, n_output)
+# net = net.make_model(input_img1, input_img2, n_output)
+net.make_model(input_img1, input_img2, n_output, target)
 
 with tf.name_scope("loss") as scope:
 
-    loss_operation = tf.reduce_mean(tf.square(net - target))
-    print(loss_operation)
+    # loss_operation = tf.reduce_mean(tf.square(net - target))
 
-    tf.summary.scalar("loss", loss_operation)
+    tf.summary.scalar("loss", net.loss)
 
 with tf.name_scope("optimiser") as scope:
-    optimiser = tf.train.AdamOptimizer(1.e-3).minimize(loss_operation)
+    optimiser = tf.train.AdamOptimizer(1.e-4).minimize(net.loss)
 
-# with tf.name_scope("accuracy") as scope:
+with tf.name_scope("accuracy") as scope:
 #         accuracy_operation =
-# tf.summary.scalar("accuracy", accuracy_operation)
+    tf.summary.scalar("accuracy", net.accuracy)
 
 root_path = os.path.dirname(os.path.dirname(__file__))
 log_dir = os.path.join(root_path, "siamese_tf")
@@ -182,9 +182,9 @@ with tf.Session() as session:
         train_summary_writer.add_summary(merged_summary, epoch)
 
         if epoch % 100 == 0:
-            merged_summary, err = session.run([merged_summary_operation, loss_operation],
+            merged_summary, err, acc = session.run([merged_summary_operation, net.loss, net.accuracy],
                                                    feed_dict={input_img1: a,
                                                               input_img2: b,
                                                               target: targets})
             test_summary_writer.add_summary(merged_summary, epoch)
-            print("err: {}, epoch: {}".format(err, epoch))
+            print("err: {}, acc: {}, epoch: {}".format(err, acc, epoch))

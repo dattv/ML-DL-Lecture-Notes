@@ -1,32 +1,51 @@
 import os
 import tensorflow as tf
 
+def variable_summaries(var):
+  with tf.name_scope('summaries'):
+    mean = tf.reduce_mean(var)
+    tf.summary.scalar('mean', mean)
+    with tf.name_scope('stddev'):
+      stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
+    tf.summary.scalar('stddev', stddev)
+    tf.summary.scalar('max', tf.reduce_max(var))
+    tf.summary.scalar('min', tf.reduce_min(var))
+    tf.summary.histogram('histogram', var)
+
 
 class siamese():
     def __init__(self):
         self.stddev_ = 0.1
 
-    def make_model(self, input_tensor1, input_tensor2, n_class):
+    def make_model(self, input_tensor1, input_tensor2, n_class, target):
+        self.y = target
         with tf.variable_scope("siamese") as scope:
             encoded_l = self.sub_model(input_tensor1)
-
             scope.reuse_variables()
-
             encoded_r = self.sub_model(input_tensor2)
 
-            L1_distance = tf.abs(encoded_l - encoded_r)
+        dist = tf.sqrt(tf.reduce_sum(tf.square(encoded_r - encoded_l)))
+        self.loss = self.loss_with_spring(dist, self.y)
+        self.accuracy = self.compute_accuracy(dist, self.y)
+        self.inference = dist
+        self.out = encoded_l
 
-            with tf.name_scope("fully_layer_2") as scope:
-                with tf.name_scope("weights") as scope:
-                    w_flat2_1 = tf.Variable(tf.truncated_normal([4096, n_class], stddev=self.stddev_), name="w_flat2_1")
-                with tf.name_scope("biases") as scope:
-                    b_flat2_1 = tf.Variable(tf.constant(0.1, shape=[n_class]), name="b_flat2_1")
+        # L1_distance = tf.abs(encoded_l - encoded_r)
+        #
+        # with tf.name_scope("fully_layer_2") as scope:
+        #     with tf.name_scope("weights") as scope:
+        #         w_flat2_1 = tf.Variable(tf.truncated_normal([4096, n_class], stddev=self.stddev_), name="w_flat2_1")
+        #     with tf.name_scope("biases") as scope:
+        #         b_flat2_1 = tf.Variable(tf.constant(0.1, shape=[n_class]), name="b_flat2_1")
+        #
+        #     tf.summary.histogram("weights", w_flat2_1)
+        #     tf.summary.histogram("biases", b_flat2_1)
+        #
+        #     fully2_1 = tf.matmul(L1_distance, w_flat2_1) + b_flat2_1
+        #
+        #     fully2_1 = tf.nn.sigmoid(fully2_1, name="fully2_1")
 
-                fully2_1 = tf.matmul(L1_distance, w_flat2_1) + b_flat2_1
-
-                fully2_1 = tf.nn.sigmoid(fully2_1, name="fully2_1")
-
-        return fully2_1
+        # return fully2_1
 
     def sub_model(self, input_tensor):
         n_chanel = int(input_tensor.shape[3])
@@ -37,6 +56,9 @@ class siamese():
                 w1_1 = tf.Variable(tf.truncated_normal([10, 10, n_chanel, 64], stddev=stddev_), name="w1_1")
             with tf.name_scope("biases") as scope:
                 b1_1 = tf.Variable(tf.constant(0.1, shape=[64]), name="b1_1")
+
+            # tf.summary.histogram("weights", w1_1)
+            # tf.summary.histogram("biases", b1_1)
 
             conv1_1 = tf.nn.conv2d(input=input_tensor,
                                    filter=w1_1,
@@ -58,6 +80,9 @@ class siamese():
             with tf.name_scope("biases") as scope:
                 b2_1 = tf.Variable(tf.constant(0.1, shape=[128]), name="b2_1")
 
+            # tf.summary.histogram("weights", w2_1)
+            # tf.summary.histogram("biases", b2_1)
+
             conv2_1 = tf.nn.conv2d(input=pool1_1,
                                    filter=w2_1,
                                    strides=[1, 1, 1, 1],
@@ -77,6 +102,9 @@ class siamese():
                 w3_1 = tf.Variable(tf.truncated_normal([4, 4, 128, 128], stddev=stddev_), name="w3_1")
             with tf.name_scope("biases") as scope:
                 b3_1 = tf.Variable(tf.constant(0.1, shape=[128]), name="b3_1")
+
+            # tf.summary.histogram("weights", w3_1)
+            # tf.summary.histogram("biases", b3_1)
 
             conv3_1 = tf.nn.conv2d(input=pool2_1,
                                    filter=w3_1,
@@ -98,6 +126,9 @@ class siamese():
             with tf.name_scope("biases") as scope:
                 b4_1 = tf.Variable(tf.constant(0.1, shape=[256]), name="b4_1")
 
+            # tf.summary.histogram("weights", w4_1)
+            # tf.summary.histogram("biases", b4_1)
+
             conv4_1 = tf.nn.conv2d(input=pool3_1,
                                    filter=w4_1,
                                    strides=[1, 1, 1, 1],
@@ -116,10 +147,25 @@ class siamese():
             with tf.name_scope("biases") as scope:
                 b_flat1_1 = tf.Variable(tf.constant(0.1, shape=[4096]), name="b_flat1_1")
 
+            # tf.summary.histogram("weights", w_flat1_1)
+            # tf.summary.histogram("biases", b_flat1_1)
+
             fully1_1 = tf.matmul(flatten1_1, w_flat1_1) + b_flat1_1
             fully1_1 = tf.nn.sigmoid(fully1_1, name="FULLY1_1")
 
         return fully1_1
+
+    def loss_with_spring(self, dist, labels):
+        margin = 5.0
+        dist += 1e-6
+        pos = labels * dist
+        neg = (1.0 - labels) * tf.square(tf.maximum(0.0, margin - dist))
+        return tf.reduce_mean(pos + neg)
+
+    def compute_accuracy(self, dist, labels):
+        preds = tf.cast(dist < 0.5, tf.float32)
+        correct_prediction = tf.cast(tf.equal(labels, preds), tf.float32)
+        return tf.reduce_mean(correct_prediction)
 
 
 def main():
