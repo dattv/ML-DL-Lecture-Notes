@@ -21,7 +21,9 @@ class siamese():
         self.y = target
         with tf.variable_scope("siamese") as scope:
             encoded_l = self.sub_model(input_tensor1)
+
             scope.reuse_variables()
+
             encoded_r = self.sub_model(input_tensor2)
 
         dist = tf.sqrt(tf.reduce_sum(tf.square(encoded_r - encoded_l)))
@@ -30,32 +32,22 @@ class siamese():
         self.inference = dist
         self.out = encoded_l
 
-        # L1_distance = tf.abs(encoded_l - encoded_r)
-        #
-        # with tf.name_scope("fully_layer_2") as scope:
-        #     with tf.name_scope("weights") as scope:
-        #         w_flat2_1 = tf.Variable(tf.truncated_normal([4096, n_class], stddev=self.stddev_), name="w_flat2_1")
-        #     with tf.name_scope("biases") as scope:
-        #         b_flat2_1 = tf.Variable(tf.constant(0.1, shape=[n_class]), name="b_flat2_1")
-        #
-        #     tf.summary.histogram("weights", w_flat2_1)
-        #     tf.summary.histogram("biases", b_flat2_1)
-        #
-        #     fully2_1 = tf.matmul(L1_distance, w_flat2_1) + b_flat2_1
-        #
-        #     fully2_1 = tf.nn.sigmoid(fully2_1, name="fully2_1")
-
-        # return fully2_1
-
     def sub_model(self, input_tensor):
         n_chanel = int(input_tensor.shape[3])
         stddev_ = self.stddev_
 
         with tf.name_scope("conv_layer_1") as scope:
             with tf.name_scope("weights") as scope:
-                w1_1 = tf.Variable(tf.truncated_normal([10, 10, n_chanel, 64], stddev=stddev_), name="w1_1")
+                w1_1 = tf.get_variable("w1_1",
+                                       shape=[10, 10, n_chanel, 64],
+                                       initializer=tf.random_normal_initializer(),
+                                       dtype=tf.float32)
+
             with tf.name_scope("biases") as scope:
-                b1_1 = tf.Variable(tf.constant(0.1, shape=[64]), name="b1_1")
+                b1_1 = tf.get_variable("b1_1",
+                                       shape=[64],
+                                       initializer=tf.constant_initializer(0.1),
+                                       dtype=tf.float32)
 
             # tf.summary.histogram("weights", w1_1)
             # tf.summary.histogram("biases", b1_1)
@@ -76,9 +68,16 @@ class siamese():
 
         with tf.name_scope("conv_layer_2") as scope:
             with tf.name_scope("weights") as scope:
-                w2_1 = tf.Variable(tf.truncated_normal([7, 7, 64, 128], stddev=stddev_), name="w2_1")
+                w2_1 = tf.get_variable("w2_1",
+                                       shape=[7, 7, 64, 128],
+                                       initializer=tf.random_normal_initializer(),
+                                       dtype=tf.float32)
+
             with tf.name_scope("biases") as scope:
-                b2_1 = tf.Variable(tf.constant(0.1, shape=[128]), name="b2_1")
+                b2_1 = tf.get_variable("b2_1",
+                                       shape=[128],
+                                       initializer=tf.constant_initializer(0.1),
+                                       dtype=tf.float32)
 
             # tf.summary.histogram("weights", w2_1)
             # tf.summary.histogram("biases", b2_1)
@@ -99,9 +98,16 @@ class siamese():
 
         with tf.name_scope("conv_layer_3") as scope:
             with tf.name_scope("weights") as scope:
-                w3_1 = tf.Variable(tf.truncated_normal([4, 4, 128, 128], stddev=stddev_), name="w3_1")
+                w3_1 = tf.get_variable("w3_1",
+                                       shape=[4, 4, 128, 128],
+                                       initializer=tf.random_normal_initializer(),
+                                       dtype=tf.float32)
+
             with tf.name_scope("biases") as scope:
-                b3_1 = tf.Variable(tf.constant(0.1, shape=[128]), name="b3_1")
+                b3_1 = tf.get_variable("b3_1",
+                                       shape=[128],
+                                       initializer=tf.constant_initializer(0.1),
+                                       dtype=tf.float32)
 
             # tf.summary.histogram("weights", w3_1)
             # tf.summary.histogram("biases", b3_1)
@@ -122,9 +128,16 @@ class siamese():
 
         with tf.name_scope("conv_layer_4") as scope:
             with tf.name_scope("weights") as scope:
-                w4_1 = tf.Variable(tf.truncated_normal([4, 4, 128, 256], stddev=stddev_), name="w4_1")
+                w4_1 = tf.get_variable("w4_1",
+                                       shape=[4, 4, 128, 256],
+                                       initializer=tf.random_normal_initializer(),
+                                       dtype=tf.float32)
+
             with tf.name_scope("biases") as scope:
-                b4_1 = tf.Variable(tf.constant(0.1, shape=[256]), name="b4_1")
+                b4_1 = tf.get_variable("b4_1",
+                                       shape=[256],
+                                       initializer=tf.constant_initializer(0.1),
+                                       dtype=tf.float32)
 
             # tf.summary.histogram("weights", w4_1)
             # tf.summary.histogram("biases", b4_1)
@@ -143,9 +156,17 @@ class siamese():
 
         with tf.name_scope("fully_layer_1") as scope:
             with tf.name_scope("weights") as scope:
-                w_flat1_1 = tf.Variable(tf.truncated_normal([size, 4096], stddev=stddev_), name="w_flat1_1")
+                w_flat1_1 = tf.get_variable("w_flat1_1",
+                                            shape=[size, 4096],
+                                            initializer=tf.random_normal_initializer(),
+                                            dtype=tf.float32)
+
             with tf.name_scope("biases") as scope:
-                b_flat1_1 = tf.Variable(tf.constant(0.1, shape=[4096]), name="b_flat1_1")
+                b_flat1_1 = tf.get_variable("b_flat1_1",
+                                            shape=[4096],
+                                            initializer=tf.constant_initializer(0.1),
+                                            dtype=tf.float32)
+
 
             # tf.summary.histogram("weights", w_flat1_1)
             # tf.summary.histogram("biases", b_flat1_1)

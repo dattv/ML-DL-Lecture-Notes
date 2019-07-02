@@ -28,7 +28,7 @@ with tf.name_scope("loss") as scope:
     tf.summary.scalar("loss", net.loss)
 
 with tf.name_scope("optimiser") as scope:
-    optimiser = tf.train.AdamOptimizer(1.e-4).minimize(net.loss)
+    optimiser = tf.train.AdamOptimizer(1.e-5).minimize(net.loss)
 
 with tf.name_scope("accuracy") as scope:
 #         accuracy_operation =
