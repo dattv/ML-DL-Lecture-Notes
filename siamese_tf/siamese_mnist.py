@@ -37,29 +37,44 @@ def get_sub_model(input_):
     # convolution layer 1
     with tf.name_scope("conv1") as scope:
         with tf.name_scope("weights") as scope:
-            weights_1 = tf.Variable(tf.truncated_normal([3, 3, nChanel, 64], stddev=stddev),
-                                    name="weights_1")
-        with tf.name_scope("biases") as scope:
-            biases_1 = tf.Variable(tf.constant(init_bias_value, shape=[64]), name="biases")
+            weights_1 = tf.get_variable("weights_1",
+                                        shape=[3, 3, nChanel, 64],
+                                        initializer=tf.random_normal_initializer(stddev=stddev),
+                                        dtype=tf.float32)
 
-        conv1 = tf.nn.conv2d(input=input_reshape, filter=weights_1, strides=[1, 1, 1, 1], padding="SAME")
-        conv1 += biases_1
+        with tf.name_scope("biases") as scope:
+            biases_1 = tf.get_variable("biases",
+                                       shape=[64],
+                                       initializer=tf.constant_initializer(init_bias_value),
+                                       dtype=tf.float32)
+
+        conv1 = tf.nn.conv2d(input=input_reshape, filter=weights_1, strides=[1, 1, 1, 1], padding="SAME") + biases_1
 
         conv1 = tf.nn.relu(conv1, name="conv1")
 
     # pooling layer 1
     with tf.name_scope("pooling1") as scope:
-        pool1 = tf.nn.max_pool(conv1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding="SAME", name="pool1")
+        pool1 = tf.nn.max_pool(conv1,
+                               ksize=[1, 2, 2, 1],
+                               strides=[1, 2, 2, 1],
+                               padding="SAME",
+                               name="pool1")
 
     # convolution layer 2
     with tf.name_scope("conv2") as scope:
         with tf.name_scope("weights") as scope:
-            weights_2 = tf.Variable(tf.truncated_normal([3, 3, 64, 128], stddev=stddev), name="weights_2")
-        with tf.name_scope("biases") as scope:
-            biases_2 = tf.Variable(tf.constant(init_bias_value, shape=[128]), name="biases")
+            weights_2 = tf.get_variable("weights_2",
+                                        shape=[3, 3, 64, 128],
+                                        initializer=tf.random_normal_initializer(stddev=stddev),
+                                        dtype=tf.float32)
 
-        conv2 = tf.nn.conv2d(input=pool1, filter=weights_2, strides=[1, 1, 1, 1], padding="SAME")
-        conv2 += biases_2
+        with tf.name_scope("biases") as scope:
+            biases_2 = tf.get_variable("biases",
+                                       shape=[128],
+                                       initializer=tf.constant_initializer(init_bias_value),
+                                       dtype=tf.float32)
+
+        conv2 = tf.nn.conv2d(input=pool1, filter=weights_2, strides=[1, 1, 1, 1], padding="SAME") + biases_2
 
         conv2 = tf.nn.relu(conv2, name="conv2")
 
@@ -76,11 +91,16 @@ def get_sub_model(input_):
     # fully layer 1
     with tf.name_scope("fully1") as scope:
         with tf.name_scope("weights") as scope:
-            weights_full_1 = tf.Variable(tf.truncated_normal([size, 1024], stddev=stddev),
-                                         name="weights_full_1")
+            weights_full_1 = tf.get_variable("weights_full_1",
+                                             shape=[size, 1024],
+                                             initializer=tf.random_normal_initializer(stddev=stddev),
+                                             dtype=tf.float32)
 
         with tf.name_scope("biases") as scope:
-            biases_full_1 = tf.Variable(tf.constant(init_bias_value, shape=[1024]), name="biases_full_1")
+            biases_full_1 = tf.get_variable("biases_full_1",
+                                            shape=[1024],
+                                            initializer=tf.random_normal_initializer(stddev=stddev),
+                                            dtype=tf.float32)
 
         fully1 = tf.matmul(flatten1, weights_full_1) + biases_full_1
         fully1 = tf.nn.relu(fully1, name="fully1")
