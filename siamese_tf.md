@@ -69,6 +69,8 @@ target := {1 if both contain the same character, 0 if both images contain differ
 
 Thus we need to create pairs of images along with the target variable, as shown above, to be fed as input to the Siamese Network. Note that even though characters from Sanskrit alphabet are shown above, but in practice we will generate pairs randomly from all the alphabets in the training data.
 
+
+
 ### Siamese model
 ![image](https://user-images.githubusercontent.com/29138292/59574945-79fb5080-90e3-11e9-977f-73ff06481531.png)
 
@@ -79,6 +81,7 @@ Thus we need to create pairs of images along with the target variable, as shown 
 ![image](https://user-images.githubusercontent.com/29138292/60526403-85bd5880-9d1a-11e9-9d02-16812a6a21c6.png)
 
 [code example with mnist dataset](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/siamese_tf/siamese_mnist.py)
+
 
 
 # Reference
