@@ -86,8 +86,12 @@ Thus we need to create pairs of images along with the target variable, as shown 
 
 [code example with mnist dataset](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/siamese_tf/siamese_mnist.py)
 
+## Triplet network
+![image](https://user-images.githubusercontent.com/29138292/60705600-ba572d00-9f31-11e9-9aa6-ac5a4f12495e.png)
 
+![image](https://user-images.githubusercontent.com/29138292/60705670-e377bd80-9f31-11e9-8e9b-a40d8e939c07.png)
 
+[triplet_mnist.py](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/siamese_tf/triplet_mnist.py)
 # Reference
 
 [1] [One Shot Learning with Siamese Networks using Keras](https://towardsdatascience.com/one-shot-learning-with-siamese-networks-using-keras-17f34e75bb3d)
