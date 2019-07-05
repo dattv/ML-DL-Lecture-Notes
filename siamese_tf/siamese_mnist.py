@@ -3,6 +3,7 @@ import os
 import numpy
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
+import matplotlib.pyplot as plt
 
 root_path = os.path.dirname(os.path.dirname(__file__))
 
@@ -10,6 +11,7 @@ siamese_path = os.path.join(root_path, "siamese_tf")
 
 mnist_path = os.path.join(siamese_path, "MNIST_data")
 mnist_data = input_data.read_data_sets("MNIST_data", one_hot=True)
+mnist = input_data.read_data_sets("MNIST_data", one_hot=False)
 
 mnist_data_train = mnist_data.train
 mnist_data_train_images = mnist_data_train._images
@@ -36,6 +38,21 @@ class Dataset(object):
             number = numpy.argmax(labels[i])
             self._dict[number].append(i)
 
+        # i = 1
+        # id = numpy.random.randint(0, 10)
+        # print(id)
+        # for _ in range(10):
+        #     id2 = numpy.random.randint(0, len(self._dict[id]))
+        #
+        #     temp = self._dict[id][id2]
+        #     plt.subplot(1, 10, i)
+        #     plt.imshow(images[temp, :].reshape((28, 28)))
+        #
+        #
+        #     i += 1
+        # plt.show()
+        # print("djkfljdf")
+
     def _get_siamese_similar_pair(self):
         result = []
         index1 = numpy.random.randint(0, 10)
@@ -43,7 +60,7 @@ class Dataset(object):
         for pair in range(2):
             index2 = numpy.random.randint(0, size)
 
-            result.append([index1, index2])
+            result.append([index1, self._dict[index1][index2]])
         return result, 0
 
     def _get_siamese_dissimilar_pair(self):
@@ -51,7 +68,7 @@ class Dataset(object):
         index1 = numpy.random.randint(0, 10)
         size = len(self._dict[index1])
         index2 = numpy.random.randint(0, size)
-        result.append([index1, index2])
+        result.append([index1, self._dict[index1][index2]])
 
         bool_coninue = True
         while bool_coninue:
@@ -61,7 +78,7 @@ class Dataset(object):
 
         size = len(self._dict[temp_index1])
         temp_index2 = numpy.random.randint(0, size)
-        result.append([temp_index1, temp_index2])
+        result.append([temp_index1, self._dict[temp_index1][temp_index2]])
 
         return result, 1
 
@@ -78,6 +95,18 @@ class Dataset(object):
             idx_l.append(lr[0][1])
             idx_r.append(lr[1][1])
             labels.append(y)
+
+        # print(labels)
+        # id = 1
+        # for i in range(n_batch):
+        #     plt.subplot(2, n_batch, id)
+        #     plt.imshow(self._images[idx_l[i], :].reshape((28, 28)))
+        #
+        #     plt.subplot(2, n_batch, n_batch + id)
+        #     plt.imshow(self._images[idx_r[i], :].reshape((28, 28)))
+        #     id += 1
+        #
+        # plt.show()
         return self._images[idx_l, :], self._images[idx_r, :], numpy.expand_dims(labels, axis=1)
 
 
@@ -102,6 +131,43 @@ def add_variable_summary(tf_variable, summary_name):
 
 init_bias_value = 0.1
 stddev = 0.1
+
+#
+# class siamese_network():
+#
+#     # Create model
+#     def __init__(self):
+#         self.x1 = tf.placeholder(tf.float32, [None, 784])
+#         self.x2 = tf.placeholder(tf.float32, [None, 784])
+#
+#         with tf.variable_scope("siamese") as scope:
+#             self.o1 = self.network(self.x1)
+#             scope.reuse_variables()
+#             self.o2 = self.network(self.x2)
+#
+#         # Create loss
+#         self.y_ = tf.placeholder(tf.float32, [None])
+#         self.loss = self.loss_with_spring()
+#
+#     def network(self, x):
+#         weights = []
+#         fc1 = self.fc_layer(x, 1024, "fc1")
+#         ac1 = tf.nn.relu(fc1)
+#         fc2 = self.fc_layer(ac1, 1024, "fc2")
+#         ac2 = tf.nn.relu(fc2)
+#         fc3 = self.fc_layer(ac2, 2, "fc3")
+#         return fc3
+#
+#     def fc_layer(self, bottom, n_weight, name):
+#         assert len(bottom.get_shape()) == 2
+#         n_prev_weight = bottom.get_shape()[1]
+#         initer = tf.truncated_normal_initializer(stddev=0.01)
+#         W = tf.get_variable(name + 'W', dtype=tf.float32, shape=[n_prev_weight, n_weight], initializer=initer)
+#         b = tf.get_variable(name + 'b', dtype=tf.float32,
+#                             initializer=tf.constant(0.01, shape=[n_weight], dtype=tf.float32))
+#         fc = tf.nn.bias_add(tf.matmul(bottom, W), b)
+#
+#         return fc
 
 
 def mnist_model(input):
@@ -254,7 +320,31 @@ def contrastive_loss(model1, model2, y, margin):
     return tf.reduce_mean(dissimilarity + similarity) / 2
 
 
+def loss_with_spring(o1, o2, y_):
+    margin = 5.0
+    labels_t = y_
+    labels_f = tf.subtract(1.0, y_, name="1-yi")  # labels_ = !labels;
+    eucd2 = tf.pow(tf.subtract(o1, o2), 2)
+    eucd2 = tf.reduce_sum(eucd2, 1)
+    eucd = tf.sqrt(eucd2 + 1e-6, name="eucd")
+    C = tf.constant(margin, name="C")
+    # yi*||CNN(p1i)-CNN(p2i)||^2 + (1-yi)*max(0, C-||CNN(p1i)-CNN(p2i)||^2)
+    pos = tf.multiply(labels_t, eucd2, name="yi_x_eucd2")
+    # neg = tf.multiply(labels_f, tf.subtract(0.0,eucd2), name="yi_x_eucd2")
+    # neg = tf.multiply(labels_f, tf.maximum(0.0, tf.subtract(C,eucd2)), name="Nyi_x_C-eucd_xx_2")
+    neg = tf.multiply(labels_f, tf.pow(tf.maximum(tf.subtract(C, eucd), 0), 2), name="Nyi_x_C-eucd_xx_2")
+    losses = tf.add(pos, neg, name="losses")
+    loss = tf.reduce_mean(losses, name="loss")
+    return loss
+
+
 def main():
+
+    # my_netwokr = siamese_network()
+    #
+    # print("djkfljdkd")
+
+
     # d = Dataset(mnist_data_train_images, mnist_data_train_labels)
     #
     # img_l, img_r, l = d._get_siamese_batch(10)
@@ -265,7 +355,8 @@ def main():
     r_img = tf.reshape(right, shape=[-1, 28, 28, 1], name="r_img")
 
     with tf.name_scope("similarity"):
-        label = tf.placeholder(tf.int64, [None, 1], name='label')  # 1 if same, 0 if different
+        # label = tf.placeholder(tf.int64, [None, 1], name='label')  # 1 if same, 0 if different
+        label = tf.placeholder(tf.int64, [None], name='label')  # 1 if same, 0 if different
 
     label_float = tf.to_float(label)
     margin = 0.5
@@ -276,7 +367,8 @@ def main():
 
         right_output = mnist_model(r_img)
 
-    loss = contrastive_loss(left_output, right_output, label_float, margin)
+    # loss = contrastive_loss(left_output, right_output, label_float, margin)
+    loss = loss_with_spring(left_output, right_output, label_float)
 
     # Setup Optimizer
     global_step = tf.Variable(0, trainable=False)
@@ -298,16 +390,35 @@ def main():
         test_data_set = Dataset(mnist_data_test_images, mnist_data_test_labels)
 
         for i in range(50000):
-            l_imgs, r_imgs, lbs = train_data_set._get_siamese_batch(100)
-            _ = sess.run([train_step], feed_dict={left: l_imgs,
-                                                  right: r_imgs,
-                                                  label: lbs})
+            l_imgs, r_imgs, lbs = train_data_set._get_siamese_batch(10)
+
+            batch_x1, batch_y1 = mnist.train.next_batch(128)
+            batch_x2, batch_y2 = mnist.train.next_batch(128)
+            batch_y = (batch_y1 == batch_y2).astype('float')
+            # print("jdkfjlsd")
+
+            # id = 0
+            # for _ in range(10):
+            #     plt.subplot(2, 10, id + 1)
+            #     plt.imshow(l_imgs[id, :].reshape((28, 28)))
+            #
+            #     plt.subplot(2, 10, 10 + id + 1)
+            #     plt.imshow(r_imgs[id, :].reshape((28, 28)))
+            #     plt.title(str(lbs[id]))
+            #     id += 1
+            #
+            # plt.show()
+            # print("djkfljd")
+
+            _, l = sess.run([train_step, loss], feed_dict={left: batch_x1,
+                                                           right: batch_x2,
+                                                           label: batch_y})
             if i % 1000 == 0:
-                l_imgs, r_imgs, lbs = test_data_set._get_siamese_batch(100)
-                l = sess.run([loss], feed_dict={left: l_imgs,
-                                                right: r_imgs,
-                                                label: lbs})
-                print(i, l)
+                # l_imgs, r_imgs, lbs = test_data_set._get_siamese_batch(100)
+                # l = sess.run([loss], feed_dict={left: l_imgs,
+                #                                 right: r_imgs,
+                #                                 label: lbs})
+                print("epoch: {}, error: {}".format(i, l))
 
 
 if __name__ == '__main__':
