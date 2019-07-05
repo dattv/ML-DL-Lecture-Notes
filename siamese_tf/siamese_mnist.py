@@ -369,6 +369,7 @@ def main():
 
     # loss = contrastive_loss(left_output, right_output, label_float, margin)
     loss = loss_with_spring(left_output, right_output, label_float)
+    tf.summary.scalar("loss", loss)
 
     # Setup Optimizer
     global_step = tf.Variable(0, trainable=False)
@@ -410,9 +411,12 @@ def main():
             # plt.show()
             # print("djkfljd")
 
-            _, l = sess.run([train_step, loss], feed_dict={left: batch_x1,
+            _, l, merged_sum = sess.run([train_step, loss, merged], feed_dict={left: batch_x1,
                                                            right: batch_x2,
                                                            label: batch_y})
+
+            writer.add_summary(merged_sum, i)
+
             if i % 1000 == 0:
                 # l_imgs, r_imgs, lbs = test_data_set._get_siamese_batch(100)
                 # l = sess.run([loss], feed_dict={left: l_imgs,
