@@ -80,9 +80,10 @@ Thus we need to create pairs of images along with the target variable, as shown 
 
 ![image](https://user-images.githubusercontent.com/29138292/60701153-e4eeb900-9f24-11e9-9e2c-6d7eabcce781.png)
 
-
-
 ![image](https://user-images.githubusercontent.com/29138292/60701182-17001b00-9f25-11e9-8c54-2efaddf3bf91.png)
+
+<b> A simple way to make MNIST data set and siamese twins architecture</b>
+
 [code example with mnist dataset](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/siamese_tf/siamese_mnist.py)
 
 
