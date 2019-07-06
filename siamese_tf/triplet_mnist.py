@@ -296,10 +296,11 @@ def main():
         for batch in range(total_batch):
             anchor_inputs, positive_inputs, negative_inputs = mnist_data_set._get_triplet_batch(10)
 
-            _, l = session.run([optimiser, loss], feed_dict={anchor: anchor_inputs,
+            _, l, summation = session.run([optimiser, loss, merged], feed_dict={anchor: anchor_inputs,
                                                              positive: positive_inputs,
                                                              negative: negative_inputs})
 
+            writer.add_summary(summation, batch)
             if batch % 1000 == 0:
                 print("epoch: {}, error: {}".format(batch, l))
 
