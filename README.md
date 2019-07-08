@@ -2,10 +2,10 @@ This repository for noting some resources that may help me in studying ML/DL and
 # Basic Courses
 <b>[1]</b> [CME 323: Distributed Algorithms and Optimization](https://stanford.edu/~rezab/dao/)
     
-    1. Fundamentals of Distributed and Parallel algorithm analysis (finish)
-    2. Scalable algorithms (finish)
-    3. Prefix Sum, Mergesort (finish)
-    4. Introduction to TensorFlow (finish)
+    1. Fundamentals of Distributed and Parallel algorithm analysis
+    2. Scalable algorithms 
+    3. Prefix Sum, Mergesort
+    4. Introduction to TensorFlow
 
 <b>[2]</b> [CME342 - Parallel Methods in Numerical Analysis](http://adl.stanford.edu/cme342/Lecture_Notes.html)
 
