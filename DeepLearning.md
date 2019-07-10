@@ -178,6 +178,8 @@ Autoencoder can also be used for image denoising
 
 ## [The Google inception-V1 -> V3 model]()
 
+### Inception v1
+
 :+1: Inception net which is called GoogLe Net (developed by Yanle cun)
 
 :+1: This is very efficiency network for classification problem
