@@ -186,6 +186,16 @@ Autoencoder can also be used for image denoising
 
 :+1: [Inception v1](https://arxiv.org/pdf/1409.4842v1.pdf)
 
+:+1: Filters with multiple sizes operate on the same level (1x1, 3x3, 5x5). So The network essentially would get a bit “wider” rather than “deeper”.
+
+:+1: Max pooling is also performed. The outputs are concatenated and sent to the next inception module.
+
+:+1: GoogLeNet has 9 such inception modules stacked linearly. It is 22 layers deep (27, including the pooling layers). It uses global average pooling at the end of the last inception module.
+
+:+1: ```total_loss = real_loss + 0.3 * aux_loss_1 + 0.3 * aux_loss_2```
+
+![image](https://user-images.githubusercontent.com/29138292/60998877-0cf67600-a384-11e9-968e-d429946835e1.png)
+
 
 ## [The Microsoft ResNet-50 model]()
 
