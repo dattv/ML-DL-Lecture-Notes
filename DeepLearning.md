@@ -198,6 +198,8 @@ Autoencoder can also be used for image denoising
 
 ![image](https://user-images.githubusercontent.com/29138292/60998877-0cf67600-a384-11e9-968e-d429946835e1.png)
 
+![image](https://user-images.githubusercontent.com/29138292/61000357-7035d780-a387-11e9-88f5-1042e40eee2e.png)
+
 [code_example_how_to_reconstruct_inception_v1](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/inception_net.py)
 
 ## [The Microsoft ResNet-50 model]()
