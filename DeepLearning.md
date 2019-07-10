@@ -170,7 +170,16 @@ Autoencoder can also be used for image denoising
 |parameters|138 M|144M|
 |Top-5 error|8.8%|9.0%|
 
-## [The Google inception-V3 model]()
+## [The Google inception-V1 -> V3 model]()
+
+:+1: Inception net which is called GoogLe Net (developed by Yanle cun)
+
+:+1: This is very efficiency network for classification problem
+
+:+1: By introducing inception model the nework can reduce dramatically total parameters incomparison to the others (VGG16, VGG19)
+
+:+1: [Inception v1](https://arxiv.org/pdf/1409.4842v1.pdf)
+
 
 ## [The Microsoft ResNet-50 model]()
 
