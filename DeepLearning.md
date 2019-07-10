@@ -79,6 +79,10 @@ Convolution neural network filters encode by transformation. The learned filters
 ### Kernel
 Kernel is the parameter convolution layer used to convolve the image. The convolution operation. The kernel has two parameters, called stride and size. The size can be any dimension of a rectangle. Stride is the number of pixels moved every time. A stride of length 1 produces an image of almost the same size, and a stride of length 2 produces half the size. Padding the image will help in achieving the same size of the input.
 
+:+1: Because of this huge variation in the location of the information, choosing the <b>right kernel size</b> for the convolution operation becomes tough [kernel_reference1](https://towardsdatascience.com/a-simple-guide-to-the-versions-of-the-inception-network-7fc52b863202)
+
+:+1: A <b>larger kernel</b> is preferred for information that is distributed more <b>globally</b>, and a <b>smaller kernel</b> is preferred for information that is distributed more <b>locally</b>.
+
 ### Max pooling
 Pooling layers are placed between convolution layers. Pooling layers reduce the size of the image across layers by sampling. The sampling is done by selecting the maximum value in a window. Average pooling averages over the window. Pooling also acts as a regularization technique to avoid overfitting. Pooling is carried out on all the channels of features. Pooling can also be performed with various strides. The size of the window is a measure of the receptive field of CNN.
 
