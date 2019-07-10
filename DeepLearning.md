@@ -52,6 +52,8 @@ Dropout is an effective way of regularizing neural networks to avoid the overfit
 
 Note how the neurons are randomly trained. Dropout is also an efficient way of combining several neural networks. For each training case, we randomly select a few hidden units so that we end up with different architectures for each case. This is an extreme case of bagging and model averaging. Dropout layer should not be used during the inference as it is not necessary.
 
+:+1: <b>Very deep networks</b> are prone to <b>overfitting</b>. It also <b>hard</b> to pass gradient updates through the entire network
+
 ### Batch normalization
 Batch normalization, or batch-norm, increase the stability and performance of neural network training. It normalizes the output from a layer with zero mean and a standard deviation of 1. This reduces overfitting and makes the network train faster. It is very useful in training complex neural networks.
 
