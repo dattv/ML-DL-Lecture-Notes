@@ -61,7 +61,7 @@ width = 28
 input_size = height * width
 no_classes = train_mnist_data.labels.shape[1]
 
-total_batches = 200
+total_batches = 2000
 batch_size = 500
 
 x_input = tf.placeholder(tf.float32, shape=[None, input_size], name='x_input')
@@ -69,14 +69,14 @@ y_input = tf.placeholder(tf.float32, shape=[None, no_classes], name='y_input')
 
 x_input_reshape = tf.reshape(x_input, [-1, 28, 28, 1], name='input_reshape')
 convolution_layer_1 = convolution_layer(x_input_reshape, 64)
-
 pooling_layer_1 = pooling_layer(convolution_layer_1)
 
 convolution_layer_2 = convolution_layer(pooling_layer_1, 128)
-
 pooling_layer_2 = pooling_layer(convolution_layer_2)
 
-flattened_pool = tf.reshape(pooling_layer_2, [-1, 5 * 5 * 128],
+convolution_layer_3 = convolution_layer(pooling_layer_2, 128)
+
+flattened_pool = tf.reshape(convolution_layer_3, [-1, 3 * 3 * 128],
                             name='flattened_pool')
 dense_layer_bottleneck = dense_layer(flattened_pool, 1024)
 
@@ -88,6 +88,16 @@ dropout_layer = tf.layers.dropout(
     )
 
 logits = dense_layer(dropout_layer, no_classes)
+
+print(convolution_layer_1)
+print(pooling_layer_1)
+print(convolution_layer_2)
+print(pooling_layer_2)
+print(convolution_layer_3)
+print(flattened_pool)
+print(dense_layer_bottleneck)
+print(dropout_layer)
+print(logits)
 
 with tf.name_scope('loss'):
     softmax_cross_entropy = tf.nn.softmax_cross_entropy_with_logits(
@@ -117,7 +127,7 @@ name = file_name[0]
 
 merged_summary_operation = tf.summary.merge_all()
 train_summary_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, name) + "/train", session.graph)
-test_summary_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, name) + "/test")
+test_summary_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, name) + "/test", session.graph)
 
 test_images, test_labels = mnist_data.test.images, mnist_data.test.labels
 
