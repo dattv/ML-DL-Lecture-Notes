@@ -1,6 +1,8 @@
 # ResNets
 Recently I have a changed to read about ResNet, so I'm going to study and try to reconstruct ResNet and some variant of ResNet based on some materials.
 
+[example - ResNet - Original version](https://github.com/dattv/ML-DL-Lecture-Notes/blob/master/DeepLearning/ResNets/ResNet.py)
+
 [1] [Medium - An Overview of ResNet and its Variants](https://towardsdatascience.com/an-overview-of-resnet-and-its-variants-5281e2f56035)
 
 [2] [facebookresearch - ResNeXt](https://github.com/facebookresearch/ResNeXt)
