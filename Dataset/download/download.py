@@ -40,8 +40,9 @@ def download(url=None, store_folder=None):
         if os.path.isdir(store_folder) == False:
             os.mkdir(store_folder)
 
-        print("Downloading from: {}".format(url))
-        with tqdm(unit="B", unit_scale=True, leave=True, miniters=1, desc=url.split("/")[-1]) as t:
-            urlretrieve(url=url, filename=os.path.join(store_folder, file_name), reporthook=my_hook(t), data=None)
+            if os.path.isfile(os.path.join(store_folder, tail)) == False:
+                print("Downloading from: {}".format(url))
+                with tqdm(unit="B", unit_scale=True, leave=True, miniters=1, desc=url.split("/")[-1]) as t:
+                    urlretrieve(url=url, filename=os.path.join(store_folder, tail), reporthook=my_hook(t), data=None)
 
-        print("Finish download")
+                print("Finish download")
