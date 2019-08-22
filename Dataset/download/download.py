@@ -35,7 +35,7 @@ def download(url=None, store_folder=None):
         tail = os.path.split(url)[1]
         file_name = tail.split(".")[0]
         if store_folder == None:
-            store_folder = "../" + file_name
+            store_folder = "./" + file_name
 
         if os.path.isdir(store_folder) == False:
             os.mkdir(store_folder)

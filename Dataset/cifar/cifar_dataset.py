@@ -8,10 +8,10 @@ import numpy as np
 
 
 def unpickle(file):
+    import pickle
     with open(file, 'rb') as fo:
-        dict = cPickle.load(fo)
+        dict = pickle.load(fo, encoding='bytes')
     return dict
-
 
 def one_hot(vec, vals=10):
     n = len(vec)
@@ -27,12 +27,20 @@ class CifarLoader(object):
         self.images = None
         self.labels = None
 
-    def load(self):
+    def load_d(self):
         data = [unpickle(f) for f in self._source]
         images = np.vstack([d["data"] for d in data])
         n = len(images)
         self.images = images.reshape(n, 3, 32, 32).transpose(0, 2, 3, 1).astype(float) / 255
         self.labels = one_hot(np.hstack([d["labels"] for d in data]), 10)
+        return self
+
+    def load_b(self):
+        data = [unpickle(f) for f in self._source]
+        images = np.vstack([b["data"] for d in data])
+        n = len(images)
+        self.images = images.reshape(n, 3, 32, 32).transpose(0, 2, 3, 1).astype(float) / 255
+        self.labels = one_hot(np.hstack([b["labels"] for d in data]), 10)
         return self
 
     def next_batch(self, batch_size):
@@ -55,10 +63,11 @@ class cifar_10:
         download(self._url, self._save_folder)
 
         tar = tarfile.open(full_file_path)
-        tar.extractall()
+        tar.extractall(path=self._save_folder)
         tar.close()
 
     def loader(self):
+
         return CifarLoader(self._save_folder)
 
 
@@ -76,14 +85,17 @@ class cifar_100:
         download(self._url, self._save_folder)
 
         tar = tarfile.open(full_file_path)
-        tar.extractall()
+        tar.extractall(path=self._save_folder)
+        names = tar.getnames()
+
         tar.close()
 
-    def loader(self):
-        return CifarLoader(self._save_folder)
+        self.train = CifarLoader([os.path.join(self._save_folder, names[0]) + "/train"]).load_d()
+        self.test = CifarLoader([os.path.join(self._save_folder, names[0]) + "/test"]).load_d()
+
 
 
 if __name__ == '__main__':
-    CIFAR_10 = cifar_10(save_folder="../cifar_data")
+    CIFAR_10 = cifar_10(save_folder="../cifar10_data")
     data = CIFAR_10.loader()
 

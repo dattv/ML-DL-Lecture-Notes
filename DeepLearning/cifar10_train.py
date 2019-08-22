@@ -45,9 +45,9 @@ saver = tf.train.Saver()
 with tf.Session() as session:
     session.run(tf.global_variables_initializer())
 
-    train_writer = tf.summary.FileWriter("./log_cifar10/train", session.graph)
-    test_writer = tf.summary.FileWriter("./log_cifar10/test", session.graph)
-    builder = tf.saved_model.Builder("./pb_cifar10_model")
+    train_writer = tf.summary.FileWriter("./log/train", session.graph)
+    test_writer = tf.summary.FileWriter("./log/test", session.graph)
+    builder = tf.saved_model.Builder("./pb")
     builder.add_meta_graph_and_variables(session, [tf.saved_model.tag_constants.TRAINING])
 
     for epoch in range(50000):
@@ -72,5 +72,5 @@ with tf.Session() as session:
 
             test_writer.add_summary(merge_sum, epoch)
 
-    saver.save(session, "./ckpt_cifar10_model/ckpt_cifar10_model.ckpt")
+    saver.save(session, "./ckpt/ckpt_cifar10_model.ckpt")
     builder.save()

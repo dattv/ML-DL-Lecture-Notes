@@ -39,11 +39,11 @@ class WideResNet:
             for i, v in enumerate(conv_params):
                 if i == 0:
                     if n_input_plane != n_output_plane:
-                        net = tf.layers.batch_normalization(net, axis=self._channel_axis)
+                        net = tf.layers.batch_normalization(net, axis=self._channel_axis, training=True)
                         net = tf.nn.relu(net)
                         convs = net
                     else:
-                        convs = tf.layers.batch_normalization(net, axis=self._channel_axis)
+                        convs = tf.layers.batch_normalization(net, axis=self._channel_axis, training=True)
                         convs = tf.nn.relu(convs)
 
                     convs = tf.layers.conv2d(convs, n_bottleneck_plane,
@@ -54,7 +54,7 @@ class WideResNet:
                                              kernel_regularizer=tf.contrib.layers.l2_regularizer(self._weight_decay),
                                              use_bias=self._use_bias)
                 else:
-                    convs = tf.layers.batch_normalization(convs, axis=self._channel_axis)
+                    convs = tf.layers.batch_normalization(convs, axis=self._channel_axis, training=True)
                     convs = tf.nn.relu(convs)
                     if self._dropout_probability > 0:
                         convs = tf.layers.dropout(convs, rate=self._dropout_probability)
@@ -128,7 +128,7 @@ class WideResNet:
                     conv4 = self._layer(block_fn, n_input_plane=n_stages[2], n_output_plane=n_stages[3], count=n, stride=2)(
                         conv3)
 
-                batch_norm = tf.layers.batch_normalization(conv4, axis=self._channel_axis)
+                batch_norm = tf.layers.batch_normalization(conv4, axis=self._channel_axis, training=True)
                 relu = tf.nn.relu(batch_norm)
 
             # Classifier block

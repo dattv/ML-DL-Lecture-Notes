@@ -135,7 +135,7 @@ test_labels = d.test.labels
 WIDTH, HEIGHT, CHANEL = train_images[0].shape
 NUM_CLASSES = train_labels.shape[1]
 
-BATCH_SIZE = 500
+BATCH_SIZE = 16
 TOTAL_BATCH = train_labels.shape[0] // BATCH_SIZE
 
 STDDEV_ = 0.1
@@ -317,7 +317,7 @@ with tf.Session() as session:
 
         train_summary_writer.add_summary(merged_sum, epoch)
 
-        if epoch % 100 == 0:
+        if epoch % 1000 == 0:
             X = d.test.images.reshape(10, 1000, 32, 32, 3)
             Y = d.test.labels.reshape(10, 1000, 10)
 
