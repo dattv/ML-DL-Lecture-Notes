@@ -266,13 +266,6 @@ with tf.Session() as session:
     summary_var_acc.value.add(tag="var_acc", simple_value=val_acc)
 
     for epoch in range(10000):
-        test_imgs = data.test.images.reshape(100, 100, 32, 32, 3)
-        test_lbs = data.test.labels.reshape(100, 100, 10)
-        saver.restore(session, "./ckpt_cifar10_model/ckpt_cifar10_model.ckpt")
-        acc = np.mean([session.run([accuracy_operation],
-                                   feed_dict={X: test_imgs[i],
-                                              TARGET: test_lbs[i]}) for i in range(100)])
-        print(acc)
 
     #     saver.save(session, "./ckpt_cifar10_model/ckpt_cifar10_model.ckpt")
     #     batch = data.train.nex_batch(BATCH_SIZE)
