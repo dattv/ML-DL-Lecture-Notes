@@ -2,7 +2,6 @@ import logging
 import os
 import shutil
 from pathlib import Path
-
 import cv2
 import numpy as np
 import sys
@@ -10,6 +9,9 @@ import tensorflow_estimator as TFE
 import tensorflow as tf
 from DeepLearning.wide_resnet import WideResNet
 from DeepLearning.Dataset.cifar100 import cifar100, cifar10
+from DeepLearning.cifar10_model import cifar10_inference
+from DeepLearning.mnist_model import mnist_inference
+from DeepLearning.vgg16_model import VGG16_inference
 
 file_name = __file__
 file_name = os.path.split(file_name)[1]
@@ -33,97 +35,33 @@ IMAGE_WIDTH = dataset._img_size
 IMAGE_DEPTH = dataset._img_depth
 NUM_CLASSES = dataset._nb_class
 
+def preprocess_image(image, is_training=False):
+    """Preprocess a single image of layout [height, width, depth]."""
+    if is_training:
+        # Resize the image to add four extra pixels on each side.
+        image = tf.image.resize_image_with_crop_or_pad(
+            image, IMAGE_HEIGHT + 8, IMAGE_WIDTH + 8)
 
-def inference_test(images, mode):
-    conv1 = tf.layers.conv2d(images, filters=64, kernel_size=3, strides=(1, 1),
-                             padding="same", activation=tf.nn.relu)
+        # Randomly crop a [_HEIGHT, _WIDTH] section of the image.
+        image = tf.random_crop(image, [IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_DEPTH])
 
-    pooling1 = tf.layers.max_pooling2d(conv1, pool_size=2, strides=2)
+        # Randomly flip the image horizontally.
+        image = tf.image.random_flip_left_right(image)
 
-    batch_norm1 = tf.layers.batch_normalization(pooling1, training=mode == TFE.estimator.ModeKeys.TRAIN)
+    # Subtract off the mean and divide by the variance of the pixels.
+    image = tf.image.per_image_standardization(image)
+    return image
 
-    conv2 = tf.layers.conv2d(batch_norm1, filters=128, kernel_size=3, strides=(1, 1),
-                             padding="same", activation=tf.nn.relu)
+img = preprocess_image(train_data[0], is_training=True)
 
-    pooling2 = tf.layers.max_pooling2d(conv2, pool_size=2, strides=2)
-
-    batch_norm2 = tf.layers.batch_normalization(pooling2, training=mode == TFE.estimator.ModeKeys.TRAIN)
-
-    conv3 = tf.layers.conv2d(batch_norm2, filters=256, kernel_size=5, strides=(1, 1),
-                             padding="same", activation=tf.nn.relu)
-
-    pooling3 = tf.layers.max_pooling2d(conv3, pool_size=2, strides=2)
-
-    batch_norm3 = tf.layers.batch_normalization(pooling3, training=mode == TFE.estimator.ModeKeys.TRAIN)
-
-    conv4 = tf.layers.conv2d(batch_norm3, filters=512, kernel_size=5, strides=(1, 1),
-                             padding="same", activation=tf.nn.relu)
-
-    pooling4 = tf.layers.max_pooling2d(conv4, pool_size=2, strides=2)
-
-    batch_norm4 = tf.layers.batch_normalization(pooling4, training=mode == TFE.estimator.ModeKeys.TRAIN)
-
-    flat = tf.layers.flatten(batch_norm4)
-
-    full1 = tf.layers.dense(flat, 128, activation=tf.nn.relu)
-    full1 = tf.layers.dropout(full1, rate=0.7, training=mode == TFE.estimator.ModeKeys.TRAIN)
-    full1 = tf.layers.batch_normalization(full1, training=mode == TFE.estimator.ModeKeys.TRAIN)
-
-    full2 = tf.layers.dense(full1, 56, activation=tf.nn.relu)
-    full2 = tf.layers.dropout(full2, rate=0.7, training=mode == TFE.estimator.ModeKeys.TRAIN)
-    full2 = tf.layers.batch_normalization(full2, training=mode == TFE.estimator.ModeKeys.TRAIN)
-
-    full3 = tf.layers.dense(full2, 512, activation=tf.nn.relu)
-    full3 = tf.layers.dropout(full3, rate=0.7, training=mode == TFE.estimator.ModeKeys.TRAIN)
-    full3 = tf.layers.batch_normalization(full3, training=mode == TFE.estimator.ModeKeys.TRAIN)
-
-    full4 = tf.layers.dense(full3, 1024, activation=tf.nn.relu)
-    full4 = tf.layers.dropout(full4, rate=0.7, training=mode == TFE.estimator.ModeKeys.TRAIN)
-    full4 = tf.layers.batch_normalization(full4, training=mode == TFE.estimator.ModeKeys.TRAIN)
-
-    out = tf.layers.dense(full4, NUM_CLASSES, activation=None)
-
-    return out
-
-
-def test_inference(input_tensor, mode):
-    output = tf.keras.applications.MobileNet(weights='imagenet', include_top=False, input_tensor=input_tensor)
-
-    for layer in output.layers[:len(output.layers)]:
-        layer.trainable = False
-
-    output_shape = output.outputs[0].shape
-    flatten = tf.reshape(output.outputs[0], shape=[-1, int(output_shape[1] * output_shape[2] * output_shape[3])])
-    logits = tf.layers.dense(flatten, NUM_CLASSES, activation=None)
-    return logits
-
-
-def test_inference2(input_tensor, mode, nb_class=100):
-    conv1 = tf.layers.conv2d(inputs=input_tensor, filters=64, kernel_size=[3, 3], padding="same",
-                             activation=tf.nn.relu)
-    pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
-
-    conv2 = tf.layers.conv2d(inputs=pool1, filters=128, kernel_size=[3, 3], padding="same", activation=tf.nn.relu)
-    pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
-
-    conv3 = tf.layers.conv2d(inputs=pool2, filters=128, kernel_size=[3, 3], padding="same", activation=tf.nn.relu)
-
-    conv3_shape = conv3.shape
-    pool2_flat = tf.reshape(conv3, [-1, int(conv3_shape[1] * conv3_shape[2] * conv3_shape[3])])
-    dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
-
-    dropout = tf.layers.dropout(inputs=dense, rate=0.4, training=mode == TFE.estimator.ModeKeys.TRAIN)
-
-    output = tf.layers.dense(inputs=dropout, units=nb_class)
-
-    return output
 
 
 def cnn_model_fn(features, labels, mode):
     images = features["x"]
     with tf.variable_scope("model") as scope:
-        input_tensor = tf.reshape(images, shape=[-1, 32, 32, 3], name="input")
-        logits = inference_test(input_tensor, mode)
+        input_tensor = tf.reshape(images, shape=[-1, IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_DEPTH], name="input")
+        # logits = cifar10_inference(input_tensor, mode, NUM_CLASSES)
+        logits = VGG16_inference(input_tensor, mode, NUM_CLASSES)
 
     predictions = {
         # Generate predictions (for PREDICT and EVAL mode)
