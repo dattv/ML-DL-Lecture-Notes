@@ -56,8 +56,7 @@ def cnn_model_fn(features, labels, mode):
     # Add evaluation metrics (for EVAL mode)
     eval_metric_ops = {
         "accuracy": tf.metrics.accuracy(labels=labels,
-                                        predictions=predictions["classes"]
-                                        )
+                                        predictions=predictions["classes"])
     }
 
     if mode == TFE.estimator.ModeKeys.PREDICT:
@@ -72,7 +71,7 @@ def cnn_model_fn(features, labels, mode):
         train_op = optimizer.minimize(loss=loss,
                                       global_step=tf.train.get_global_step())
 
-        return TFE.estimator.EstimatorSpec(mode=mode, loss=loss, train_op=train_op, eval_metric_ops=eval_metric_ops)
+        return TFE.estimator.EstimatorSpec(mode=mode, loss=loss, train_op=train_op)
 
     return TFE.estimator.EstimatorSpec(mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
 
@@ -104,11 +103,9 @@ logging_hook = tf.train.LoggingTensorHook(tensors=tensors_to_log, every_n_iter=5
 train_input_fn = TFE.estimator.inputs.numpy_input_fn(x={"x": train_data},
                                                      y=train_labels,
                                                      batch_size=350,
-                                                     num_epochs=None,
+                                                     num_epochs=1,
                                                      shuffle=True,
                                                      num_threads=8)
-
-mnist_classifier.train(input_fn=train_input_fn, steps=20000)
 
 eval_input_fn = TFE.estimator.inputs.numpy_input_fn(x={"x": eval_data},
                                                     y=eval_labels,
@@ -116,5 +113,9 @@ eval_input_fn = TFE.estimator.inputs.numpy_input_fn(x={"x": eval_data},
                                                     shuffle=False,
                                                     num_threads=8)
 
-eval_results = mnist_classifier.evaluate(input_fn=eval_input_fn)
-print(eval_results)
+
+for _ in range(20):
+    mnist_classifier.train(input_fn=train_input_fn)
+    eval_results = mnist_classifier.evaluate(input_fn=eval_input_fn)
+
+    print(eval_results)

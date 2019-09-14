@@ -70,6 +70,7 @@ def cnn_model_fn(features, labels, mode):
                                                            predictions=predictions["classes"])}
 
         loss = tf.losses.softmax_cross_entropy(labels, logits)
+        tf.summary.scalar('accuracy', eval_metric_ops["accuracy"][1])
 
     if mode == TFE.estimator.ModeKeys.TRAIN:
         optimizer = tf.train.AdamOptimizer(learning_rate=1.e-3).minimize(loss, global_step=global_step)

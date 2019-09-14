@@ -3,13 +3,16 @@ import os
 import sys
 import logging
 import numpy as np
+import tensorflow_estimator as TFE
 
 sys.setrecursionlimit(2 ** 20)
 np.random.seed(2 ** 10)
 
 
 class WideResNet:
-    def __init__(self, image_size, depth=16, k=8):
+    def __init__(self, input_tensor, mode, image_size, depth=16, k=8, nb_class=None):
+        self._input_tensor = input_tensor
+        self._nb_class = nb_class
         self._depth = depth
         self._k = k
         self._dropout_probability = 0
@@ -19,7 +22,9 @@ class WideResNet:
 
         logging.debug("image_dim_ordering = 'tf'")
         self._channel_axis = -1
-        self._input_shape = (None, image_size, image_size, 3)
+
+        self._input_shape = (None, image_size, image_size, self._input_tensor.shape[3])
+        self._mode = mode
 
     # Wide residual network http://arxiv.org/abs/1605.07146
     def _wide_basic(self, n_input_plane, n_output_plane, stride):
@@ -39,11 +44,13 @@ class WideResNet:
             for i, v in enumerate(conv_params):
                 if i == 0:
                     if n_input_plane != n_output_plane:
-                        net = tf.layers.batch_normalization(net, axis=self._channel_axis, training=True)
+                        net = tf.layers.batch_normalization(net, axis=self._channel_axis,
+                                                            training=self._mode == TFE.estimator.ModeKeys.TRAIN)
                         net = tf.nn.relu(net)
                         convs = net
                     else:
-                        convs = tf.layers.batch_normalization(net, axis=self._channel_axis, training=True)
+                        convs = tf.layers.batch_normalization(net, axis=self._channel_axis,
+                                                              training=self._mode == TFE.estimator.ModeKeys.TRAIN)
                         convs = tf.nn.relu(convs)
 
                     convs = tf.layers.conv2d(convs, n_bottleneck_plane,
@@ -54,7 +61,8 @@ class WideResNet:
                                              kernel_regularizer=tf.contrib.layers.l2_regularizer(self._weight_decay),
                                              use_bias=self._use_bias)
                 else:
-                    convs = tf.layers.batch_normalization(convs, axis=self._channel_axis, training=True)
+                    convs = tf.layers.batch_normalization(convs, axis=self._channel_axis,
+                                                          training=self._mode == TFE.estimator.ModeKeys.TRAIN)
                     convs = tf.nn.relu(convs)
                     if self._dropout_probability > 0:
                         convs = tf.layers.dropout(convs, rate=self._dropout_probability)
@@ -102,7 +110,7 @@ class WideResNet:
         assert ((self._depth - 4) % 6 == 0)
         n = (self._depth - 4) / 6
 
-        inputs = tf.placeholder(tf.float32, shape=self._input_shape)
+        inputs = self._input_tensor
 
         n_stages = [16, 16 * self._k, 32 * self._k, 64 * self._k]
         with tf.variable_scope("wide_resnet") as scope:
@@ -117,34 +125,38 @@ class WideResNet:
             with tf.variable_scope("wider_residual_block") as scope:
                 block_fn = self._wide_basic
                 with tf.variable_scope("layer_1") as scope:
-                    conv2 = self._layer(block_fn, n_input_plane=n_stages[0], n_output_plane=n_stages[1], count=n, stride=1)(
+                    conv2 = self._layer(block_fn, n_input_plane=n_stages[0], n_output_plane=n_stages[1], count=n,
+                                        stride=1)(
                         conv1)
 
                 with tf.variable_scope("layer_2") as scope:
-                    conv3 = self._layer(block_fn, n_input_plane=n_stages[1], n_output_plane=n_stages[2], count=n, stride=2)(
+                    conv3 = self._layer(block_fn, n_input_plane=n_stages[1], n_output_plane=n_stages[2], count=n,
+                                        stride=2)(
                         conv2)
 
                 with tf.variable_scope("layer_3") as scope:
-                    conv4 = self._layer(block_fn, n_input_plane=n_stages[2], n_output_plane=n_stages[3], count=n, stride=2)(
+                    conv4 = self._layer(block_fn, n_input_plane=n_stages[2], n_output_plane=n_stages[3], count=n,
+                                        stride=2)(
                         conv3)
 
-                batch_norm = tf.layers.batch_normalization(conv4, axis=self._channel_axis, training=True)
+                batch_norm = tf.layers.batch_normalization(conv4, axis=self._channel_axis,
+                                                           training=self._mode == TFE.estimator.ModeKeys.TRAIN)
                 relu = tf.nn.relu(batch_norm)
 
             # Classifier block
             with tf.variable_scope("classifier_block") as scope:
                 pool = tf.layers.average_pooling2d(relu, pool_size=(8, 8), strides=1, padding="same")
                 flatten = tf.layers.flatten(pool)
-                predictions_g = tf.layers.dense(flatten, 2, kernel_initializer=self._weight_init, use_bias=self._use_bias,
-                                                kernel_regularizer=tf.contrib.layers.l2_regularizer(self._weight_decay),
-                                                activation=tf.nn.softmax, name="pred_gender")
+                if self._nb_class is not None:
+                    predictions = tf.layers.dense(flatten, self._nb_class, kernel_initializer=self._weight_init,
+                                                  use_bias=self._use_bias,
+                                                  kernel_regularizer=tf.contrib.layers.l2_regularizer(
+                                                      self._weight_decay),
+                                                  activation=None, name="pred_gender")
 
-                predictions_a = tf.layers.dense(flatten, 101, kernel_initializer=self._weight_init, use_bias=self._use_bias,
-                                                kernel_regularizer=tf.contrib.layers.l2_regularizer(self._weight_decay),
-                                                activation=tf.nn.softmax, name="pred_age")
-
-
-        return predictions_g, predictions_a
+                else:
+                    predictions = flatten
+        return predictions
 
 
 def main():
@@ -158,5 +170,4 @@ def main():
 
 
 if __name__ == '__main__':
-
     main()
