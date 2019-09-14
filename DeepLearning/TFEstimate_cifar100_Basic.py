@@ -9,6 +9,7 @@ import sys
 import tensorflow_estimator as TFE
 import tensorflow as tf
 from DeepLearning.wide_resnet import WideResNet
+from DeepLearning.Dataset.cifar100 import cifar100, cifar10
 
 file_name = __file__
 file_name = os.path.split(file_name)[1]
@@ -21,35 +22,16 @@ handlers = [logging.FileHandler(model_file + '/train.log'),
             ]
 logging.getLogger('tensorflow').handlers = handlers
 
-IMAGE_HEIGHT = 32
-IMAGE_WIDTH = 32
-IMAGE_DEPTH = 3
-NUM_CLASSES = 100
-
 ROOT_PATH = os.getcwd()
 print(ROOT_PATH)
 
 # Load training and eval data
-dataset = tf.keras.datasets.cifar100.load_data()
-
-# dataset = tf.keras.datasets.cifar10.load_data()
-train_data_img = dataset[0][0]
-train_data_labels = dataset[0][1]
-
-test_data_img = dataset[1][0]
-test_data_labels = dataset[1][1]
-
-train_img_number = len(train_data_img)
-test_img_number = len(test_data_img)
-
-# train_data_labels = np.reshape(train_data_labels, (-1))
-train_data_labels_one_hot = tf.keras.utils.to_categorical(train_data_labels, NUM_CLASSES)
-test_data_labels_one_hot = tf.keras.utils.to_categorical(test_data_labels, NUM_CLASSES)
-
-train_data = train_data_img.astype(np.float32)
-eval_data = test_data_img.astype(np.float32)
-train_labels = train_data_labels_one_hot
-eval_labels = test_data_labels_one_hot
+dataset = cifar100()
+(train_data, train_labels), (eval_data, eval_labels) = dataset.get_data()
+IMAGE_HEIGHT = dataset._img_size
+IMAGE_WIDTH = dataset._img_size
+IMAGE_DEPTH = dataset._img_depth
+NUM_CLASSES = dataset._nb_class
 
 
 def inference_test(images, mode):
