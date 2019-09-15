@@ -3,7 +3,6 @@ import os
 import sys
 import logging
 import numpy as np
-import tensorflow_estimator as TFE
 
 sys.setrecursionlimit(2 ** 20)
 np.random.seed(2 ** 10)
@@ -15,7 +14,7 @@ class WideResNet:
         self._nb_class = nb_class
         self._depth = depth
         self._k = k
-        self._dropout_probability = 0
+        self._dropout_probability = 0.3
         self._weight_decay = 0.0005
         self._use_bias = False
         self._weight_init = tf.contrib.layers.xavier_initializer(uniform=False)  # tf.initializers.he_normal()
@@ -45,12 +44,12 @@ class WideResNet:
                 if i == 0:
                     if n_input_plane != n_output_plane:
                         net = tf.layers.batch_normalization(net, axis=self._channel_axis,
-                                                            training=self._mode == TFE.estimator.ModeKeys.TRAIN)
+                                                            training=self._mode)
                         net = tf.nn.relu(net)
                         convs = net
                     else:
                         convs = tf.layers.batch_normalization(net, axis=self._channel_axis,
-                                                              training=self._mode == TFE.estimator.ModeKeys.TRAIN)
+                                                              training=self._mode)
                         convs = tf.nn.relu(convs)
 
                     convs = tf.layers.conv2d(convs, n_bottleneck_plane,
@@ -62,10 +61,10 @@ class WideResNet:
                                              use_bias=self._use_bias)
                 else:
                     convs = tf.layers.batch_normalization(convs, axis=self._channel_axis,
-                                                          training=self._mode == TFE.estimator.ModeKeys.TRAIN)
+                                                          training=self._mode)
                     convs = tf.nn.relu(convs)
                     if self._dropout_probability > 0:
-                        convs = tf.layers.dropout(convs, rate=self._dropout_probability)
+                        convs = tf.layers.dropout(convs, rate=self._dropout_probability, training=self._mode)
 
                     convs = tf.layers.conv2d(convs, n_bottleneck_plane, kernel_size=(v[0], v[1]),
                                              strides=v[2],
@@ -140,7 +139,7 @@ class WideResNet:
                         conv3)
 
                 batch_norm = tf.layers.batch_normalization(conv4, axis=self._channel_axis,
-                                                           training=self._mode == TFE.estimator.ModeKeys.TRAIN)
+                                                           training=self._mode)
                 relu = tf.nn.relu(batch_norm)
 
             # Classifier block
