@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import tensorflow_estimator as TFE
 import pickle as cPickle
+from wide_resnet_ import WideResNet
 
 """
 method to get model_file name depending on file code
@@ -104,7 +105,8 @@ def create_tfrecords_files(data_dir='cifar-10'):
         # Convert to tf.train.Example and write to TFRecords.
         _convert_to_tfrecord(input_files, output_file)
 
-create_tfrecords_files()
+# create_tfrecords_files()
+
 
 
 class FLAGS():
@@ -118,26 +120,36 @@ FLAGS.tf_random_seed = 19851211
 FLAGS.model_name = 'cnn-model-02'
 FLAGS.use_checkpoint = False
 
-IMAGE_HEIGHT = 32
-IMAGE_WIDTH = 32
+IMAGE_HEIGHT = 224
+IMAGE_WIDTH = 224
 IMAGE_DEPTH = 3
-NUM_CLASSES = 10
+NUM_CLASSES = 1000
 
 
 def parse_record(serialized_example):
     features = tf.parse_single_example(
         serialized_example,
         features={
-            'image': tf.FixedLenFeature([], tf.string),
-            'label': tf.FixedLenFeature([], tf.int64),
+            # 'image': tf.FixedLenFeature([], tf.string),
+            # 'label': tf.FixedLenFeature([], tf.int64),
+            'image/height': tf.FixedLenFeature([], tf.int64),
+            'image/width': tf.FixedLenFeature([], tf.int64),
+            'image/colorspace': tf.FixedLenFeature([], tf.string),
+            'image/channels': tf.FixedLenFeature([], tf.int64),
+            'image/class/label': tf.FixedLenFeature([], tf.int64),
+            'image/class/synset':  tf.FixedLenFeature([], tf.string),
+            'image/class/text':  tf.FixedLenFeature([], tf.string),
+            'image/format':  tf.FixedLenFeature([], tf.string),
+            'image/filename':  tf.FixedLenFeature([], tf.string),
+            'image/encoded':  tf.FixedLenFeature([], tf.string),
         })
 
-    image = tf.decode_raw(features['image'], tf.uint8)
+    image = tf.decode_raw(features['image/encoded'], tf.uint8)
     image.set_shape([IMAGE_DEPTH * IMAGE_HEIGHT * IMAGE_WIDTH])
     image = tf.reshape(image, [IMAGE_DEPTH, IMAGE_HEIGHT, IMAGE_WIDTH])
     image = tf.cast(tf.transpose(image, [1, 2, 0]), tf.float32)
 
-    label = tf.cast(features['label'], tf.int32)
+    label = tf.cast(features['image/class/label'], tf.int32)
     label = tf.one_hot(label, NUM_CLASSES)
 
     return image, label
@@ -200,14 +212,13 @@ def model_fn(features, labels, mode, params):
   # Create the input layers from the features
   feature_columns = list(get_feature_columns().values())
 
-  images = tf.feature_column.input_layer(
-    features=features, feature_columns=feature_columns)
+  images = tf.feature_column.input_layer(features=features, feature_columns=feature_columns)
 
-  images = tf.reshape(
-    images, shape=(-1, IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_DEPTH))
+  images = tf.reshape(images, shape=(-1, IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_DEPTH))
 
   # Calculate logits through CNN
-  logits = inference(images)
+  # logits = inference(images)
+  logits = WideResNet(images, IMAGE_HEIGHT, nb_class=NUM_CLASSES, depth=16, k=8, is_train=mode == TFE.estimator.ModeKeys.TRAIN)()
 
   if mode in (tf.estimator.ModeKeys.PREDICT, tf.estimator.ModeKeys.EVAL):
     predicted_indices = tf.argmax(input=logits, axis=1)
@@ -252,9 +263,13 @@ def serving_input_fn():
 
 
 model_dir = 'trained_models/{}'.format(FLAGS.model_name)
-train_data_files = ['cifar-10/train.tfrecords']
-valid_data_files = ['cifar-10/validation.tfrecords']
-test_data_files = ['cifar-10/eval.tfrecords']
+# train_data_files = ['cifar-10/train.tfrecords']
+# valid_data_files = ['cifar-10/validation.tfrecords']
+# test_data_files = ['cifar-10/eval.tfrecords']
+
+train_data_files = [os.path.join("./tfrecord_ImageNet", f) for f in os.listdir("./tfrecord_ImageNet") if f.split("-")[0] == "train"]
+valid_data_files = [os.path.join("./tfrecord_ImageNet", f) for f in os.listdir("./tfrecord_ImageNet") if f.split("-")[0] == "valid"]
+test_data_files = valid_data_files
 
 run_config = tf.estimator.RunConfig(
   save_checkpoints_steps=FLAGS.save_checkpoints_steps,
@@ -289,33 +304,5 @@ if not FLAGS.use_checkpoint:
   shutil.rmtree(model_dir, ignore_errors=True)
 
 tf.estimator.train_and_evaluate(estimator, train_spec, eval_spec)
-
-
-test_input_fn = generate_input_fn(file_names=test_data_files,
-                                  mode=tf.estimator.ModeKeys.EVAL,
-                                  batch_size=1000)
-estimator = tf.estimator.Estimator(model_fn=model_fn, config=run_config)
-print(estimator.evaluate(input_fn=test_input_fn, steps=1))
-
-export_dir = model_dir + '/export/Servo/'
-saved_model_dir = os.path.join(export_dir, os.listdir(export_dir)[-1])
-
-predictor_fn = tf.contrib.predictor.from_saved_model(
-  export_dir = saved_model_dir,
-  signature_def_key='predictions')
-
-import numpy
-
-data_dict = _read_pickle_from_file('cifar-10/cifar-10-batches-py/test_batch')
-
-N = 1000
-images = data_dict['data'][:N].reshape([N, 3, 32, 32]).transpose([0, 2, 3, 1])
-labels = data_dict['labels'][:N]
-
-output = predictor_fn({'images': images})
-accuracy = numpy.sum(
-  [ans==ret for ans, ret in zip(labels, output['classes'])]) / float(N)
-
-print(accuracy)
-
-
+for train_data_file in train_data_files:
+    estimator.train(train_spec, steps=1)
