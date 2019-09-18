@@ -119,58 +119,34 @@ class FLAGS():
     pass
 
 
-FLAGS.batch_size = 4
-FLAGS.max_steps = 1000
+FLAGS.batch_size = 200
+FLAGS.max_steps = 100000
 FLAGS.eval_steps = 100
-FLAGS.save_checkpoints_steps = 100
+FLAGS.save_checkpoints_steps = 1000
 FLAGS.tf_random_seed = 19851211
 FLAGS.model_name = 'cnn-model-02'
 FLAGS.use_checkpoint = False
 
-IMAGE_HEIGHT = 224
-IMAGE_WIDTH = 224
+IMAGE_HEIGHT = 32
+IMAGE_WIDTH = 32
 IMAGE_DEPTH = 3
-NUM_CLASSES = 1000
+NUM_CLASSES = 10
 
 
 def parse_record(serialized_example):
     features = tf.parse_single_example(
         serialized_example,
         features={
-            'image/height': tf.FixedLenFeature([], tf.int64),
-            'image/width': tf.FixedLenFeature([], tf.int64),
-            'image/colorspace': tf.FixedLenFeature([], tf.string),
-            'image/channels': tf.FixedLenFeature([], tf.int64),
-            'image/class/label': tf.FixedLenFeature([], tf.int64),
-            'image/class/synset': tf.FixedLenFeature([], tf.string),
-            'image/class/text': tf.FixedLenFeature([], tf.string),
-            'image/object/bbox/xmin': tf.FixedLenFeature([], tf.float32),
-            'image/object/bbox/xmax': tf.FixedLenFeature([], tf.float32),
-            'image/object/bbox/ymin': tf.FixedLenFeature([], tf.float32),
-            'image/object/bbox/ymax': tf.FixedLenFeature([], tf.float32),
-            'image/object/bbox/label': tf.FixedLenFeature([], tf.int64),
-            'image/format': tf.FixedLenFeature([], tf.string),
-            'image/filename': tf.FixedLenFeature([], tf.string),
-            'image/encoded': tf.FixedLenFeature([], tf.string),
+            'image': tf.FixedLenFeature([], tf.string),
+            'label': tf.FixedLenFeature([], tf.int64),
         })
 
-    image = tf.decode_raw(features['image/encoded'], tf.int64)
-    height = tf.cast(features["image/height"], tf.int64)
-    width = tf.cast(features["image/width"], tf.int64)
-    img_channesl = tf.cast(features["image/channels"], tf.int64)
+    image = tf.decode_raw(features['image'], tf.uint8)
+    image.set_shape([IMAGE_DEPTH * IMAGE_HEIGHT * IMAGE_WIDTH])
+    image = tf.reshape(image, [IMAGE_DEPTH, IMAGE_HEIGHT, IMAGE_WIDTH])
+    image = tf.cast(tf.transpose(image, [1, 2, 0]), tf.float32)
 
-    image_shape = tf.stack([height, width, 3])
-
-    image = tf.reshape(image, image_shape)
-    image = tf.image.resize_image_with_crop_or_pad(image=image,
-                                                   target_height=IMAGE_HEIGHT,
-                                                   target_width=IMAGE_WIDTH)
-
-    # image.set_shape([IMAGE_DEPTH * IMAGE_HEIGHT * IMAGE_WIDTH])
-    # image = tf.reshape(image, [IMAGE_DEPTH, IMAGE_HEIGHT, IMAGE_WIDTH])
-    # image = tf.cast(tf.transpose(image, [1, 2, 0]), tf.float32)
-
-    label = tf.cast(features['image/class/label'], tf.int32)
+    label = tf.cast(features['label'], tf.int32)
     label = tf.one_hot(label, NUM_CLASSES)
 
     return image, label
@@ -178,10 +154,10 @@ def parse_record(serialized_example):
 
 def preprocess_image(image, is_training=False):
     """Preprocess a single image of layout [height, width, depth]."""
-
     if is_training:
         # Resize the image to add four extra pixels on each side.
-        image = tf.image.resize_image_with_crop_or_pad(image, IMAGE_HEIGHT + 8, IMAGE_WIDTH + 8)
+        image = tf.image.resize_image_with_crop_or_pad(
+            image, IMAGE_HEIGHT + 8, IMAGE_WIDTH + 8)
 
         # Randomly crop a [_HEIGHT, _WIDTH] section of the image.
         image = tf.random_crop(image, [IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_DEPTH])
@@ -205,7 +181,8 @@ def generate_input_fn(file_names, mode=TFE.estimator.ModeKeys.EVAL, batch_size=1
 
         # Transformation
         dataset = dataset.map(parse_record)
-        dataset = dataset.map(lambda image, label: (preprocess_image(image, is_training), label))
+        dataset = dataset.map(
+            lambda image, label: (preprocess_image(image, is_training), label))
 
         dataset = dataset.repeat()
         dataset = dataset.batch(batch_size)
@@ -230,17 +207,56 @@ feature_columns = get_feature_columns()
 print("Feature Columns: {}".format(feature_columns))
 
 
+def inference(images):
+    # 1st Convolutional Layer
+    conv1 = tf.layers.conv2d(
+        inputs=images, filters=64, kernel_size=[5, 5], padding='same',
+        activation=tf.nn.relu, name='conv1')
+    pool1 = tf.layers.max_pooling2d(
+        inputs=conv1, pool_size=[3, 3], strides=2, name='pool1')
+    norm1 = tf.nn.lrn(
+        pool1, 4, bias=1.0, alpha=0.001 / 9.0, beta=0.75, name='norm1')
+
+    # 2nd Convolutional Layer
+    conv2 = tf.layers.conv2d(
+        inputs=norm1, filters=64, kernel_size=[5, 5], padding='same',
+        activation=tf.nn.relu, name='conv2')
+    norm2 = tf.nn.lrn(
+        conv2, 4, bias=1.0, alpha=0.001 / 9.0, beta=0.75, name='norm2')
+    pool2 = tf.layers.max_pooling2d(
+        inputs=norm2, pool_size=[3, 3], strides=2, name='pool2')
+
+    # Flatten Layer
+    shape = pool2.get_shape()
+    pool2_ = tf.reshape(pool2, [-1, shape[1] * shape[2] * shape[3]])
+
+    # 1st Fully Connected Layer
+    dense1 = tf.layers.dense(
+        inputs=pool2_, units=384, activation=tf.nn.relu, name='dense1')
+
+    # 2nd Fully Connected Layer
+    dense2 = tf.layers.dense(
+        inputs=dense1, units=192, activation=tf.nn.relu, name='dense2')
+
+    # 3rd Fully Connected Layer (Logits)
+    logits = tf.layers.dense(
+        inputs=dense2, units=NUM_CLASSES, activation=tf.nn.relu, name='logits')
+
+    return logits
+
+
 def model_fn(features, labels, mode, params):
     # Create the input layers from the features
     feature_columns = list(get_feature_columns().values())
 
-    images = tf.feature_column.input_layer(features=features, feature_columns=feature_columns)
+    images = tf.feature_column.input_layer(
+        features=features, feature_columns=feature_columns)
 
-    images = tf.reshape(images, shape=(-1, IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_DEPTH))
+    images = tf.reshape(
+        images, shape=(-1, IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_DEPTH))
 
     # Calculate logits through CNN
-    # logits = WideResNet(images, mode == TFE.estimator.ModeKeys.TRAIN, IMAGE_HEIGHT, nb_class=NUM_CLASSES, depth=16, k=8)()
-    logits = cifar10_inference(images, mode == TFE.estimator.ModeKeys.TRAIN, NUM_CLASSES)
+    logits = inference(images)
 
     if mode in (TFE.estimator.ModeKeys.PREDICT, TFE.estimator.ModeKeys.EVAL):
         predicted_indices = tf.argmax(input=logits, axis=1)
@@ -249,22 +265,26 @@ def model_fn(features, labels, mode, params):
     if mode in (TFE.estimator.ModeKeys.TRAIN, TFE.estimator.ModeKeys.EVAL):
         global_step = tf.train.get_or_create_global_step()
         label_indices = tf.argmax(input=labels, axis=1)
-        loss = tf.losses.softmax_cross_entropy(onehot_labels=labels, logits=logits)
+        loss = tf.losses.softmax_cross_entropy(
+            onehot_labels=labels, logits=logits)
         tf.summary.scalar('cross_entropy', loss)
 
     if mode == TFE.estimator.ModeKeys.PREDICT:
-        predictions = {'classes': predicted_indices,
-                       'probabilities': probabilities
-                       }
-        export_outputs = {'predictions': tf.estimator.export.PredictOutput(predictions)
-                          }
+        predictions = {
+            'classes': predicted_indices,
+            'probabilities': probabilities
+        }
+        export_outputs = {
+            'predictions': TFE.estimator.export.PredictOutput(predictions)
+        }
         return TFE.estimator.EstimatorSpec(
             mode, predictions=predictions, export_outputs=export_outputs)
 
     if mode == TFE.estimator.ModeKeys.TRAIN:
         optimizer = tf.train.AdamOptimizer(learning_rate=0.001)
         train_op = optimizer.minimize(loss, global_step=global_step)
-        return TFE.estimator.EstimatorSpec(mode, loss=loss, train_op=train_op)
+        return TFE.estimator.EstimatorSpec(
+            mode, loss=loss, train_op=train_op)
 
     if mode == TFE.estimator.ModeKeys.EVAL:
         eval_metric_ops = {
@@ -275,129 +295,48 @@ def model_fn(features, labels, mode, params):
 
 
 def serving_input_fn():
-    receiver_tensor = {'images': tf.placeholder(shape=[None, IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_DEPTH], dtype=tf.float32)}
+    receiver_tensor = {'images': tf.placeholder(
+        shape=[None, IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_DEPTH], dtype=tf.float32)}
     features = {'images': tf.map_fn(preprocess_image, receiver_tensor['images'])}
     return TFE.estimator.export.ServingInputReceiver(features, receiver_tensor)
 
 
-model_dir = 'trained_models/{}'.format(FLAGS.model_name)
+dir = "/home/dat/PycharmProjects/ML-DL-Lecture-Notes/DeepLearning/ipython/cifar100_dataset/tfrecord"
+print(os.listdir(dir))
+train_data_files = [os.path.join(dir, f) for f in os.listdir(dir) if f.split("_")[0] == "train"]
+valid_data_files = [os.path.join(dir, f) for f in os.listdir(dir) if f.split("_")[0] == "test"]
+test_data_files = [os.path.join(dir, f) for f in os.listdir(dir) if f.split("_")[0] == "test"]
 
-TFRECORD_TRAIN_DIR = "/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/dataset/tfrecord/tfrecord_ImageNet"
-TFRECORD_TEST_DIR = "/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/dataset/tfrecord/tfrecord_ImageNet"
-
-train_data_files = [os.path.join(TFRECORD_TRAIN_DIR, f)
-                    for f in os.listdir(TFRECORD_TRAIN_DIR) if f.split("-")[0] == "train"]
-
-valid_data_files = [os.path.join(TFRECORD_TEST_DIR, f)
-                    for f in os.listdir(TFRECORD_TEST_DIR) if f.split("-")[0] == "valid"]
-
-valid_data_files = train_data_files
-test_data_files = valid_data_files
-
-run_config = TFE.estimator.RunConfig(save_checkpoints_steps=FLAGS.save_checkpoints_steps,
-                                     tf_random_seed=FLAGS.tf_random_seed,
-                                     model_dir=model_dir
-                                     )
+run_config = TFE.estimator.RunConfig(
+    save_checkpoints_steps=FLAGS.save_checkpoints_steps,
+    tf_random_seed=FLAGS.tf_random_seed,
+    model_dir=model_file
+)
 
 estimator = TFE.estimator.Estimator(model_fn=model_fn, config=run_config)
 
 # There is another Exporter named FinalExporter
-exporter = TFE.estimator.LatestExporter(name='Servo',
-                                        serving_input_receiver_fn=serving_input_fn,
-                                        assets_extra=None,
-                                        as_text=False,
-                                        exports_to_keep=5)
+exporter = TFE.estimator.LatestExporter(
+    name='Servo',
+    serving_input_receiver_fn=serving_input_fn,
+    assets_extra=None,
+    as_text=False,
+    exports_to_keep=5)
 
-train_spec = TFE.estimator.TrainSpec(input_fn=generate_input_fn(file_names=train_data_files[0],
-                                                                mode=TFE.estimator.ModeKeys.TRAIN,
-                                                                batch_size=FLAGS.batch_size),
-                                     max_steps=FLAGS.max_steps)
+train_spec = TFE.estimator.TrainSpec(
+    input_fn=generate_input_fn(file_names=train_data_files,
+                               mode=TFE.estimator.ModeKeys.TRAIN,
+                               batch_size=FLAGS.batch_size),
+    max_steps=FLAGS.max_steps)
 
-eval_spec = TFE.estimator.EvalSpec(input_fn=generate_input_fn(file_names=valid_data_files[0],
-                                                              mode=TFE.estimator.ModeKeys.EVAL,
-                                                              batch_size=FLAGS.batch_size),
-                                   steps=FLAGS.eval_steps, exporters=exporter)
-
-with tf.Session() as sess:
-    feature = {
-        'image/height': tf.FixedLenFeature([], tf.int64),
-        'image/width': tf.FixedLenFeature([], tf.int64),
-        'image/colorspace': tf.FixedLenFeature([], tf.string),
-        'image/channels': tf.FixedLenFeature([], tf.int64),
-        'image/class/label': tf.FixedLenFeature([], tf.int64),
-        'image/class/synset': tf.FixedLenFeature([], tf.string),
-        'image/class/text': tf.FixedLenFeature([], tf.string),
-        'image/object/bbox/xmin': tf.FixedLenFeature([], tf.float32),
-        'image/object/bbox/xmax': tf.FixedLenFeature([], tf.float32),
-        'image/object/bbox/ymin': tf.FixedLenFeature([], tf.float32),
-        'image/object/bbox/ymax': tf.FixedLenFeature([], tf.float32),
-        'image/object/bbox/label': tf.FixedLenFeature([], tf.int64),
-        'image/format': tf.FixedLenFeature([], tf.string),
-        'image/filename': tf.FixedLenFeature([], tf.string),
-        'image/encoded': tf.FixedLenFeature([], tf.string),
-    }
-    # Create a list of filenames and pass it to a queue
-    filename_queue = tf.train.string_input_producer([train_data_files[0]], num_epochs=1)
-    # Define a reader and read the next record
-    reader = tf.TFRecordReader()
-    _, serialized_example = reader.read(filename_queue)
-    # Decode the record read by the reader
-    features = tf.parse_single_example(serialized_example, features=feature)
-    # Convert the image data from string back to the numbers
-    image = tf.decode_raw(features['image/encoded'], tf.float32)
-    image = tf.decode_raw(features['image/encoded'], tf.int64)
-    height = tf.cast(features["image/height"], tf.int64)
-    width = tf.cast(features["image/width"], tf.int64)
-    img_channesl = tf.cast(features["image/channels"], tf.int64)
-
-    image_shape = tf.stack([height, width, 3])
-
-    image = tf.reshape(image, image_shape)
-    image = tf.image.resize_image_with_crop_or_pad(image=image,
-                                                   target_height=IMAGE_HEIGHT,
-                                                   target_width=IMAGE_WIDTH)
-
-    # Cast label data into int32
-    label = tf.cast(features['image/class/label'], tf.int32)
-    # Reshape image data into the original shape
-    # image = tf.reshape(image, [224, 224, 3])
-
-    # Any preprocessing here ...
-
-    # Creates batches by randomly shuffling tensors
-    images, labels = tf.train.shuffle_batch([image, label], batch_size=10, capacity=30, num_threads=1,
-                                            min_after_dequeue=10)
-
-    init_op = tf.group(tf.global_variables_initializer(), tf.local_variables_initializer())
-    sess.run(init_op)
-    # Create a coordinator and run all QueueRunner objects
-    coord = tf.train.Coordinator()
-    threads = tf.train.start_queue_runners(coord=coord)
-    for batch_index in range(5):
-        img, lbl = sess.run([images, labels])
-        img = img.astype(np.uint8)
-        for j in range(6):
-            plt.subplot(2, 3, j + 1)
-            plt.imshow(img[j, ...])
-            plt.title('cat' if lbl[j] == 0 else 'dog')
-        plt.show()
-    # Stop the threads
-    coord.request_stop()
-
-    # Wait for threads to stop
-    coord.join(threads)
-    sess.close()
+eval_spec = TFE.estimator.EvalSpec(
+    input_fn=generate_input_fn(file_names=valid_data_files,
+                               mode=TFE.estimator.ModeKeys.EVAL,
+                               batch_size=FLAGS.batch_size),
+    steps=FLAGS.eval_steps, exporters=exporter)
 
 if not FLAGS.use_checkpoint:
     print("Removing previous artifacts...")
-    shutil.rmtree(model_dir, ignore_errors=True)
+    shutil.rmtree(model_file, ignore_errors=True)
 
 TFE.estimator.train_and_evaluate(estimator, train_spec, eval_spec)
-# for train_data_file in train_data_files:
-#
-#     train_spec = TFE.estimator.TrainSpec(input_fn=generate_input_fn(file_names=train_data_file,
-#                                                                     mode=TFE.estimator.ModeKeys.TRAIN,
-#                                                                     batch_size=FLAGS.batch_size),
-#                                          max_steps=FLAGS.max_steps)
-#
-#     estimator.train(train_spec, steps=1)

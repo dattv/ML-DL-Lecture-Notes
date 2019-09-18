@@ -243,7 +243,8 @@ def model_fn(features, labels, mode, params):
 
         label_indices = tf.argmax(labels, axis=1)
         eval_metric_ops = {"accuracy": tf.metrics.accuracy(label_indices, predicted_indices)}
-        loss = tf.losses.softmax_cross_entropy(onehot_labels=labels, logits=logits)
+        # loss = tf.losses.softmax_cross_entropy(onehot_labels=labels, logits=logits)
+        loss = tf.losses.sparse_softmax_cross_entropy(tf.argmax(labels,1), logits=logits)
         # tf.summary.scalar("cross_entorpy", loss)
 
     if mode == TFE.estimator.ModeKeys.PREDICT:
