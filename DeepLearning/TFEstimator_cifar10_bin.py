@@ -102,7 +102,7 @@ class FLAGS():
     pass
 
 
-nb_epoch = 50
+nb_epoch = 10
 FLAGS.batch_size = 32
 FLAGS.max_steps = int(50000 * nb_epoch // FLAGS.batch_size)
 FLAGS.eval_steps = int(10000 // FLAGS.batch_size)
@@ -339,3 +339,6 @@ for i in range(N):
 output = predictor_fn({'images': images})
 
 np.sum([a == r for a, r in zip(labels, output['classes'])]) / float(N)
+
+
+exported_model_path = estimator.export_savedmodel(model_dir, serving_input_fn)

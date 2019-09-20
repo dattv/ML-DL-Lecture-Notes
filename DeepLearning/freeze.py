@@ -37,10 +37,18 @@ def freeze_graph(model_dir, output_node_names):
         # We restore the weights
         saver.restore(sess, input_checkpoint)
 
+        new_input = tf.placeholder(tf.float32, shape=[None, 64, 64, 3], name="input")
+        graph_def = tf.get_default_graph().as_graph_def()
+
+        for n in graph_def.node:
+            print(n.name, "------", n.op)
+        _ = tf.import_graph_def(graph_def, input_map={"IteratorV2:0": new_input})
+
+
         # We use a built-in TF helper to export variables to constants
         output_graph_def = tf.graph_util.convert_variables_to_constants(
             sess,  # The session is used to retrieve the weights
-            tf.get_default_graph().as_graph_def(),  # The graph_def is used to retrieve the nodes
+            graph_def,  # The graph_def is used to retrieve the nodes
             output_node_names.split(",")  # The output node names are used to select the usefull nodes
         )
 

@@ -111,30 +111,6 @@ def train_input_fn():
     dataset_train = dataset_train.prefetch(BATCH_SIZE)
     return dataset_train
 
-# # Initialize all tfrecord paths
-# dataset = tf.data.TFRecordDataset(train_files)
-# dataset = dataset.map(_parse_function)
-# iterator = dataset.make_one_shot_iterator()
-# next_image_data = iterator.get_next()
-#
-# imgs = next_image_data[0]["images"]
-# lbs =  next_image_data[1]
-# print(imgs)
-# with tf.Session() as sess:
-#     sess.run(tf.global_variables_initializer())
-#     try:
-#         i = 0
-#         while True:
-#             img, label = sess.run([imgs, lbs])
-#
-#             cv2.imwrite("./ImageNet/raw-data/{}.jpg".format(i), img)
-#             i += 1
-#             # print(data_record)
-#             print(label)
-#             # cv2.imshow("dkfdl", img)
-#             # cv2.waitKey()
-#     except:
-#         pass
 
 def _parse_test_function(example_proto):
     features = {"image/encoded": tf.FixedLenFeature((), tf.string, default_value=''),
