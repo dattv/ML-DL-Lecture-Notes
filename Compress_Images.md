@@ -36,8 +36,3 @@ If anything needs to be computed and it can be approximated , throw a neural net
 The reasoning behind it is that convolution neural networks(CNN) are very good at extracting spatial information from images, which are then represented in a more compact form (e.g. only the ‘important’ bits of an image are stored). The authors wanted to leverage this capability of CNNs to be able to better represent images
 
 
-## The Architecture
-The authors proposed a dual network. The first network , which will take the image and generate a compact representation(ComCNN). The output of this network will then be processed by a standard codec (e.g. JPEG). After going through the codec, the image will be passed to a 2nd network, which will ‘fix’ the image from the codec, trying to get back the original image. The authors called it Reconstructive CNN (RecCNN). Both networks are iteratively trained, similar to a GAN.
-
-The output from the codec is upscaled , then passed to RecCNN. The RecCNN will try to output an image that looks as similar to original image as possible.
-
