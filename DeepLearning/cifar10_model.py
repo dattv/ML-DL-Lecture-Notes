@@ -32,19 +32,19 @@ def cifar10_inference(images, mode, NUM_CLASSES):
 
     flat = tf.layers.flatten(batch_norm4)
 
-    # full1 = tf.layers.dense(flat, 128, activation=tf.nn.relu)
-    # full1 = tf.layers.dropout(full1, rate=0.7, training=mode)
-    # full1 = tf.layers.batch_normalization(full1, training=mode)
-    #
-    # full2 = tf.layers.dense(full1, 56, activation=tf.nn.relu)
-    # full2 = tf.layers.dropout(full2, rate=0.7, training=mode)
-    # full2 = tf.layers.batch_normalization(full2, training=mode)
-    #
-    # full3 = tf.layers.dense(full2, 512, activation=tf.nn.relu)
-    # full3 = tf.layers.dropout(full3, rate=0.7, training=mode)
-    # full3 = tf.layers.batch_normalization(full3, training=mode)
+    full1 = tf.layers.dense(flat, 128, activation=tf.nn.relu)
+    full1 = tf.layers.dropout(full1, rate=0.7, training=mode)
+    full1 = tf.layers.batch_normalization(full1, training=mode)
 
-    full4 = tf.layers.dense(flat, 1024, activation=tf.nn.relu)
+    full2 = tf.layers.dense(full1, 56, activation=tf.nn.relu)
+    full2 = tf.layers.dropout(full2, rate=0.7, training=mode)
+    full2 = tf.layers.batch_normalization(full2, training=mode)
+
+    full3 = tf.layers.dense(full2, 512, activation=tf.nn.relu)
+    full3 = tf.layers.dropout(full3, rate=0.7, training=mode)
+    full3 = tf.layers.batch_normalization(full3, training=mode)
+
+    full4 = tf.layers.dense(full3, 1024, activation=tf.nn.relu)
     full4 = tf.layers.dropout(full4, rate=0.7, training=mode)
     full4 = tf.layers.batch_normalization(full4, training=mode)
 

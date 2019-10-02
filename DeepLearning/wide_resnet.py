@@ -146,15 +146,13 @@ class WideResNet:
             with tf.variable_scope("classifier_block") as scope:
                 pool = tf.layers.average_pooling2d(relu, pool_size=(8, 8), strides=1, padding="same")
                 flatten = tf.layers.flatten(pool)
-                if self._nb_class is not None:
-                    predictions = tf.layers.dense(flatten, self._nb_class, kernel_initializer=self._weight_init,
-                                                  use_bias=self._use_bias,
-                                                  kernel_regularizer=tf.contrib.layers.l2_regularizer(
-                                                      self._weight_decay),
-                                                  activation=None, name="pred_gender")
 
-                else:
-                    predictions = flatten
+                predictions = tf.layers.dense(flatten, self._nb_class, kernel_initializer=self._weight_init,
+                                              use_bias=self._use_bias,
+                                              kernel_regularizer=tf.contrib.layers.l2_regularizer(
+                                                  self._weight_decay),
+                                              activation=None, name="pred_gender")
+
         return predictions
 
 

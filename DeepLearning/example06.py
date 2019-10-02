@@ -368,6 +368,8 @@ def WideResNet_BasicBlock(inputs, n_input_plane, n_output_plane,
                                         kernel_initializer=tf.initializers.he_normal(),
                                         kernel_regularizer=tf.keras.regularizers.l2(weight_decay))
 
+
+
         else:
             shortcut = net
 
@@ -383,58 +385,13 @@ def WideResNet(input_tensor=None, is_training=True, keep_prob=1., depth=16, k=8)
 
     input_chanel = input_tensor.shape[3]
     with tf.variable_scope("WideResNet") as sc:
-        conv2d = tf.layers.conv2d(inputs=input_tensor, filters=n_stages[0], kernel_size=3, strides=1, use_bias=False,
+        conv1 = tf.layers.conv2d(inputs=input_tensor, filters=n_stages[0], kernel_size=3, strides=1, use_bias=False,
                                     padding="same",
                                     kernel_initializer=tf.initializers.he_normal(),
                                     kernel_regularizer=tf.keras.regularizers.l2(weight_decay))
 
-        # batch_normalization = tf.layers.batch_normalization(conv2d, training=is_training)
-        # activation = tf.nn.relu(batch_normalization)
-        #
-        # conv2d_1 = tf.layers.conv2d(activation, filters=n_stages[0], kernel_size=3, strides=1, use_bias=False,
-        #                             padding="same",
-        #                             kernel_initializer=tf.initializers.he_normal(),
-        #                             kernel_regularizer=tf.keras.regularizers.l2(weight_decay))
-        # batch_normalization_1 = tf.layers.batch_normalization(conv2d_1, training=is_training)
-        # activation_1 = tf.nn.relu(batch_normalization_1)
-        # if keep_prob != 1.:
-        #     activation_1 = tf.nn.dropout(activation_1, keep_prob=keep_prob)
-        #
-        # conv2d_2 = tf.layers.conv2d(activation_1, filters=n_stages[0], kernel_size=3, strides=1, use_bias=False,
-        #                             padding="same",
-        #                             kernel_initializer=tf.initializers.he_normal(),
-        #                             kernel_regularizer=tf.keras.regularizers.l2(weight_decay))
-        # 1
-        # conv2d_3 = tf.layers.conv2d(activation, filters=n_stages[1], kernel_size=3, strides=1, use_bias=False,
-        #                             padding="same",
-        #                             kernel_initializer=tf.initializers.he_normal(),
-        #                             kernel_regularizer=tf.keras.regularizers.l2(weight_decay))
-        #
-        # add = conv2d_2 + conv2d_3
-
-
-        # batch_normalization_2 = tf.layers.batch_normalization(add, training=is_training)
-        # activation_2 = tf.nn.relu(batch_normalization_2)
-        #
-        # conv2d_4 = tf.layers.conv2d(activation_2, filters=n_stages[1], kernel_size=3, strides=1, use_bias=False,
-        #                             padding="same",
-        #                             kernel_initializer=tf.initializers.he_normal(),
-        #                             kernel_regularizer=tf.keras.regularizers.l2(weight_decay))
-        #
-        # batch_normalization_3 = tf.layers.batch_normalization(conv2d_4, training=is_training)
-        # activation_3 = tf.nn.relu(batch_normalization_3)
-        # if keep_prob != 1.:
-        #     activation_3 = tf.nn.dropout(activation_3, keep_prob=keep_prob)
-        #
-        # conv2d_5 = tf.layers.conv2d(activation_3, filters=n_stages[1], kernel_size=3, strides=1, use_bias=False,
-        #                             padding="same",
-        #                             kernel_initializer=tf.initializers.he_normal(),
-        #                             kernel_regularizer=tf.keras.regularizers.l2(weight_decay))
-        #
-        # add_1 = tf.math.add(conv2d_5, add)
-
-        # batch_normalization_4 = tf.layers.batch_normalization(add_1, training=True)
-        # activation_4 = tf.nn.relu(batch_normalization_4)
+        batch_normalization = tf.layers.batch_normalization(conv1, training=is_training)
+        activation = tf.nn.relu(batch_normalization)
 
 
 
@@ -632,8 +589,8 @@ def main():
     # logits = net(x_input, 0.5, is_training)
     # print(logits)
 
-    # logits = WideResNet(x_input, is_training=is_training, keep_prob=0.5, depth=16, k=8)
-    logits = WideResNet(x_input, 32)()
+    logits = WideResNet(x_input, is_training=is_training, keep_prob=0.5, depth=16, k=8)
+    # logits = WideResNet(x_input, 32)()
     # print("kdjfldkj", logits)
 
     with tf.name_scope("loss") as scope:
@@ -645,7 +602,7 @@ def main():
         tf.summary.scalar("loss", loss_operation)
 
     g = tf.get_default_graph()
-    # tf.contrib.quantize.create_training_graph(input_graph=g)
+    tf.contrib.quantize.create_training_graph(input_graph=g)
 
     update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
     with tf.control_dependencies(update_ops):

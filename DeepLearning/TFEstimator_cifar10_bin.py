@@ -13,6 +13,7 @@ import tensorflow as tf
 
 from DeepLearning.cifar10_model import cifar10_inference
 from DeepLearning.wide_resnet import WideResNet
+from DeepLearning.wide_resnet_ import WideResNet_v2
 
 """
 method to get model_file name depending on file code
@@ -85,7 +86,7 @@ def extract_data(index=0, filepath='./cifar-10-batches-bin/data_batch_5.bin'):
     image = image.astype(np.float32) / 255.
 
     """"""
-    result = {"image": image,
+    result = {"images": image,
               "label": label}
 
     bytestream.close()
@@ -102,14 +103,14 @@ class FLAGS():
     pass
 
 
-nb_epoch = 10
+nb_epoch = 1
 FLAGS.batch_size = 32
 FLAGS.max_steps = int(50000 * nb_epoch // FLAGS.batch_size)
 FLAGS.eval_steps = int(10000 // FLAGS.batch_size)
 FLAGS.save_checkpoints_steps = int(50000 // FLAGS.batch_size)
 FLAGS.tf_random_seed = 19851211
 FLAGS.model_name = model_file
-FLAGS.use_checkpoint = False
+FLAGS.use_checkpoint = True
 
 IMAGE_HEIGHT = 32
 IMAGE_WIDTH = 32
@@ -230,9 +231,9 @@ def model_fn(features, labels, mode, params):
     images = tf.reshape(images, shape=[-1, IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_DEPTH])
 
     # logits = cifar10_inference(images, mode=mode == TFE.estimator.ModeKeys.TRAIN, NUM_CLASSES=NUM_CLASSES)
-    logits = WideResNet(images, mode == TFE.estimator.ModeKeys.TRAIN, 32, nb_class=10)()
+    # logits = WideResNet(images, mode == TFE.estimator.ModeKeys.TRAIN, 32, nb_class=10)()
+    logits = WideResNet_v2(images, mode == TFE.estimator.ModeKeys.TRAIN)
 
-    # -----
 
     # if mode in (TFE.estimator.ModeKeys.PREDICT, TFE.estimator.ModeKeys.EVAL):
     predicted_indices = tf.argmax(logits, 1)
@@ -246,6 +247,10 @@ def model_fn(features, labels, mode, params):
         # loss = tf.losses.softmax_cross_entropy(onehot_labels=labels, logits=logits)
         loss = tf.losses.sparse_softmax_cross_entropy(tf.argmax(labels,1), logits=logits)
         # tf.summary.scalar("cross_entorpy", loss)
+
+    if mode == TFE.estimator.ModeKeys.TRAIN:
+        with tf.variable_scope(tf.get_variable_scope(), reuse=tf.AUTO_REUSE):
+            tf.contrib.quantize.create_training_graph()
 
     if mode == TFE.estimator.ModeKeys.PREDICT:
         prediction = {"classes": predicted_indices,
@@ -308,9 +313,9 @@ eval_spec = TFE.estimator.EvalSpec(input_fn=generate_input_fn(file_names=valid_d
                                    steps=FLAGS.eval_steps, exporters=exporter,
                                    throttle_secs=1)
 
-if not FLAGS.use_checkpoint:
-    print("Removing previous artifacts...")
-    shutil.rmtree(model_dir, ignore_errors=True)
+# if not FLAGS.use_checkpoint:
+#     print("Removing previous artifacts...")
+#     shutil.rmtree(model_dir, ignore_errors=True)
 
 TFE.estimator.train_and_evaluate(estimator, train_spec, eval_spec)
 
@@ -323,22 +328,22 @@ print(estimator.evaluate(input_fn=test_input_fn, steps=1))
 export_dir = model_dir + '/export/Servo/'
 saved_model_dir = os.path.join(export_dir, os.listdir(export_dir)[-1])
 
-predictor_fn = tf.contrib.predictor.from_saved_model(
-    export_dir=saved_model_dir,
-    signature_def_key='predictions')
-
-N = 1000
-labels = []
-images = []
-
-for i in range(N):
-    result = extract_data(i, filepath='./cifar-10-batches-bin/test_batch.bin')
-    images.append(result['image'])
-    labels.append(result['label'][0])
-
-output = predictor_fn({'images': images})
-
-np.sum([a == r for a, r in zip(labels, output['classes'])]) / float(N)
-
+# predictor_fn = tf.contrib.predictor.from_saved_model(
+#     export_dir=saved_model_dir,
+#     signature_def_key='predictions')
+#
+# N = 1000
+# labels = []
+# images = []
+#
+# for i in range(N):
+#     result = extract_data(i, filepath='./cifar-10-batches-bin/test_batch.bin')
+#     images.append(result['images'])
+#     labels.append(result['label'][0])
+#
+# output = predictor_fn({'images': images})
+#
+# np.sum([a == r for a, r in zip(labels, output['classes'])]) / float(N)
 
 exported_model_path = estimator.export_savedmodel(model_dir, serving_input_fn)
+
