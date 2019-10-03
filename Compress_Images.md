@@ -1,4 +1,4 @@
-#Compress Images
+# Compress Images
 This artist is devoted to re-note some information about compressing Images by Artificial Neural Network
 
 [Using AI to Super Compress Images](https://hackernoon.com/using-ai-to-super-compress-images-5a948cf09489)
