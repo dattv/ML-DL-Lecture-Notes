@@ -21,5 +21,5 @@ please follow [Install TensorFlow-gpu 2.0 on Anaconda for Windows 10/Ubuntu](htt
 
 Basically, It's required conda => python 3.6, cudnn, cupti, cudatoolkit10.0 => tensorflow-gpu
 
-
+## 
 
