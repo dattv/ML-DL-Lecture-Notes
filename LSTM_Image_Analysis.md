@@ -17,6 +17,8 @@ Long short-term memory (LSTM) is an artificial recurrent neural network (RNN) ar
 
 The cell remembers values over arbitrary time intervals and the three gates regulate the flow of information into and out of the cell. 
 
+LSTM networks are well-suited to classifying, processing and making predictions based on time series data, since there can be lags of unknown duration between important events in a time series. LSTMs were developed to deal with the exploding and vanishing gradient problems that can be encountered when training traditional RNNs. Relative insensitivity to gap length is an advantage of LSTM over RNNs, hidden Markov models and other sequence learning methods in numerous applications.
+
  
 
 # References
@@ -24,5 +26,7 @@ The cell remembers values over arbitrary time intervals and the three gates regu
 [LSTM - Wiki](https://en.wikipedia.org/wiki/Long_short-term_memory)
 
 [Image Analysis with Long Short-TermMemory Recurrent Neural Networks](https://pdfs.semanticscholar.org/ccdd/6874aa8924152d0ad4a74a37542def74eff0.pdf?_ga=2.23143610.1241662214.1570246157-609034475.1570246157)
+
+[Recurrent Neural Networks](http://slazebni.cs.illinois.edu/fall18/lec15_rnn.pdf)
 
 
