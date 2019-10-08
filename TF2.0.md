@@ -21,5 +21,14 @@ please follow [Install TensorFlow-gpu 2.0 on Anaconda for Windows 10/Ubuntu](htt
 
 Basically, It's required conda => python 3.6, cudnn, cupti, cudatoolkit10.0 => tensorflow-gpu
 
-## 
+## Data to ANN
+Three important ways of constructing a data pipeline:
+1. from in-memory NumPy
+
+2. from Comma-Seperated-Value (CSV)
+
+3. TFRecord
+
+
+
 
