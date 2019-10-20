@@ -29,6 +29,11 @@ Three important ways of constructing a data pipeline:
 
 3. TFRecord
 
+## Batch normalization layer and dropout layer
+Batch normalization is a layer that takes its inputs and outputs the same number of outputs with activations that have zero mean and unit variance, as this has been found to be beneficial to learning. Batch normalization regulates the activations so that they neither become vanishingly small nor explosively big, both of which situations prevent the network from learning.
+
+Dropout layer is a layer where a certain percentage of the neurons are randomly turned off during training (not during inference). This forces the network to become better at generalizing since individual neurons are discouraged from becoming specialized with respect to their inputs.
+
 
 
 

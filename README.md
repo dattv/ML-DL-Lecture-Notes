@@ -72,6 +72,8 @@ This repository for noting some resources that may help me in studying ML/DL and
 <b>[30]</b> [Optimizing TensorFlow Serving performance with NVIDIA TensorRT](https://medium.com/tensorflow/optimizing-tensorflow-serving-performance-with-nvidia-tensorrt-6d8a2347869a)
 
 <b>[31]</b> [TensorRT for TensorFlow (video)](https://www.youtube.com/playlist?list=PLkRkKTC6HZMwdtzv3PYJanRtR6ilSCZ4f)
+
+<b>[32]</b> [CS 20: Tensorflow for Deep Learning Research](https://web.stanford.edu/class/cs20si/syllabus.html)
   
 ## Specific topics  
 ### Image Super-Resolution

@@ -183,6 +183,9 @@ def model_fn(features, labels, mode, params):
     images = tf.reshape(features["images"], [-1, IMAGEHEIGHT, IMAGEWIDTH, 3])
     logits = cifar10_inference(images, training, NB_CLASSES)#model(images, training)
 
+    # if mode == TFE.estimator.ModeKeys.TRAIN:
+    #     tf.contrib.quantize.create_training_graph()
+
     predictions = {
         # Generate predictions (for PREDICT and EVAL mode)
         "classes": tf.argmax(input=logits, axis=1),
