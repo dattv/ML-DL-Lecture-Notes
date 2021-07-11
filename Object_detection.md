@@ -18,6 +18,10 @@ Object detection had an explosion about finding the position of the object in ad
 
 ### Anchor Free methods
 
+### Embedded
+
+<b> 1 </b> [General Instance Distillation for Object Detection - 2021](https://arxiv.org/abs/2103.02340)
+
 ## Dataset
 
 <b>1</b>  [ImageNet dataset -  There are 200 objects for detection problems with 470,000 images, with an average of 1.1 objects per image]()
