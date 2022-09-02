@@ -1,0 +1,19 @@
+https://docs.nvidia.com/deeplearning/tensorrt/install-guide/index.html
+
+# Install pycuda
+python3 ./configure.py --python-exe=/home/dat/.virtualenvs/cv/bin/python3.6 --cuda-root=/home/dat/Downloads/cudaInstallation --cudadrv-lib-dir=/usr/lib/${arch}-linux-gnu --boost-inc-dir=/usr/include --boost-lib-dir=/usr/lib/${arch}-linux-gnu --boost-python-libname=${boost_pyname} --boost-thread-libname=boost_thread --no-use-shipped-boost
+
+#cmake
+cmake ../TensorRT -DTRT_LIB_DIR=/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/TensorRT/TensorRT-8.4.1.5/lib/ -DTRT_INC_DIR=/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/TensorRT/TensorRT-8.4.1.5/include -DTRT_OUT_DIR=`pwd`/out
+
+make -j$(nproc)
+
+//
+export PATH=/home/dat/Downloads/cudaInstallation/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/dat/Downloads/cudaInstallation/
+export CUDA_PATH=/home/dat/Downloads/cudaInstallation${CUDA_PATH:+:${CUDA_PATH}}
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/media/dat/68fa98f8-9d03-4c1e-9bdb-c71
+export TRT_LIBPATH=/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/TensorRT
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/media/dat/68fa98f8-9d03-4c1e-9bdb-c7
+
+//

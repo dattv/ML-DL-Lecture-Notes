@@ -1,0 +1,18 @@
+
+
+
+(on your local PC) 
+
+ssh -L 16007:127.0.0.1:6007 thanhnh@10.92.203.76
+
+Then you may start the tensorboard on the remote server with the specific port we want to transfer:
+
+tensorboard --logdir='./tensorboard_dirs' --port=16007
+
+
+tensorboard --logdir='./' --port=16007
+
+
+
+
+/root/GVH368/source/checkpoints/GVH368/data_003_phi_1/fine_tune_backbone/phi_1_fine_tune/GVH368_data_003_phi_1_2020-07-24/GVH368_07_0.3316_0.4171.h5

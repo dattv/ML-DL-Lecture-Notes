@@ -1,0 +1,278 @@
+
+
+
+####################### Install Docker #######################
+
+
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+
+sudo apt update
+apt-cache policy docker-ce
+sudo apt install docker-ce
+
+# Docker should now be installed, the daemon started, and the process enabled to start on boot. Check that it’s running:
+
+sudo systemctl status docker
+
+####################### Using the Docker Command #######################
+
+docker
+
+attach      Attach local standard input, output, and error streams to a running container
+  build       Build an image from a Dockerfile
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  exec        Run a command in a running container
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  images      List images
+  import      Import the contents from a tarball to create a filesystem image
+  info        Display system-wide information
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  login       Log in to a Docker registry
+  logout      Log out from a Docker registry
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image or a repository from a registry
+  push        Push an image or a repository to a registry
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  run         Run a command in a new container
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  search      Search the Docker Hub for images
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  version     Show the Docker version information
+  wait        Block until one or more containers stop, then print their exit codes
+  
+
+####################### Essential Docker Commands #######################
+
+
+docker run hello-world
+
+## Search docker image 
+docker search <docker image name>
+
+## Pull docker image
+docker pull  <docker image name>
+
+## List out all downloaded docker image
+
+docker images
+
+## Run docker image
+
+docker run -it <docker image name>
+
+## Managing Docker Containers
+
+docker ps
+
+## To view all containers — active and inactive, run docker ps with the -a switch:
+
+docker ps -a
+
+## To view the latest container you created, pass it the -l switch:
+
+docker ps -l
+
+## Start/stop docker image
+
+docker start <ID of docker image>
+
+docker stop <ID of docker image>
+
+### Rename docker
+
+docker rename <old name> <new name>
+
+
+################### Mount directory on host machine to docker container #########################
+
+
+docker run --runtime=nvidia -it --shm-size=24.0g -v /home/thanh/working/SiamMask/thanh_SiamMask/:/root/SiamMask/ -v /tmp/.X11-unix/ -e DISPLAY --name thanh_SiamMask nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04 
+
+
+docker start 0dbdd3c18fdb
+docker attach 0dbdd3c18fdb
+
+
+export http_proxy=http://proxy.mei.co.jp:8080
+export https_proxy=http://proxy.mei.co.jp:8080
+export ftp_proxy=http://proxy.mei.co.jp:8080
+
+
+export http_proxy=http://10.92.201.39:8080
+export https_proxy=http://10.92.201.39:8080
+
+
+docker run -ti -v "$PWD/dir1":/dir1 -v "$PWD/dir2":/dir2 newimagename /bin/bash
+
+
+
+########### Add two dir to docker ############
+docker run --runtime=nvidia -it --shm-size=16.0g -v /home/thanh/working/SiamMask/thanh_SiamMask/:/root/SiamMask/ -v /home/data_ssd01/thanh/SiamMask/data:/root/SiamMask/data -v /tmp/.X11-unix/ -p 5000:8888 -p 5001:6006 -e DISPLAY thanh_siammask -p 5000:8888 -p 5001:6006
+
+
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/b‌​in
+
+/home/data_ssd01/thanh/SiamMask/data
+
+
+export PYTHONPATH=/root/Decarte/SegmentationModel/:$PYTHONPATH
+
+
+python -m torch.distributed.launch --nproc_per_node=8 --master_port=2333 train.py --cfg ./config.yaml
+
+
+
+
+#################### PRDCV 193 #######################
+
+sudo docker run --gpus all \
+	--shm-size=16.0g \
+	-v /media/redhat/DataRedHat1/NHThanh/SiamMask/source/working/modify:/root/SiamMask/ \
+	-v /media/redhat/DataRedHat1/NHThanh/SiamMask/data:/root/SiamMask/data \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name SiamMask_full \
+	-it ae234814902e
+
+sudo docker run --gpus all \
+	--shm-size=24.0g \
+	-v /media/redhat/DataRedHat1/NHThanh/SiamMask/source/working/modify:/root/SiamMask/ \
+	-v /media/redhat/DataRedHat1/NHThanh/SiamMask/data:/root/SiamMask/data \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name SiamMask_full \
+	-it ae234814902e
+
+a07a5c7070fe
+
+
+  
+
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
+export PATH=/usr/local/cuda-10.0/bin${PATH:+:${PATH}}$
+export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+
+
+
+#################### SiamMask deliverible #######################
+
+sudo docker run --gpus all \
+	--shm-size=16.0g \
+	-v /media/redhat/DataRedHat1/NHThanh/SiamMask/source/working/Deliverables/:/root/SiamMask/ \
+	-v /media/redhat/DataRedHat1/NHThanh/SiamMask/data:/root/SiamMask/data \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name DXDC_deliverable \
+	-it 7bb1f0b039e1
+
+
+	
+	
+	
+/media/redhat/DataRedHat1/NHThanh/SiamMask/source/working/modify
+
+
+
+CUDA_VISIBLE_DEVICES=0,1
+python -m torch.distributed.launch \
+    --nproc_per_node=2 \
+    --master_port=2333 \
+    ./tools/train.py --cfg config.yaml
+
+
+
+########## GVH355 Decarte ###########
+
+sudo docker run --gpus all \
+	--shm-size=16.0g \
+	-v /media/redhat/DataRedHat1/NHThanh/GVH355/SegmentationModel/Segmentation/:/root/Decarte/ \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name test_Segmentation \
+	-it 0489a321f88b
+
+
+########## eval command ########
+
+python3 eval.py --dataset VOT2018 --num 20 --tracker_prefix C \
+  --result_dir ./test/VOT2018 2>&1 | tee test/VOT2018/eval_pretrained_MobileNetV2_VOT2018.log
+  
+
+
+
+export PYTHONPATH=/root/Decarte/SegmentationModel/:$PYTHONPATH
+
+
+/media/redhat/DataRedHat1/NHThanh/GVH355/SegmentationModel/DeepLabV3/pytorch-deeplab-xception
+
+
+
+
+docker import thanh_siammask_full.tar 
+ 
+docker load [file.tar]
+
+
+
+
+
+############### error ###################
+
+
+src/threefish.c:23:20: fatal error: Python.h: No such file or directory
+compilation terminated.
+error: Setup script exited with error: command 'gcc' failed with exit status 1
+
+ ==> apt-get install python3.6-dev
+ 
+ 
+ 
+##### Docker commit and create new image from container #####
+
+docker commit <container ID> <namedocker_of_image
+docker images 
+
+##### save image to tar file from image ID #####
+
+docker save -o <name_of_image_file.tar> <Image ID>
+
+##### Set tag for image ID #######
+
+docker tag <image ID> <name of TAG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,31 @@
+SNIPER
+
+
+
+Install MKL intel 
+
+
+https://github.com/LeelaChessZero/lc0/wiki/Ubuntu-16.04-MKL-Instructions
+
+cd ~/GitHub/r-with-intel-mkl/
+wget http://registrationcenter-download.intel.com/akdlm/irc_nas/tec/12147/l_mkl_2017.4.239.tgz
+tar xzvf l_mkl_2017.4.239.tgz
+cd l_mkl_2017.4.239
+sudo ./install_GUI.sh
+printf '/opt/intel/lib/intel64\n/opt/intel/mkl/lib/intel64\n' | sudo tee -a /etc/ld.so.conf.d/intel_mkl.conf
+sudo ldconfig
+
+
+
+Install mxnet and SNIPER
+
+https://qiita.com/shinya7y/items/febdb25918f8bb5a7b23
+
+
+
+
+
+ https://obj.umiacs.umd.edu/mahyar_sniper_detector/sniper_models.tar.gz
+ 
+ 
+ https://obj.umiacs.umd.edu/mahyar_sniper_detector/sniper_models.tar.gz

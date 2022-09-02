@@ -1,0 +1,251 @@
+
+
+
+
+################ List docker images ################
+
+docker images
+
+
+################ List active docker container ################
+
+docker ps -a
+
+	
+############## Commit change from container to docker image ###############
+
+docker commit <CONTAINER_ID> <IMAGE_ID> <NAME_OF_NEW_IMAGES>:<TAG_OR_VERSION_OF_IMAGE>
+
+Example:  docker commit cd49e5e13b17 retina:coco_1.14
+
+
+
+################ Create docker container from images #################
+
+docker run --gpus all \
+	--shm-size=24.0g \
+	-v <DIR PATH TO SOURCE>:<DIR PATH ON DOCKER ENVIRONMENT> \
+	-v <DIR PATH TO DATA>:<DATA PATH ON DOCKER ENVIRONMENT> \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name <NAME OF CONTAINER> \
+	-it <DOCKER IMAGE ID>
+
+Example:
+
+
+docker run --gpus all \
+	--shm-size=24.0g \
+	-v /media/redhat/DataRedHat/ThanhNH/GVH368/source/ObjectDetection/Tensorflow/EfficientDet/:/root/GVH368/source/EfficientDet/ \
+	-v /media/redhat/TRAIN_DATA_1/GVH368/data/:/root/GVH368/data/ \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	-p 5000:8888 \
+	-p 5001:6006 \
+	--name thanh_gvh368_efficientdet \
+	-it a387f44414ed
+
+sudo docker run --gpus all \
+	--shm-size=24.0g \
+	-v /media/prdcv375/TRAIN_DATA_1/DatTV/:/root/4000363/source/ \
+	-v /media/prdcv375/DATA/4000363/:/root/4000363/data/ \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name 4000363_tf14_retina_COCO \
+	-it a07a5c7070fe
+
+cd ~
+docker run --gpus all \
+	--shm-size=48.0g \
+	-v /media/prdcv452/Data/DatTV:/root/4000363/source/ \
+	-v /media/prdcv452/TRAIN_DATA_1/DatTV:/root/4000363/data/ \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name dattv_gvh205 \
+	-it a07a5c7070fe
+
+cd ~
+sudo docker run --gpus all \
+	--shm-size=18.0g \
+	-v /media/prdcv375/TRAIN_DATA_4/4000363:/root/4000363/source/ \
+	-v /media/prdcv375/DATA/4000363:/root/4000363/data/ \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name retinaface \
+	-it a07a5c7070fe
+
+cd ~
+
+sudo docker run --gpus all \
+	--shm-size=48.0g \
+	-v /media/prdcv375/TRAIN_DATA_4/4000363:/root/4000363/data/ \
+	-v /media/prdcv375/DATA/4000363:/root/4000363/source/ \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name horovod_tf14 \
+	-it 328831fe38db
+
+cd ~
+docker run --gpus all \
+	--shm-size=48.0g \
+	-v /media/prdcv452/Data/DatTV:/root/4000363/source/ \
+	-v /media/prdcv452/TRAIN_DATA_1/DatTV:/root/4000363/data/ \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name dattv_tf24 \
+	-it gvh368:tfv2.2_objectdetection
+
+
+
+cd ~
+docker run --gpus all \
+	--shm-size=48.0g \
+	-v /media/prdcv452/Data/DatTV:/root/4000363/source/ \
+	-v /media/prdcv452/TRAIN_DATA_1/DatTV:/root/4000363/data/ \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name gvh205_i3d \
+	-it a07a5c7070fe
+
+
+docker run --gpus all \
+	--shm-size=48.0g \
+	-v /media/prdcv375/TRAIN_DATA_4/4000363:/root/4000363/data/ \
+	-v /media/prdcv375/DATA/4000363:/root/4000363/source/ \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name horovod_ubuntu16.04 \
+	-it a793c400e801
+
+docker run --gpus all \
+	--shm-size=48.0g \
+	-v /media/prdcv375/TRAIN_DATA_4/4000363:/root/4000363/data/ \
+	-v /media/prdcv375/DATA/4000363:/root/4000363/source/ \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name horovod_ubuntu18.04 \
+	-it a387f44414ed
+
+
+docker run --gpus all \
+	--shm-size=24g \
+	-v /media/prdcv452/TRAIN_DATA_1/DatTV:/root/4000363/data/ \
+	-v /media/prdcv452/TRAIN_DATA_1/DatTV:/root/4000363/source/ \
+	-v /tmp/.X11-unix/ \
+	-e DISPLAY \
+	--name re-produceI3D \
+	-it a7a1861d2150
+
+
+
+################ Some post-installing command after create docker container ################
+
+
+
+
+apt-get update
+apt update && apt install -y libsm6 libxext6
+apt-get install -y libxrender1
+apt-get install -y python3.6 -y
+apt-get install -y python3.6-dev
+apt-get install -y python3-pip
+pip3 install --upgrade pip
+pip3 install opencv-python==3.4.2.17
+pip3 install opencv-contrib-python==3.4.2.17
+
+
+
+
+>>>> Set proxy for docker environment  
+
+export http_proxy=http://10.92.201.39:8080/
+export https_proxy=http://10.92.201.39:8080/
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/b‌​in
+
+>>>> Export environment variable for PYTHON source code
+export PYTHONPATH=/root/GVH368/source/:$PYTHONPATH
+
+>>>> Export environment variable for libraries of CUDA
+
+export PATH=/usr/local/cuda-10.0/bin${PATH:+:${PATH}}$
+export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+>>>> Add all neccesary configures to bashrc 
+apt-get install nano
+
+nano ~/.bashrc	
+
+>> Restart ~/.bashrc
+source ~/.bashrc
+
+
+################# SOME ERRORS ####################
+
+
+
+
+
+[ERROR]
+Error response from daemon: Get https://registry-1.docker.io/v2/: net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
+>>> Solution
+
+For setting up proxy for docker, please do the following:
+
+Create a systemd drop-in directory for the docker service:
+$ mkdir -p /etc/systemd/system/docker.service.d
+$ sudo nano /etc/systemd/system/docker.service.d/http-proxy.conf
+Then add below content with proxy settings with it
+[Service]
+Environment="HTTP_PROXY=http://<allowed_proxy_ipv4_address>:<proxy_port_num>/"
+
+For HTTPS proxy server:
+$ sudo nano /etc/systemd/system/docker.service.d/https-proxy.conf
+Then add below content with proxy settings with it
+[Service]
+Environment="HTTPS_PROXY=https://<allowed_proxy_ipv4_address>:<proxy_port_num>/"
+
+Flush changes execute: $ sudo systemctl daemon-reload
+
+Restart Docker: $ sudo systemctl restart docker
+
+Verify that the configuration has been loaded: $ systemctl show --property=Environment docker
+
+
+
+https://github.com/moby/moby/issues/32270
+
+#####################
+
+docker load -i [file.tar]
+
+ 
+##### Docker commit and create new image from container #####
+
+docker commit <container ID> <namedocker_of_image
+docker images 
+
+##### save image to tar file from image ID #####
+
+docker save -o <name_of_image_file.tar> <Image ID>
+
+##### Set tag for image ID #######
+
+docker tag <image ID> <name of REPO>:<name of TAG>
+
+===============
+Open a docker terminal
+
+Get the image running as a container in the background: docker run -d -it <image_id>
+
+Tip: docker ps will show the container_id that you just fired up from said image.
+Per @eltonStoneman's advice: docker exec -it <container_id> bash
+
+Now your docker terminal is showing an interactive terminal to the container.
+Open up another docker terminal and perform step 3 to create another interactive terminal to the container. (Rinse and Repeat)
+
+
+
+
+
+
+

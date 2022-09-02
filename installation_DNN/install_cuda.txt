@@ -1,0 +1,15 @@
+sh cuda_11.0.2_450.51.05_linux.run --silent --toolkit --toolkitpath=/home/dat/Downloads/cudaInstallation  --samples --samplespath=/home/dat/Downloads/cudaInstallation 
+
+# Export cuda environment
+nano ~/.bashrc
+
+export PATH=/home/dat/Downloads/cudaInstallation/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/dat/Downloads/cudaInstallation/lib64
+export CUDA_PATH=/home/dat/Downloads/cudaInstallation${CUDA_PATH:+:${CUDA_PATH}}
+
+source ~/.bashrc
+
+tar -zxf cudnn-10.0-linux-x64-v7.6.3.30.tgz
+cd cuda/
+sudo cp -P lib64/* /usr/local/cuda-10.0/lib64/
+sudo cp -P include/* /usr/local/cuda-10.0/include/

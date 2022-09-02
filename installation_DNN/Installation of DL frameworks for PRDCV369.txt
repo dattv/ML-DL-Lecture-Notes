@@ -1,0 +1,688 @@
+
+
+
+
+
+
+===================> I. Install dependencies libraries <===================
+
+
+sudo apt-get update
+sudo apt-get -y upgrade
+
+
+
+
+
+sudo apt-get install -y build-essential cmake git unzip pkg-config
+sudo apt-get install -y libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev
+sudo apt-get install -y libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
+sudo apt-get install -y libxvidcore-dev libx264-dev
+sudo apt-get install -y libgtk-3-dev
+sudo apt-get install -y libhdf5-serial-dev graphviz
+sudo apt-get install -y libopenblas-dev libatlas-base-dev gfortran
+sudo apt-get install -y python-tk python3-tk python-imaging-tk
+sudo apt-get install -y python3-dev
+sudo apt-get install -y linux-image-generic linux-image-extra-virtual
+sudo apt-get install -y linux-source linux-headers-generic
+
+
+sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+sudo apt-get install --no-install-recommends libboost-all-dev
+sudo apt-get install libatlas-base-dev
+sudo apt-get install libopenblas-dev
+sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev
+
+
+sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+sudo apt-get install libatlas-base-dev
+sudo apt-get install libopenblas-dev
+sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev
+
+
+$ sudo apt-get install openjdk-8-jdk
+
+===================> I. Install graphic driver for CUDA 10.0 and CUDnn <===================
+
+
+
+
+1. Check does PC have GPU
+
+$ sudo lshw -C display
+
+or 
+
+$ hwinfo --gfxcard --short
+
+or 
+
+$ lspci -vnn | grep VGA -A 12
+
+
+2. Check which NVIDIA version support for your card
+
+$ sudo apt install mesa-utils
+$ glxinfo | grep OpenGL
+
+or 
+
+$ ubuntu-drivers devices
+$ ubuntu-drivers list
+
+
+if have NVIDIA graphic card, check nvidia-driver version compatitable
+https://docs.nvidia.com/deploy/cuda-compatibility/index.html
+
+or 
+
+$apt-cache search nvidia-driver
+
+3. Install spectified nvidia-driver
+
+For example: we have NVIDIA Graphic Card GeForce RTX 2080 Ti/PCIe/SSE2
+
+And I want to install nvidia-driver-410 so i install driver version 410 by command:
+$ sudo apt install nvidia-driver-410
+
+after install, reboot PC
+$ sudo reboot
+
+Next, we need to make verification by using:
+$ nvidia-smi
+
+
+Optionals, How do I configure the NVIDIA graphics driver?
+$ sudo nvidia-settings
+
+
+
+Reference links:
+https://www.cyberciti.biz/faq/ubuntu-linux-install-nvidia-driver-latest-proprietary-driver/
+https://medium.com/@kapilvarshney/how-to-setup-ubuntu-16-04-with-cuda-gpu-and-other-requirements-for-deep-learning-f547db75f227
+https://askubuntu.com/questions/1054242/completely-removing-old-nvidia-drivers
+https://www.binarytides.com/linux-get-gpu-information/
+https://askubuntu.com/questions/799184/how-can-i-install-cuda-on-ubuntu-16-04
+
+
+https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-installed
+
+
+
+===================> II. Install CUDA 10.0 <===================
+
+sudo sh cuda_11.4.0_470.42.01_linux.run --silent --driver --toolkit --toolkitpath=/home/dat/Downloads/cuda_install/cuda-11.4 --samples --samplespath=/home/dat/Downloads/cuda_install/NVIDIA_CUDA-11.4_samples
+
+
+
+Choose CUDA version that you want to install. Note that CUDA version have to compatitable with your GPU card and driver version
+
+https://developer.nvidia.com/cuda-toolkit-archive
+
+For instance: the following tutorial is installation of CUDA 10.0 which compatitable with NVIDIA Graphic Card GeForce RTX 2080 Ti/PCIe/SSE2
+and NVIDIA driver 410. Please check CUDA version compatitable with which NVIDIA driver by following link:
+https://tech.amikelive.com/node-930/cuda-compatibility-of-nvidia-display-gpu-drivers/
+
+The following tutorial is installation of CUDA 10.0 with NVIDIA driver 410.48
+
+Download CUDA 10.0 from NVIDIA 
+
+https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1604&target_type=deblocal
+
+After download, install CUDA 10.0 by commands:
+$ sudo dpkg -i cuda-repo-ubuntu1604-10-0-local-10.0.130-410.48_1.0-1_amd64.deb
+$ sudo apt-key add /var/cuda-repo-10-0-local-10.0.130-410.48/7fa2af80.pub 
+$ sudo apt-get update
+$ sudo apt-get install cuda
+$ sudo apt-get install cuda-libraries-10-0
+
+Now, the next steps would be to add a couple of “paths” as mentioned in the installer log in the previous screenshot.
+You can use the editor of your choice. I usually use nano.
+gedit ~/.bashrc (To launch the GNU nano editor)
+
+And, add the following lines:
+
+export PATH=/usr/local/cuda-10.0/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib64
+
+export PATH=/usr/local/cuda-10.0/bin${PATH:+:${PATH}}$ 
+export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+Once the bashrc file has been updated, let’s source it to bring the changes in effect.
+$ source ~/.bashrc
+
+
+You don’t have to do this every time. Ubuntu automatically sources .bashrc every time you launch a new terminal.
+
+Once we update the bashrc, we can run a sample file to check whether the installation was successful.
+
+$ cd /usr/local/cuda-10.0/samples/1_Utilities/deviceQuery
+$ sudo make
+$ ./deviceQuery
+
+If you don’t see Results = PASS, there’s probably something that you have missed from the previous steps. Fix it before moving ahead.
+
+
+
+>>>>>>>>>>>>>>>>>> SOME ERROR <<<<<<<<<<<<<<<
+a. nvcc --version command says nvcc is not installed
+https://askubuntu.com/questions/885610/nvcc-version-command-says-nvcc-is-not-installed
+
+Solution:
+The problem is [ based on the link you provided] you haven't added it the .bashrc. file so it can be seen:
+From the terminal:
+
+    gedit /home/username/.bashrc
+
+    # or
+
+    gedit /home/$USER/.bashrc
+
+    Inside there add the following:
+
+    export PATH=/usr/local/cuda-10.0/bin${PATH:+:${PATH}}$ 
+    export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+    Then do the following to save and close the editor:
+
+    On you keyboard press the following: 
+
+    ctrl + o             --> save 
+    enter or return key  --> accept changes
+    ctrl + x             --> close editor
+
+    Now either do source .bashrc or close and open another terminal
+
+    Now run nvcc --version
+
+
+===================> III. Install CUDnn libraries <===================
+
+For this part you need to first create a free account with Nvidia (if you already don’t have one) and log in. 
+Then, download cuDNN version for CUDA version
+Here, we will download cuDNN v7.6.3 (August 23, 2019), for CUDA 10.0
+You’ll have to access the archives and download the highlighted file from the website
+https://developer.nvidia.com/rdp/cudnn-archive
+then choose package name as "cuDNN Library for Linux"
+
+Once the file has downloaded in your Downloads folder, 
+we can unzip the file and copy all the files in lib64 and include to the folders by the same names in usr/local/cuda, respectively. 
+And, you are all set. You can use the following command to do so:
+
+$ cd ~/Downloads/
+$ tar -zxf cudnn-10.0-linux-x64-v7.6.3.30.tgz
+$ cd cuda/
+$ sudo cp -P lib64/* /usr/local/cuda-10.0/lib64/
+$ sudo cp -P include/* /usr/local/cuda-10.0/include/
+
+
+===================> III. Install tensrflow - GPU <===================
+
+
+$ sudo apt-get update
+
+$ sudo pip install numpy
+$ sudo pip install scipy matplotlib pillow
+$ sudo pip install imutils h5py requests progressbar2
+$ sudo pip install scikit-learn scikit-image
+
+# Install Tensorflow GPU 1.4 (The version is import here)
+$ sudo pip install tensorflow-gpu
+$ sudo pip install keras
+
+
+VERIFICATION
+
+$ python3
+
+>> import tensorflow as tf
+
+
+If it can import successfull, it means that tensorflow-gpu has been installed completely.
+
+
+>>>>>>>>> SOME ERROR AND SOLUTION <<<<<<<<<
+
+1. When import tensorflow to python3
+we can get the following error which relate to numpy version:
+
+~/.local/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:541: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+~/.local/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:542: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+
+
+SOLUTION: 
+
+Check tensorflow-gpu and numpy version
+$ pip show tensorflow-gpu
+$ pip show numpy
+
+After that, uninstall current numpy version then install numpy version 1.16.4 which compatitable with tensorflow-gpu 1.14
+$ sudo pip uninstall numpy
+$ sudo pip install numpy==1.16.4
+
+2. Error which lack of libraries of cuda10-0 (*.so) and libraries of cuDNN (*.so)
+
+SOLUTIONS:
+
+Checking export path of PATH and LD_LIBRARY_PATH in ~/.bashrc file
+
+
+
+
+export PATH=/usr/local/cuda-10.0/bin${PATH:+:${PATH}}$ 
+export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+
+
+===================> IV. Install Keras <===================
+
+
+$ sudo pip install keras
+
+
+===================> V. Install MXNET-gpu <===================
+
+Currently, MXNET only support the newest version of CUDA is 10.0
+Link: https://pypi.org/project/mxnet-cu100/
+So we only can install MXNET for CUDA 10.0 version
+
+$ sudo pip install mxnet-cu100
+
+VERIFICATION: Code to check MXNET-GPU installation
+
+$ python3
+>>> import mxnet as mx 
+>>> 
+def gpu_device(gpu_number=0):
+    try:
+        _ = mx.nd.array([1, 2, 3], ctx=mx.gpu(gpu_number))
+    except mx.MXNetError:
+        return None
+    return mx.gpu(gpu_number)
+    
+>>> 
+if not gpu_device():
+	print('No GPU device found!')
+    
+
+OPTIONALS: 
+Install MKL intel 
+https://github.com/LeelaChessZero/lc0/wiki/Ubuntu-16.04-MKL-Instructions
+
+$ cd ~/GitHub/r-with-intel-mkl/
+$ wget http://registrationcenter-download.intel.com/akdlm/irc_nas/tec/12147/l_mkl_2017.4.239.tgz
+$ tar xzvf l_mkl_2017.4.239.tgz
+$ cd l_mkl_2017.4.239
+$ sudo ./install_GUI.sh
+$ printf ('/opt/intel/lib/intel64\n/opt/intel/mkl/lib/intel64\n' | sudo tee -a /etc/ld.so.conf.d/intel_mkl.conf)
+$ sudo ldconfig
+
+
+
+
+
+===================> VI. Install caffe-GPU <===================
+
+
+Following two links to build caffe-gpu from source:
+
+https://github.com/adeelz92/Install-Caffe-on-Ubuntu-16.04-Python-3
+http://gearons.org/2017-03-30-caffe-gpu-installation/
+
+
+
+Step 1: Update and Upgrade the packages list.
+
+    sudo apt-get update
+    sudo apt-get upgrade
+
+Step 2: Install general dependencies. Open terminal and type following commands in terminal.
+
+    sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+    sudo apt-get install --no-install-recommends libboost-all-dev
+    sudo apt-get install libatlas-base-dev
+    sudo apt-get install libopenblas-dev
+    sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev
+
+Step 3: Go to the installation folder using "cd /your/path" command. Download/Clone the latest git repository using following command and go to the caffe directory in terminal.
+
+    git clone https://github.com/BVLC/caffe.git
+    cd caffe
+
+Step 4: Install the python requirements for caffe. Use following commands in terminal.
+
+    cd python
+    for req in $(cat requirements.txt); do pip3 install --no-cache-dir $req; done (Wait for it to finish installation)
+    cd ..
+
+Step 5: Add caffe python path to the $PYTHONPATH
+
+    export PYTHONPATH=/path/to/caffe/python
+
+Example: export PYTHONPATH=/home/user/xyz/caffe/python
+
+Step 6: Get the Python 3.5 USER_SITE path by typing following command in the terminal.
+
+    python3 -m site
+
+We will need the path given in USER_SITE. e.g. USER_SITE: '/home/user/.local/lib/python3.5/site-packages'. If USER_SITE doesn't exist, then use the one with /dist-packages in the end.
+
+Step 7: Generate the Makefile configuration file using following command in terminal.
+
+    cp Makefile.config.example Makefile.config
+
+Step 8: We will adjust the Makefile.config file in order to install the caffe for Python 3. Edit the Makefile.config in your favourite editor.
+
+Step 9: Perform the following changes in Makefile.config.
+
+    Comment the PYTHON_INCLUDE lines that refer to python2.7. They should look like this:
+
+#PYTHON_INCLUDE := /usr/include/python2.7
+#/usr/lib/python2.7/dist-packages/numpy/core/include
+
+    Uncomment PYTHON_LIBRARIES and PYTHON_INCLUDE for python 3. They should look like this at this point:
+
+PYTHON_LIBRARIES := boost_python3 python3.5m
+
+PYTHON_INCLUDE := /usr/include/python3.5m
+/usr/lib/python3.5/dist-packages/numpy/core/include
+
+    Use the path copied in step 6 and add following path to the PYTHON_INCLUDE.
+
+/home/user/.local/lib/python3.5/site-packages/numpy/core/include
+
+PYTHON_INCLUDE should look like this at this point.
+
+PYTHON_INCLUDE := /usr/include/python3.5m
+/usr/lib/python3.5/dist-packages/numpy/core/include
+/home/nvme/.local/lib/python3.5/site-packages/numpy/core/include
+
+    Uncomment the line WITH_PYTHON_LAYER := 1.
+
+    Add '/usr/include/hdf5/serial' to the INCLUDE_DIRS variable. It should look like this:
+
+INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial
+
+    Find the path to hdf5, use command: "find /usr/lib -name hdf5". Copy the path and add it to LIBRARY_DIRS after appending '/serial' after it. It should look like this at this point.
+
+LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu/hdf5/serial
+
+    Find the path to libpython3.5m by using command "find /usr -name libpython3.5*". It will return multiple paths to the library but use '/usr/lib/x86_64-linux-gnu/'. Add this path to PYTHON_LIB and LIBRARY_DIRS. Both of these should look like this at this point.
+
+PYTHON_LIB := /usr/lib /usr/lib/x86_64-linux-gnu/
+
+LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu/hdf5/serial /usr/lib/x86_64-linux-gnu/
+
+    Find the path to libboost_python-py35 using command "find /usr -name libboost_python-py35*". Usually the path is '/usr/lib/x86_64-linux-gnu/' which have already been added to the PYTHON_LIB and LIBRARY_DIRS in 7. If it is different then add it to both of these variables.
+
+    Now rename boost_python3 in PYTHON_LIBRARIES to boost_python-py35. PYTHON_LIBRARIES should look like this.
+
+PYTHON_LIBRARIES := boost_python-py35 python3.5m
+
+    Make sure CPU_ONLY := 1 is commented in order to install caffe with GPU support.
+    
+
+Create symbolic links for hdf5:
+
+$ cd /usr/lib/x86_64-linux-gnu
+$ sudo ln -s libhdf5_serial.so.10 libhdf5.so
+$ sudo ln -s libhdf5_serial_hl.so.10 libhdf5_hl.so
+
+
+Step 10: Install caffe using following commands. Make sure you are in caffe home directory.
+
+$ make all -j8
+$ make test
+$ make runtest
+$ make distribute  # To use with python
+$ make pycaffe
+
+
+If make runtest can run without any error, it mean that caffe has been installed successfull.
+
+Step 11: Check by importing caffe in python3 interpreter. Open python3 interpreter and import caffe.
+
+Linking caffe python libraries to PYTHONPATH
+$ export PYTHONPATH=$PYTHONPATH:/home/prdcv369/caffe/caffe/python
+
+Note: Don't remove caffe directory which was been clone from git source to our PC
+
+VERIFICATION: Check caffe installation by the following code:
+$ python3
+>>> import caffe
+>>>
+    
+    
+NOTE: We can coppy the following content of Makefile.config to you own makefile.config
+
+-------------------------------------CONTENT OF MAKEFILE.CONFIG-----------------------------------------------
+
+
+
+
+
+## Refer to http://caffe.berkeleyvision.org/installation.html
+# Contributions simplifying and improving our build system are welcome!
+
+# cuDNN acceleration switch (uncomment to build with cuDNN).
+USE_CUDNN := 1
+
+# CPU-only switch (uncomment to build without GPU support).
+# CPU_ONLY := 1
+
+# uncomment to disable IO dependencies and corresponding data layers
+# USE_OPENCV := 1
+# USE_LEVELDB := 0
+# USE_LMDB := 0
+# This code is taken from https://github.com/sh1r0/caffe-android-lib
+USE_HDF5 := 1
+
+# uncomment to allow MDB_NOLOCK when reading LMDB files (only if necessary)
+#	You should not set this flag if you will be reading LMDBs with any
+#	possibility of simultaneous read and write
+# ALLOW_LMDB_NOLOCK := 1
+
+# Uncomment if you're using OpenCV 3
+# OPENCV_VERSION := 3
+
+# To customize your choice of compiler, uncomment and set the following.
+# N.B. the default for Linux is g++ and the default for OSX is clang++
+# CUSTOM_CXX := g++
+
+# CUDA directory contains bin/ and lib/ directories that we need.
+CUDA_DIR := /usr/local/cuda-10.0
+# On Ubuntu 14.04, if cuda tools are installed via
+# "sudo apt-get install nvidia-cuda-toolkit" then use this instead:
+# CUDA_DIR := /usr
+
+# CUDA architecture setting: going with all of them.
+# For CUDA < 6.0, comment the *_50 through *_61 lines for compatibility.
+# For CUDA < 8.0, comment the *_60 and *_61 lines for compatibility.
+# For CUDA >= 9.0, comment the *_20 and *_21 lines for compatibility.
+CUDA_ARCH := 
+#		-gencode arch=compute_20,code=sm_20 \
+#		-gencode arch=compute_20,code=sm_21 \
+		-gencode arch=compute_30,code=sm_30 \
+		-gencode arch=compute_35,code=sm_35 \
+		-gencode arch=compute_50,code=sm_50 \
+		-gencode arch=compute_52,code=sm_52 \
+		-gencode arch=compute_60,code=sm_60 \
+		-gencode arch=compute_61,code=sm_61 \
+		-gencode arch=compute_61,code=compute_61
+
+# BLAS choice:
+# atlas for ATLAS (default)
+# mkl for MKL
+# open for OpenBlas
+BLAS := atlas
+# Custom (MKL/ATLAS/OpenBLAS) include and lib directories.
+# Leave commented to accept the defaults for your choice of BLAS
+# (which should work)!
+# BLAS_INCLUDE := /path/to/your/blas
+# BLAS_LIB := /path/to/your/blas
+
+# Homebrew puts openblas in a directory that is not on the standard search path
+# BLAS_INCLUDE := $(shell brew --prefix openblas)/include
+# BLAS_LIB := $(shell brew --prefix openblas)/lib
+
+# This is required only if you will compile the matlab interface.
+# MATLAB directory should contain the mex binary in /bin.
+# MATLAB_DIR := /usr/local
+# MATLAB_DIR := /Applications/MATLAB_R2012b.app
+
+# NOTE: this is required only if you will compile the python interface.
+# We need to be able to find Python.h and numpy/arrayobject.h.
+# PYTHON_INCLUDE := /usr/include/python2.7 \
+#		/usr/lib/python2.7/dist-packages/numpy/core/include
+# Anaconda Python distribution is quite popular. Include path:
+# Verify anaconda location, sometimes it's in root.
+# ANACONDA_HOME := $(HOME)/anaconda
+# PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
+		# $(ANACONDA_HOME)/include/python2.7 \
+		# $(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include
+
+# Uncomment to use Python 3 (default is Python 2)
+PYTHON_LIBRARIES := boost_python-py35 python3.5m
+					
+PYTHON_INCLUDE := /usr/include/python3.5m \
+				/usr/lib/python3.5/dist-packages/numpy/core/include \
+				/home/nvme/.local/lib/python3.5/site-packages/numpy/core/include
+
+# We need to be able to find libpythonX.X.so or .dylib.
+PYTHON_LIB := /usr/lib /usr/lib/x86_64-linux-gnu/
+
+# PYTHON_LIB := $(ANACONDA_HOME)/lib
+
+# Homebrew installs numpy in a non standard path (keg only)
+# PYTHON_INCLUDE += $(dir $(shell python -c 'import numpy.core; print(numpy.core.__file__)'))/include
+# PYTHON_LIB += $(shell brew --prefix numpy)/lib
+
+# Uncomment to support layers written in Python (will link against Python libs)
+WITH_PYTHON_LAYER := 1
+
+# Whatever else you find you need goes here.
+# INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include
+INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial
+# LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib
+# LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu/hdf5/serial
+LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu/hdf5/serial /usr/lib/x86_64-linux-gnu/
+# If Homebrew is installed at a non standard location (for example your home directory) and you use it for general dependencies
+# INCLUDE_DIRS += $(shell brew --prefix)/include
+# LIBRARY_DIRS += $(shell brew --prefix)/lib
+
+# NCCL acceleration switch (uncomment to build with NCCL)
+# https://github.com/NVIDIA/nccl (last tested version: v1.2.3-1+cuda8.0)
+# USE_NCCL := 1
+
+# Uncomment to use `pkg-config` to specify OpenCV library paths.
+# (Usually not necessary -- OpenCV libraries are normally installed in one of the above $LIBRARY_DIRS.)
+# USE_PKG_CONFIG := 1
+
+# N.B. both build and distribute dirs are cleared on `make clean`
+BUILD_DIR := build
+DISTRIBUTE_DIR := distribute
+
+# Uncomment for debugging. Does not work on OSX due to https://github.com/BVLC/caffe/issues/171
+# DEBUG := 1
+
+# The ID of the GPU that 'make runtest' will use to run unit tests.
+TEST_GPUID := 0
+
+# enable pretty build (comment to see full commands)
+Q ?= @
+
+
+
+-------------------------------------END OF MAKEFILE.CONFIG-----------------------------------------------
+
+
+
+
+
+
+
+
+
+>>>>>>>>>>>>> OTHER ERROR: <<<<<<<<<<<<<<<
+
+
+1. 'module' object has no attribute 'misc' with scipy library
+
+>>> import scipy
+>>> scipy.misc
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'module' object has no attribute 'misc'
+>>> 
+>>> 
+>>> import scipy.misc
+>>> scipy.misc.imsave
+<function imsave at 0x19cfa28>
+>>>
+
+SOLUTION:
+pip install scipy==1.1.0
+
+
+
+
+
+
+
+
+
+----------------------------------- Setup environment on Docker ---------------------------------------
+
+---------------------------- Solution for numpy tensorflow, keras, torch error
+
+
+pip uninstall numpy
+
+pip install numpy==1.16.4 --user
+
+
+------------------------- tensorboard command not found ---------------------
+
+If no other methods work then try this one. It may help you.
+1. check the location of Tensorflow
+
+pip show tensorflow
+It will show output something like this.
+...
+Name: tensorflow
+Version: 1.4.0
+Location: /home/abc/xy/.local/lib/python2.7/site-packages
+...
+2. Go to that location you get from the above output.
+
+cd /home/abc/xy/.local/lib/python2.7/site-packages
+There you can see a directory named tensorboard.
+
+cd tensorboard
+3. There must be a file named 'main.py'.
+4. Execute the following command to launch the tensorboard.
+
+python main.py --logdir=/path/to/log_file/
+
+
+
+
+
+docker run --runtime=nvidia -it --shm-size=16.0g -v /home/thanh/working/SiamMask/thanh_SiamMask/:/root/SiamMask/ -v /tmp/.X11-unix/ -e DISPLAY --name thanh_SiamMask nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04 
+
+
+
+
+------------ ERROR ------ every command in Ubuntu get error: command not found
+
+
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/b‌​in
+
+
+
+
+
+
+

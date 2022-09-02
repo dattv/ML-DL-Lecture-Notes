@@ -1,0 +1,20 @@
+https://www.marearts.com/0-OpenCV-Build-Ubuntu-20-04-OpenCV-4-5-2-CUDA-11-2-4c876d664e84442e82ebec13c23586b3
+
+https://rodosingh.medium.com/using-cmake-to-build-and-install-opencv-for-python-and-c-in-ubuntu-20-04-6c5881eebd9a
+
+https://stackoverflow.com/questions/17287250/install-opencv-for-python-multiple-python-versions
+
+https://codeburst.io/custom-opencv-with-anaconda3-and-pycharm-on-ubuntu-a433dc8e85f5
+https://towardsdatascience.com/how-to-install-opencv-and-extra-modules-from-source-using-cmake-and-then-set-it-up-in-your-pycharm-7e6ae25dbac5
+
+# export folder having opencv.pc
+nano ~/.bashrc
+
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/opencv
+
+> sudo /bin/bash -c 'echo "/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/opencvTutorial/build/lib" >> /etc/ld.so.conf.d/opencv.conf'
+> sudo ldconfig
+
+# In VScode need to import include folder where install opencv
+
+# for code auto completion in pycharm, need to add interperter path to the directory which is included file cv*.so
