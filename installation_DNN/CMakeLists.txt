@@ -25,11 +25,11 @@ link_directories(/usr/lib/x86_64-linux-gnu/lib)
 ####
 enable_language(CUDA)  # add this line, then no need to setup cuda path in vs
 
-# set(PROJECT_BINARY_DIR "/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/visual_studio_code/c++/sample02/bin")
-# set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
-# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
-# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
-# option(BUILD_SHARED_LIBRARIES "Build using shared libraries" ON)
+set(PROJECT_BINARY_DIR "/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/visual_studio_code/c++/sample02/bin")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+ option(BUILD_SHARED_LIBRARIES "Build using shared libraries" ON)
 
 # sampleMNIST.o ../../bin/chobj/sampleMNIST/sampleMNIST/../common/sampleInference.o ../../bin/chobj/sampleMNIST/sampleMNIST/../common/sampleUtils.o ../../bin/chobj/sampleMNIST/sampleMNIST/../common/sampleOptions.o ../../bin/chobj/sampleMNIST/sampleMNIST/../common/logger.o ../../bin/chobj/sampleMNIST/sampleMNIST/../common/getOptions.o ../../bin/chobj/sampleMNIST/sampleMNIST/../common/sampleReporting.o ../../bin/chobj/sampleMNIST/sampleMNIST/../common/sampleEngines.o
 add_library(sampleInference STATIC ./common/sampleInference.cpp)
