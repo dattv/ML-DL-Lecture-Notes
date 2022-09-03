@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/opencvTutorial/install/include/opencv4/**",
+                "/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/visual_studio_code/c++/sample02/common/",
+                "/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/TensorRT/TensorRT-8.4.3.1.Linux.x86_64-gnu.cuda-11.6.cudnn8.4/TensorRT-8.4.3.1/include/",
+                "/home/dat/Downloads/cudaInstallation/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
