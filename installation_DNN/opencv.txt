@@ -12,7 +12,7 @@ nano ~/.bashrc
 
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/opencv
 
-> sudo /bin/bash -c 'echo "/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/opencvTutorial/build/lib" >> /etc/ld.so.conf.d/opencv.conf'
+> sudo /bin/bash -c 'echo "/media/dat/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/opencvTutorial/install/lib" >> /etc/ld.so.conf.d/opencv.conf'
 > sudo ldconfig
 
 # In VScode need to import include folder where install opencv
