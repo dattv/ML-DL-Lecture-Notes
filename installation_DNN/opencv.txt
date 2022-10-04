@@ -7,6 +7,45 @@ https://stackoverflow.com/questions/17287250/install-opencv-for-python-multiple-
 https://codeburst.io/custom-opencv-with-anaconda3-and-pycharm-on-ubuntu-a433dc8e85f5
 https://towardsdatascience.com/how-to-install-opencv-and-extra-modules-from-source-using-cmake-and-then-set-it-up-in-your-pycharm-7e6ae25dbac5
 
+cmake -D CMAKE_BUILD_TYPE=RELEASE \
+-D CMAKE_INSTALL_PREFIX=/usr/local \
+-D WITH_TBB=ON \
+-D ENABLE_FAST_MATH=1 \
+-D CUDA_FAST_MATH=1 \
+-D WITH_CUBLAS=1 \
+-D WITH_CUDA=ON \
+-D BUILD_opencv_cudacodec=OFF \
+-D WITH_CUDNN=ON \
+-D OPENCV_DNN_CUDA=ON \
+-D CUDA_ARCH_BIN=7.5 \
+-D WITH_V4L=ON \
+-D WITH_QT=OFF \
+-D WITH_OPENGL=ON \
+-D WITH_GSTREAMER=ON \
+-D OPENCV_GENERATE_PKGCONFIG=ON \
+-D OPENCV_PC_FILE_NAME=opencv.pc \
+-D OPENCV_ENABLE_NONFREE=ON \
+-D OPENCV_PYTHON3_INSTALL_PATH=~/.virtualenvs/cv/lib/python3.8/site-packages \
+-D PYTHON_EXECUTABLE=~/.virtualenvs/cv/bin/python \
+-D OPENCV_EXTRA_MODULES_PATH=~/Downloads/opencv_contrib-4.5.2/modules \
+-D INSTALL_PYTHON_EXAMPLES=OFF \
+-D INSTALL_C_EXAMPLES=OFF \
+-D BUILD_EXAMPLES=OFF ..
+###
+-D CUDA_ARCH_BIN:STRING=6.0 6.1 7.0 7.5
+-D BUILD_opencv_world=ON
+-D BUILD_opencv_contrib_world=ON
+-D CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-11.4
+
+# Check how many cpu cores
+# build 
+make -j16
+# install all built libs into your system
+sudo make install
+
+sudo /bin/bash -c 'echo "/usr/local/lib" >> /etc/ld.so.conf.d/opencv.conf'
+sudo ldconfig
+
 # export folder having opencv.pc
 nano ~/.bashrc
 
