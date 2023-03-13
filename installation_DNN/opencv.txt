@@ -14,10 +14,13 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
 -D CUDA_FAST_MATH=1 \
 -D WITH_CUBLAS=1 \
 -D WITH_CUDA=ON \
--D BUILD_opencv_cudacodec=OFF \
+-D BUILD_opencv_cudacodec=ON \
 -D WITH_CUDNN=ON \
+-D WITH_FFMPEG=1 \
 -D OPENCV_DNN_CUDA=ON \
--D CUDA_ARCH_BIN=7.5 \
+-D CUDA_ARCH_BIN=6.1 \
+-D BUILD_opencv_contrib_world=ON \
+-D CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-11.6 \
 -D WITH_V4L=ON \
 -D WITH_QT=OFF \
 -D WITH_OPENGL=ON \
@@ -26,16 +29,14 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
 -D OPENCV_PC_FILE_NAME=opencv.pc \
 -D OPENCV_ENABLE_NONFREE=ON \
 -D OPENCV_PYTHON3_INSTALL_PATH=~/.virtualenvs/cv/lib/python3.8/site-packages \
--D PYTHON_EXECUTABLE=~/.virtualenvs/cv/bin/python \
--D OPENCV_EXTRA_MODULES_PATH=~/Downloads/opencv_contrib-4.5.2/modules \
--D INSTALL_PYTHON_EXAMPLES=OFF \
--D INSTALL_C_EXAMPLES=OFF \
+-D PYTHON3_EXECUTABLE=~/.virtualenvs/cv/bin/python3.8 \
+-D PYTHON3_INCLUDE_DIR=/usr/include/python3.8 \
+-D PYTHON3_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.8.so \
+-D OPENCV_EXTRA_MODULES_PATH=/media/dattv/68fa98f8-9d03-4c1e-9bdb-c71ea72ab6fa/dat/opencvTutorial/opencv_contrib-4.5.5/modules \
+-D INSTALL_PYTHON_EXAMPLES=ON \
+-D INSTALL_C_EXAMPLES=ON \
+-D BUILD_opencv_python3=ON \
 -D BUILD_EXAMPLES=OFF ..
-###
--D CUDA_ARCH_BIN:STRING=6.0 6.1 7.0 7.5
--D BUILD_opencv_world=ON
--D BUILD_opencv_contrib_world=ON
--D CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-11.4
 
 # Check how many cpu cores
 # build 
