@@ -9,6 +9,7 @@ sudo apt install libavcodec-dev libavformat-dev libswscale-dev libavresample-dev
 sudo apt install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 sudo apt install libxvidcore-dev x264 libx264-dev libfaac-dev libmp3lame-dev libtheora-dev 
 sudo apt install libfaac-dev libmp3lame-dev libvorbis-dev
+sudo apt install liblapacke-dev
 
 # OpenCore - Adaptive Multi Rate Narrow Band (AMRNB) and Wide Band (AMRWB) speech codec
 sudo apt install libopencore-amrnb-dev libopencore-amrwb-dev
