@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build CUDA Fortran",
+            "type": "shell",
+            "command": "gfortran",
+            "args": [
+                "-std=f2003", // Use Fortran 2018
+                "-g", // Include debugin information
+                "-o", // output option for executable
+                "main", // Name of executable to create
+                "*.f90", // Fortran source file
+                "-lopenblas",
+                "-lblas",
+                "-llapack"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "Build Fortran code with gfortran"
+        }
+    ]
+}

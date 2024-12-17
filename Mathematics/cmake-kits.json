@@ -1,0 +1,11 @@
+[
+    {
+        "name": "GCC Fortran",
+        "compilers": {
+            "C": "/usr/bin/gcc",
+            "CXX": "/usr/bin/g++",
+            "Fortran": "/usr/bin/gfortran",
+            "CUDA": "/opt/nvidia/hpc_sdk/Linux_x86_64/23.11/compilers/bin/nvcc"
+        }
+    }
+]
